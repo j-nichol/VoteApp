@@ -8,7 +8,7 @@ struct ElectorateController: RouteCollection {
         
         //create
         electorateRoutes.post(Elector.self, use: createHandler)
-        //retreive
+        //retrieve
         electorateRoutes.get(use: getAllHandler)
         //update
         electorateRoutes.put(Elector.parameter, use: updateHandler)
