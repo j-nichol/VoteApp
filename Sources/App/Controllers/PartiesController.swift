@@ -15,6 +15,7 @@ struct PartiesController: RouteCollection {
         //delete
         partiesRoutes.delete(Party.parameter, use: deleteHandler)
         
+        
     }
     
     ///create
