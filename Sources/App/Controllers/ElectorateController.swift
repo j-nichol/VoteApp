@@ -8,8 +8,10 @@ struct ElectorateController: RouteCollection {
         
         //create
         electorateRoutes.post(Elector.self, use: createHandler)
-        //retrieve
+        //retrieve all
         electorateRoutes.get(use: getAllHandler)
+        //retrieve specific
+        electorateRoutes.get("search", use:searchHandler)
         //update
         electorateRoutes.put(Elector.parameter, use: updateHandler)
         //delete
@@ -22,9 +24,17 @@ struct ElectorateController: RouteCollection {
         return elector.save(on: req)
     }
     
-    ///retrieve
+    ///retrieve all
     func getAllHandler(_ req: Request) throws -> Future<[Elector]> {
         return Elector.query(on: req).all()
+    }
+    
+    ///retrieve specific
+    func searchHandler(_ req: Request) throws -> Future<[Elector]> {
+        guard let searchTerm = req.query[Int.self, at: "id"] else { throw Abort(.badRequest) }
+        return Elector.query(on: req).group(.or) { or in
+            or.filter(\.id == searchTerm)
+            }.all()
     }
     
     ///update

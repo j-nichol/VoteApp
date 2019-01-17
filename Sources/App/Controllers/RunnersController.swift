@@ -8,8 +8,10 @@ struct RunnersController: RouteCollection {
         
         //create
         runnersRoutes.post(Runner.self, use: createHandler)
-        //retreive
+        //retrieve all
         runnersRoutes.get(use: getAllHandler)
+        //retrieve specific
+        runnersRoutes.get("search", use:searchHandler)
         //update
         runnersRoutes.put(Runner.parameter, use: updateHandler)
         //delete
@@ -22,9 +24,17 @@ struct RunnersController: RouteCollection {
         return runner.save(on: req)
     }
     
-    ///retrieve
+    ///retrieve all
     func getAllHandler(_ req: Request) throws -> Future<[Runner]> {
         return Runner.query(on: req).all()
+    }
+    
+    ///retrieve specific
+    func searchHandler(_ req: Request) throws -> Future<[Runner]> {
+        guard let searchTerm = req.query[Int.self, at: "id"] else { throw Abort(.badRequest) }
+        return Runner.query(on: req).group(.or) { or in
+            or.filter(\.id == searchTerm)
+            }.all()
     }
     
     ///update

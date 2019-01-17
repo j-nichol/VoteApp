@@ -8,8 +8,10 @@ struct EligibilitiesController: RouteCollection {
         
         //create
         eligibilitiesRoutes.post(Eligibility.self, use: createHandler)
-        //retreive
+        //retrieve all
         eligibilitiesRoutes.get(use: getAllHandler)
+        //retrieve specific
+        eligibilitiesRoutes.get("search", use:searchHandler)
         //update
         eligibilitiesRoutes.put(Eligibility.parameter, use: updateHandler)
         //delete
@@ -22,9 +24,17 @@ struct EligibilitiesController: RouteCollection {
         return eligibility.save(on: req)
     }
     
-    ///retrieve
+    ///retrieve all
     func getAllHandler(_ req: Request) throws -> Future<[Eligibility]> {
         return Eligibility.query(on: req).all()
+    }
+    
+    ///retrieve specific
+    func searchHandler(_ req: Request) throws -> Future<[Eligibility]> {
+        guard let searchTerm = req.query[Int.self, at: "id"] else { throw Abort(.badRequest) }
+        return Eligibility.query(on: req).group(.or) { or in
+            or.filter(\.id == searchTerm)
+            }.all()
     }
     
     ///update

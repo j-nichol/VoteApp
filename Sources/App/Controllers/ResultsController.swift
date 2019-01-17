@@ -8,8 +8,10 @@ struct ResultsController: RouteCollection {
         
         //create
         resultsRoutes.post(Result.self, use: createHandler)
-        //retreive
+        //retrieve all
         resultsRoutes.get(use: getAllHandler)
+        //retrieve specific
+        resultsRoutes.get("search", use:searchHandler)
         //update
         resultsRoutes.put(Result.parameter, use: updateHandler)
         //delete
@@ -22,9 +24,17 @@ struct ResultsController: RouteCollection {
         return result.save(on: req)
     }
     
-    ///retrieve
+    ///retrieve all
     func getAllHandler(_ req: Request) throws -> Future<[Result]> {
         return Result.query(on: req).all()
+    }
+    
+    ///retrieve specific
+    func searchHandler(_ req: Request) throws -> Future<[Result]> {
+        guard let searchTerm = req.query[Int.self, at: "id"] else { throw Abort(.badRequest) }
+        return Result.query(on: req).group(.or) { or in
+            or.filter(\.id == searchTerm)
+            }.all()
     }
     
     ///update
