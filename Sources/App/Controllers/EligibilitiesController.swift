@@ -42,7 +42,7 @@ struct EligibilitiesController: RouteCollection {
     func updateHandler(_ req: Request) throws -> Future<Eligibility> {
         return try flatMap(to: Eligibility.self, req.parameters.next(Eligibility.self), req.content.decode(Eligibility.self)){
             eligibility, updatedEligibility in
-            eligibility.electorateID = updatedEligibility.electorateID
+            eligibility.electorID = updatedEligibility.electorID
             eligibility.electionID = updatedEligibility.electionID
             return eligibility.update(on: req) //may need to revert to save(on:)
         }

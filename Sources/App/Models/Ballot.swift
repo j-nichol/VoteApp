@@ -7,8 +7,8 @@ final class Ballot: Codable {
     var encryptedBallot: String
     var ballotChecker: String
     
-    init(electorateID: Elector.ID, encryptedBallot: String, ballotChecker: String) {
-        self.electorID = electorateID
+    init(electorID: Elector.ID, encryptedBallot: String, ballotChecker: String) {
+        self.electorID = electorID
         self.encryptedBallot = encryptedBallot
         self.ballotChecker = ballotChecker
     }
