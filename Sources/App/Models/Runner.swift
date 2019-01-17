@@ -1,16 +1,10 @@
 import Vapor
 import FluentPostgreSQL
 
-/*
- 
- change to add parents
- 
- */
-
 final class Runner: Codable {
     var id: Int?
-    var candidateID: String
-    var electionID: String
+    var candidateID: Candidate.ID
+    var electionID: Election.ID
     
     init(candidateID: String, electionID: String) {
         self.candidateID = candidateID

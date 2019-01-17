@@ -16,6 +16,8 @@ struct BallotsController: RouteCollection {
         ballotsRoutes.put(Ballot.parameter, use: updateHandler)
         //delete
         ballotsRoutes.delete(Ballot.parameter, use: deleteHandler)
+        //get elector
+        ballotsRoutes.get(Ballot.parameter, "elector", use: getElectorHandler)
 
     }
     
@@ -42,7 +44,7 @@ struct BallotsController: RouteCollection {
     func updateHandler(_ req: Request) throws -> Future<Ballot> {
         return try flatMap(to: Ballot.self, req.parameters.next(Ballot.self), req.content.decode(Ballot.self)){
             ballot, updatedBallot in
-            ballot.electorateID = updatedBallot.electorateID
+            ballot.electorID = updatedBallot.electorID
             ballot.encryptedBallot = updatedBallot.encryptedBallot
             ballot.ballotChecker = updatedBallot.ballotChecker
             return ballot.update(on: req) //may need to revert to save(on:)
@@ -52,6 +54,15 @@ struct BallotsController: RouteCollection {
     ///delete
     func deleteHandler(_ req: Request) throws -> Future<HTTPStatus> {
         return try req.parameters.next(Ballot.self).delete(on: req).transform(to: HTTPStatus.noContent)
+    }
+    
+    ///get Elector
+    func getElectorHandler(_ req: Request) throws -> Future<Elector> {
+        return try req
+            .parameters.next(Ballot.self)
+            .flatMap(to: Elector.self) { ballot in
+                ballot.elector.get(on: req)
+        }
     }
     
 

@@ -18,3 +18,4 @@ extension Elector: PostgreSQLModel {}
 extension Elector: Content {}
 extension Elector: Parameter {}
 extension Elector: Migration {}
+extension Elector { var ballots: Children<Elector, Ballot> {return children(\.id)}}

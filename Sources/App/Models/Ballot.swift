@@ -1,20 +1,14 @@
 import Vapor
 import FluentPostgreSQL
 
-/*
- 
-    Change to add parent
- 
- */
-
 final class Ballot: Codable {
     var id: Int?
-    var electorateID: String
+    var electorID: Elector.ID
     var encryptedBallot: String
     var ballotChecker: String
     
-    init(electorateID: String, encryptedBallot: String, ballotChecker: String) {
-        self.electorateID = electorateID
+    init(electorateID: Elector.ID, encryptedBallot: String, ballotChecker: String) {
+        self.electorID = electorateID
         self.encryptedBallot = encryptedBallot
         self.ballotChecker = ballotChecker
     }
@@ -23,4 +17,13 @@ final class Ballot: Codable {
 extension Ballot: PostgreSQLModel {}
 extension Ballot: Content {}
 extension Ballot: Parameter {}
-extension Ballot: Migration {}
+extension Ballot { var elector: Parent<Ballot, Elector> { return parent(\.electorID)}}
+extension Ballot: Migration {
+    static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
+        return Database.create(self, on: connection) {
+            builder in
+            try addProperties(to: builder)
+            builder.reference(from: \.electorID, to: \Elector.id)
+        }
+    }
+}
