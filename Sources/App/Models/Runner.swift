@@ -6,7 +6,7 @@ final class Runner: Codable {
     var candidateID: Candidate.ID
     var electionID: Election.ID
     
-    init(candidateID: String, electionID: String) {
+    init(candidateID: Candidate.ID, electionID: Election.ID) {
         self.candidateID = candidateID
         self.electionID = electionID
     }
