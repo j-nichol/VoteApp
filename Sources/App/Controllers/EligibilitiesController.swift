@@ -16,6 +16,10 @@ struct EligibilitiesController: RouteCollection {
         eligibilitiesRoutes.put(Eligibility.parameter, use: updateHandler)
         //delete
         eligibilitiesRoutes.delete(Eligibility.parameter, use: deleteHandler)
+        //get elector
+        eligibilitiesRoutes.get(Eligibility.parameter, "elector", use: getElectorHandler)
+        //get election
+        eligibilitiesRoutes.get(Eligibility.parameter, "election", use: getElectionHandler)
         
     }
     
@@ -51,6 +55,20 @@ struct EligibilitiesController: RouteCollection {
     ///delete
     func deleteHandler(_ req: Request) throws -> Future<HTTPStatus> {
         return try req.parameters.next(Eligibility.self).delete(on: req).transform(to: HTTPStatus.noContent)
+    }
+    
+    ///get Elector
+    func getElectorHandler(_ req: Request) throws -> Future<Elector> {
+        return try req.parameters.next(Eligibility.self).flatMap(to: Elector.self) {
+            eligibility in eligibility.elector.get(on: req)
+        }
+    }
+    
+    ///get Election
+    func getElectionHandler(_ req: Request) throws -> Future<Election> {
+        return try req.parameters.next(Eligibility.self).flatMap(to: Election.self) {
+            eligibility in eligibility.election.get(on: req)
+        }
     }
     
     

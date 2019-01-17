@@ -16,6 +16,12 @@ struct CandidatesController: RouteCollection {
         candidatesRoutes.put(Candidate.parameter, use: updateHandler)
         //delete
         candidatesRoutes.delete(Candidate.parameter, use: deleteHandler)
+        //get elector
+        candidatesRoutes.get(Candidate.parameter, "party", use: getPartyHandler)
+        //get results
+        candidatesRoutes.get(Candidate.parameter, "results", use: getResultsHandler)
+        //get runners
+        candidatesRoutes.get(Candidate.parameter, "runners", use: getRunnersHandler)
         
     }
     
@@ -52,6 +58,30 @@ struct CandidatesController: RouteCollection {
     func deleteHandler(_ req: Request) throws -> Future<HTTPStatus> {
         return try req.parameters.next(Candidate.self).delete(on: req).transform(to: HTTPStatus.noContent)
     }
+    
+    ///get party
+    func getPartyHandler(_ req: Request) throws -> Future<Party> {
+        return try req.parameters.next(Candidate.self).flatMap(to: Party.self) {
+            candidate in candidate.party.get(on: req)
+        }
+    }
+    
+    ///get results
+    func getResultsHandler(_ req: Request) throws -> Future<[Result]> {
+        return try req.parameters.next(Candidate.self).flatMap(to: [Result].self) {
+            candidate in try candidate.results.query(on: req).all()
+        }
+    }
+    
+    ///get runners
+    func getRunnersHandler(_ req: Request) throws -> Future<[Runner]> {
+        return try req.parameters.next(Candidate.self).flatMap(to: [Runner].self) {
+            candidate in try candidate.runners.query(on: req).all()
+        }
+    }
+    
+    
+    
     
     
 }

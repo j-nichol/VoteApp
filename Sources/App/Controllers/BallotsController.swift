@@ -58,10 +58,8 @@ struct BallotsController: RouteCollection {
     
     ///get Elector
     func getElectorHandler(_ req: Request) throws -> Future<Elector> {
-        return try req
-            .parameters.next(Ballot.self)
-            .flatMap(to: Elector.self) { ballot in
-                ballot.elector.get(on: req)
+        return try req.parameters.next(Ballot.self).flatMap(to: Elector.self) {
+            ballot in ballot.elector.get(on: req)
         }
     }
     

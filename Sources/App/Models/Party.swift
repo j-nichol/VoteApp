@@ -14,3 +14,6 @@ extension Party: PostgreSQLModel {}
 extension Party: Content {}
 extension Party: Parameter {}
 extension Party: Migration {}
+extension Party { var candidates: Children<Party, Candidate> {return children(\.id)}}
+
+

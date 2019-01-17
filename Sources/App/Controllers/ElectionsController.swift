@@ -16,6 +16,14 @@ struct ElectionsController: RouteCollection {
         electionsRoutes.put(Election.parameter, use: updateHandler)
         //delete
         electionsRoutes.delete(Election.parameter, use: deleteHandler)
+        //get elector
+        electionsRoutes.get(Election.parameter, "electionCategory", use: getElectionCategoryHandler)
+        //get eligibilities
+        electionsRoutes.get(Eligibility.parameter, "eligibilities", use: getEligibilitiesHandler)
+        //get results
+        electionsRoutes.get(Eligibility.parameter, "results", use: getResultsHandler)
+        //get runners
+        electionsRoutes.get(Eligibility.parameter, "runners", use: getRunnersHandler)
         
     }
     
@@ -53,5 +61,30 @@ struct ElectionsController: RouteCollection {
         return try req.parameters.next(Election.self).delete(on: req).transform(to: HTTPStatus.noContent)
     }
     
+    //get electionCategory
+    func getElectionCategoryHandler(_ req: Request) throws -> Future<ElectionCategory> {
+        return try req.parameters.next(Election.self).flatMap(to: ElectionCategory.self) {
+            election in election.electionCategory.get(on: req)
+        }
+    }
+    
+    //get eligibilities
+    func getEligibilitiesHandler(_ req: Request) throws -> Future<[Eligibility]> {
+        return try req.parameters.next(Election.self).flatMap(to: [Eligibility].self) {
+            election in try election.eligibilities.query(on: req).all()
+        }
+    }
+    //get results
+    func getResultsHandler(_ req: Request) throws -> Future<[Result]> {
+        return try req.parameters.next(Election.self).flatMap(to: [Result].self) {
+            election in try election.results.query(on: req).all()
+        }
+    }
+    //get runners
+    func getRunnersHandler(_ req: Request) throws -> Future<[Runner]> {
+        return try req.parameters.next(Election.self).flatMap(to: [Runner].self) {
+            election in try election.runners.query(on: req).all()
+        }
+    }
     
 }

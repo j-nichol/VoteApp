@@ -15,4 +15,16 @@ final class Candidate: Codable {
 extension Candidate: PostgreSQLModel {}
 extension Candidate: Content {}
 extension Candidate: Parameter {}
-extension Candidate: Migration {}
+extension Candidate { var party: Parent<Candidate, Party> { return parent(\.partyID)}}
+extension Candidate: Migration {
+    static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
+        return Database.create(self, on: connection) {
+            builder in
+            try addProperties(to: builder)
+            builder.reference(from: \.partyID, to: \Party.id)
+        }
+    }
+}
+extension Candidate { var results: Children<Candidate, Result> {return children(\.id)}}
+extension Candidate { var runners: Children<Candidate, Runner> {return children(\.id)}}
+

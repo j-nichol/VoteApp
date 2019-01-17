@@ -15,4 +15,17 @@ final class Election: Codable {
 extension Election: PostgreSQLModel {}
 extension Election: Content {}
 extension Election: Parameter {}
-extension Election: Migration {}
+extension Election { var electionCategory: Parent<Election, ElectionCategory> { return parent(\.electionCategoryID)}}
+extension Election: Migration {
+    static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
+        return Database.create(self, on: connection) {
+            builder in
+            try addProperties(to: builder)
+            builder.reference(from: \.electionCategoryID, to: \ElectionCategory.id)
+        }
+    }
+}
+extension Election { var eligibilities: Children<Election, Eligibility> {return children(\.id)}}
+extension Election { var results: Children<Election, Result> {return children(\.id)}}
+extension Election { var runners: Children<Election, Runner> {return children(\.id)}}
+

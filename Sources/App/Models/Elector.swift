@@ -19,3 +19,5 @@ extension Elector: Content {}
 extension Elector: Parameter {}
 extension Elector: Migration {}
 extension Elector { var ballots: Children<Elector, Ballot> {return children(\.id)}}
+extension Elector { var eligibilities: Children<Elector, Eligibility> {return children(\.id)}}
+

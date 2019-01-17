@@ -16,6 +16,10 @@ struct ResultsController: RouteCollection {
         resultsRoutes.put(Result.parameter, use: updateHandler)
         //delete
         resultsRoutes.delete(Result.parameter, use: deleteHandler)
+        //get election
+        resultsRoutes.get(Result.parameter, "election", use: getElectionHandler)
+        //get candidate
+        resultsRoutes.get(Result.parameter, "candidate", use: getCandidateHandler)
         
     }
     
@@ -52,6 +56,20 @@ struct ResultsController: RouteCollection {
     ///delete
     func deleteHandler(_ req: Request) throws -> Future<HTTPStatus> {
         return try req.parameters.next(Result.self).delete(on: req).transform(to: HTTPStatus.noContent)
+    }
+    
+    ///get election
+    func getElectionHandler(_ req: Request) throws -> Future<Election> {
+        return try req.parameters.next(Result.self).flatMap(to: Election.self) {
+            result in result.election.get(on: req)
+        }
+    }
+    
+    ///get candidate
+    func getCandidateHandler(_ req: Request) throws -> Future<Candidate> {
+        return try req.parameters.next(Result.self).flatMap(to: Candidate.self) {
+            result in result.candidate.get(on: req)
+        }
     }
     
     

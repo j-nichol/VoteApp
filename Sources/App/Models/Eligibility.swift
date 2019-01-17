@@ -15,4 +15,15 @@ final class Eligibility: Codable {
 extension Eligibility: PostgreSQLModel {}
 extension Eligibility: Content {}
 extension Eligibility: Parameter {}
-extension Eligibility: Migration {}
+extension Eligibility { var elector: Parent<Eligibility, Elector> { return parent(\.electorID)}}
+extension Eligibility { var election: Parent<Eligibility, Election> { return parent(\.electionID)}}
+extension Eligibility: Migration {
+    static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
+        return Database.create(self, on: connection) {
+            builder in
+            try addProperties(to: builder)
+            builder.reference(from: \.electorID, to: \Elector.id)
+            builder.reference(from: \.electionID, to: \Election.id)
+        }
+    }
+}
