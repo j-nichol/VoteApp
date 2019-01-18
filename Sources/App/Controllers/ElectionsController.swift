@@ -58,7 +58,7 @@ struct ElectionsController: RouteCollection {
     
     ///delete
     func deleteHandler(_ req: Request) throws -> Future<HTTPStatus> {
-        return try req.parameters.next(Election.self).delete(on: req).transform(to: HTTPStatus.noContent)
+        return try req.parameters.next(Election.self).delete(on: req).transform(to: HTTPStatus.ok)
     }
     
     //get electionCategory

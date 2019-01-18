@@ -54,7 +54,7 @@ struct RunnersController: RouteCollection {
     
     ///delete
     func deleteHandler(_ req: Request) throws -> Future<HTTPStatus> {
-        return try req.parameters.next(Runner.self).delete(on: req).transform(to: HTTPStatus.noContent)
+        return try req.parameters.next(Runner.self).delete(on: req).transform(to: HTTPStatus.ok)
     }
     
     ///get candidate
