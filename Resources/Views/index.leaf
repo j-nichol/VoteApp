@@ -1,31 +1,25 @@
-<!DOCTYPE html>
-<html lang='en'>
-  <head>
-    <meta charset='urf-8' />
-    <title>#(title) | Vote</title>
-  </head>
-  <body>
-    <h1>Elections</h1>
-    #if(elections) {
-      <table>
-        <thead>
+#set("content") {
+  <h1>Elections</h1>
+  #if(elections) {
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        #for(election in elections) {
           <tr>
-            <th>id</th>
-            <th>Name</th>
+            <td><a href='/elections/#(election.id)'>#(election.id)</a></td>
+            <td>#(election.name)</td>
           </tr>
-        </thead>
-        <tbody>
-          #for(election in elections) {
-            <tr>
-              <td><a href='/elections/#(election.id)'>#(election.id)</a></td>
-              <td>#(election.name)</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-      } else {
-      <h2>There are no elections currently running</h2>
-      }
-  </body>
-</html>
+        }
+      </tbody>
+    </table>
+    } else {
+    <h2>There are no elections currently running</h2>
+    }
+}
 
+#embed("base")
