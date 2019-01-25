@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'/>
+    <title>#(title) | Vote</title>
+  </head>
+  <body>
+    <h1>#(election.name)</h1>
+    <h2>#(electionCategory.name)</h2>
+  </body>
+</html>

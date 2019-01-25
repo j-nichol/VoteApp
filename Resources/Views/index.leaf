@@ -17,8 +17,8 @@
         <tbody>
           #for(election in elections) {
             <tr>
-              <td>#(elections.id)</td>
-              <td>#(elections.name)</td>
+              <td><a href='/elections/#(election.id)'>#(election.id)</a></td>
+              <td>#(election.name)</td>
             </tr>
           }
         </tbody>
