@@ -2,10 +2,30 @@
 <html lang='en'>
   <head>
     <meta charset='urf-8' />
-    <title>Hello World</title>
+    <title>#(title) | Vote</title>
   </head>
   <body>
-    <h1>Hello World</h1>
+    <h1>Elections</h1>
+    #if(elections) {
+      <table>
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          #for(election in elections) {
+            <tr>
+              <td>#(elections.id)</td>
+              <td>#(elections.name)</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      } else {
+      <h2>There are no elections currently running</h2>
+      }
   </body>
 </html>
 
