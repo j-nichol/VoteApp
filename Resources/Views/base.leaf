@@ -6,6 +6,11 @@
     <link rel="stylesheet" type="text/css" href="/styles/app.css">
   </head>
   <body>
+    <div class='nav'>
+      <a href='/'>Vote</a>
+      <a href='/'>Home</a>
+      <a href='/elections/create'>Create an Election</a>
+    </div>
     #get(content)
   </body>
 </html>

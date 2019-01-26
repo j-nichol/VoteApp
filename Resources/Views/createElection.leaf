@@ -1,0 +1,21 @@
+#set("content") {
+<h1>#(title)</h1>
+
+<form method='post'>
+  <div class='form-group'>
+    <label for='name'>Name</label>
+    <input type='text' name='name' id='name'>
+  </div>
+  <div class='form-group'>
+    <label for='electionCategoryID'>Election Category</label>
+    <select name='electionCategoryID' id='electionCategoryID'>
+      #for(electionCategory in electionCategories){
+        <option value='#(electionCategory.id)'>#(electionCategory.name)</option>
+      }
+    </select>
+  </div>
+  <button type='submit'>Submit</button>
+</form>
+}
+
+#embed("base")

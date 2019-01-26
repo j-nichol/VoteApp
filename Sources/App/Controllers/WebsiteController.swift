@@ -6,6 +6,8 @@ struct WebsiteController: RouteCollection {
   func boot(router: Router) throws {
     router.get(use: indexHandler)
     router.get("elections", Election.parameter, use: electionHandler)
+    router.get("elections", "create", use: createElectionHandler)
+    router.post(Election.self, at: "elections", "create", use: createElectionPostHandler)
   }
   
   func indexHandler(_ req: Request) throws -> Future<View> {
@@ -27,6 +29,21 @@ struct WebsiteController: RouteCollection {
       }
     }
   }
+  
+  func createElectionHandler(_ req: Request) throws -> Future<View> {
+    let context = CreateElectionContext(electionCategories: ElectionCategory.query(on: req).all())
+    return try req.view().render("createElection", context)
+  }
+  
+  func createElectionPostHandler(_ req: Request, election: Election) throws -> Future<Response> {
+    return election.save(on: req).map(to: Response.self) {
+      election in
+      guard let id = election.id else {
+        throw Abort(.internalServerError)
+      }
+      return req.redirect(to: "/elections/\(id)")
+    }
+  }
 
 }
 
@@ -39,4 +56,9 @@ struct electionContext: Encodable {
   let title: String
   let election: Election
   let electionCategory: ElectionCategory
+}
+
+struct CreateElectionContext: Encodable {
+  let title = "Create an Election"
+  let electionCategories: Future<[ElectionCategory]>
 }
