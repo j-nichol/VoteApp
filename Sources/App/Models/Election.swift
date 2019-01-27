@@ -25,7 +25,7 @@ extension Election: Migration {
         }
     }
 }
-extension Election { var eligibilities: Children<Election, Eligibility> {return children(\.id)}}
-extension Election { var results: Children<Election, Result> {return children(\.id)}}
-extension Election { var runners: Children<Election, Runner> {return children(\.id)}}
+extension Election { var eligibilities: Children<Election, Eligibility> {return children(\.electionID)}}
+extension Election { var results: Children<Election, Result> {return children(\.electionID)}}
+extension Election { var runners: Children<Election, Runner> {return children(\.electionID)}}
 

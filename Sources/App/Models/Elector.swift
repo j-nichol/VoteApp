@@ -2,7 +2,7 @@ import Vapor
 import FluentPostgreSQL
 
 final class Elector: Codable {
-    var id: Int?
+    var id: UUID?
     var username: String
     var password: String
     var name: String
@@ -14,10 +14,12 @@ final class Elector: Codable {
     }
 }
 
-extension Elector: PostgreSQLModel {}
+extension Elector: PostgreSQLUUIDModel {}
 extension Elector: Content {}
 extension Elector: Parameter {}
 extension Elector: Migration {}
-extension Elector { var ballots: Children<Elector, Ballot> {return children(\.id)}}
-extension Elector { var eligibilities: Children<Elector, Eligibility> {return children(\.id)}}
+extension Elector { var ballots: Children<Elector, Ballot> {return children(\.electorID)}}
+extension Elector { var eligibilities: Children<Elector, Eligibility> {return children(\.electorID)}}
+
+//when securing elctor passwords, remember to change anything (else) which returns an elector to return a public one.
 

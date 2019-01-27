@@ -18,5 +18,5 @@ extension ElectionCategory: PostgreSQLModel {}
 extension ElectionCategory: Content {}
 extension ElectionCategory: Parameter {}
 extension ElectionCategory: Migration {}
-extension ElectionCategory { var elections: Children<ElectionCategory, Election> {return children(\.id)}}
+extension ElectionCategory { var elections: Children<ElectionCategory, Election> {return children(\.electionCategoryID)}}
 

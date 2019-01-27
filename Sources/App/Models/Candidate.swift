@@ -25,6 +25,6 @@ extension Candidate: Migration {
         }
     }
 }
-extension Candidate { var results: Children<Candidate, Result> {return children(\.id)}}
-extension Candidate { var runners: Children<Candidate, Runner> {return children(\.id)}}
+extension Candidate { var results: Children<Candidate, Result> {return children(\.candidateID)}}
+extension Candidate { var runners: Children<Candidate, Runner> {return children(\.candidateID)}}
 

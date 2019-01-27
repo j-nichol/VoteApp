@@ -35,7 +35,7 @@ struct ElectorateController: RouteCollection {
     
     ///retrieve specific
     func searchHandler(_ req: Request) throws -> Future<[Elector]> {
-        guard let searchTerm = req.query[Int.self, at: "id"] else { throw Abort(.badRequest) }
+        guard let searchTerm = req.query[UUID.self, at: "id"] else { throw Abort(.badRequest) }
         return Elector.query(on: req).group(.or) { or in
             or.filter(\.id == searchTerm)
             }.all()
