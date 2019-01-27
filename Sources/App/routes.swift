@@ -15,6 +15,7 @@ public func routes(_ router: Router) throws {
   try router.register(collection: usersController)
    */
 
+  let adminsController = AdminsController()
   let ballotsController = BallotsController()
   let candidatesController = CandidatesController()
   let electionCategoriesController = ElectionCategoriesController()
@@ -25,7 +26,8 @@ public func routes(_ router: Router) throws {
   let resultsController = ResultsController()
   let runnersController = RunnersController()
   let websiteController = WebsiteController()
-
+  
+  try router.register(collection: adminsController)
   try router.register(collection: ballotsController)
   try router.register(collection: candidatesController)
   try router.register(collection: electionCategoriesController)
