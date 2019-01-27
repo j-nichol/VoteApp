@@ -6,7 +6,7 @@ import Authentication
 struct AdminsController: RouteCollection {
   func boot(router: Router) throws {
     
-    let adminsRoutes = router.grouped("api", "electorate")
+    let adminsRoutes = router.grouped("api", "admins")
     
     
     //create
