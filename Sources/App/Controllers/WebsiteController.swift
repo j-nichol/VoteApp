@@ -1,5 +1,7 @@
 import Vapor
+import Fluent
 import Leaf
+import Authentication
 
 struct WebsiteController: RouteCollection {
   
@@ -8,6 +10,8 @@ struct WebsiteController: RouteCollection {
     router.get("elections", Election.parameter, use: electionHandler)
     router.get("elections", "create", use: createElectionHandler)
     router.post(Election.self, at: "elections", "create", use: createElectionPostHandler)
+    router.get("login", use: loginHandler)
+    router.post(LoginPostData.self, at: "login", use: loginPostHandler)
   }
   
   func indexHandler(_ req: Request) throws -> Future<View> {
@@ -44,6 +48,17 @@ struct WebsiteController: RouteCollection {
       return req.redirect(to: "/elections/\(id)")
     }
   }
+  
+  func loginPostHandler(_ req: Request, userData: LoginPostData) throws -> Future<Response> {
+    return Admin.authenticate(username: userData.username, password: userData.password, using: BCryptDigest(), on: req).map(to: Response.self) {
+      admin in
+      guard let admin = admin else {
+        return req.redirect(to:  "/login?error")
+      }
+      try req.authenticateSession(admin)
+      return req.redirect(to: "/")
+    }
+  }
 
 }
 
@@ -61,4 +76,29 @@ struct electionContext: Encodable {
 struct CreateElectionContext: Encodable {
   let title = "Create an Election"
   let electionCategories: Future<[ElectionCategory]>
+}
+
+
+struct LoginContext: Encodable {
+  let title = "Log In"
+  let loginError: Bool
+  
+  init(loginError: Bool = false) {
+    self.loginError = loginError
+  }
+}
+
+func loginHandler(_ req: Request) throws -> Future<View> {
+  let context: LoginContext
+  if req.query[Bool.self, at: "error"] != nil {
+    context = LoginContext(loginError: true)
+  } else {
+    context = LoginContext()
+  }
+  return try req.view().render("login", context)
+}
+
+struct LoginPostData: Content {
+  let username: String
+  let password: String
 }

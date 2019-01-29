@@ -41,7 +41,7 @@ struct AdminsController: RouteCollection {
   
   ///create
   func createHandler(_ req: Request, data:AdminCreateData) throws -> Future<Admin.Public> {
-    let admin = try req.requireAuthenticated(Admin.self)
+    //let admin = try req.requireAuthenticated(Admin.self)
     let newAdmin = try Admin(username: data.username, password: BCrypt.hash(data.password))
     return newAdmin.save(on: req).convertToPublic()
   }

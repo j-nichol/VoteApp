@@ -19,6 +19,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
   var middlewares = MiddlewareConfig() // Create _empty_ middleware config
   middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
   middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
+  middlewares.use(SessionsMiddleware.self) // Allows the use of sessions
   services.register(middlewares)
 
   /// Configure database
@@ -51,12 +52,15 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
   migrations.add(migration: AdminUser.self, database: .psql)
   services.register(migrations)
   
-  ///Configure Fluent application commands
+  /// Configure Fluent application commands
   var commandConfig = CommandConfig.default()
   commandConfig.useFluentCommands()
   services.register(commandConfig)
   
-  ///Configure Leaf
+  /// Configure Leaf
   config.prefer(LeafRenderer.self, for: ViewRenderer.self)
+  
+  /// Configure Sessions
+  config.prefer(MemoryKeyedCache.self, for: KeyedCache.self)
 
 }
