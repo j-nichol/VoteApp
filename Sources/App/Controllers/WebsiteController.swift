@@ -6,12 +6,23 @@ import Authentication
 struct WebsiteController: RouteCollection {
   
   func boot(router: Router) throws {
+    /*
     router.get(use: indexHandler)
     router.get("elections", Election.parameter, use: electionHandler)
     router.get("elections", "create", use: createElectionHandler)
     router.post(Election.self, at: "elections", "create", use: createElectionPostHandler)
     router.get("login", use: loginHandler)
     router.post(LoginPostData.self, at: "login", use: loginPostHandler)
+     */
+    let authSessionRoutes = router.grouped(Admin.authSessionsMiddleware())
+    authSessionRoutes.get(use: indexHandler)
+    authSessionRoutes.get("login", use: loginHandler)
+    authSessionRoutes.post(LoginPostData.self, at: "login", use: loginPostHandler)
+    
+    let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
+    protectedRoutes.get("elections", Election.parameter, use: electionHandler)
+    protectedRoutes.get("elections", "create", use: createElectionHandler)
+    protectedRoutes.post(Election.self, at: "elections", "create", use: createElectionPostHandler)
   }
   
   func indexHandler(_ req: Request) throws -> Future<View> {

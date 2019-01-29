@@ -21,4 +21,4 @@
 
 }
 
-#embded("base")
+#embed("base")
