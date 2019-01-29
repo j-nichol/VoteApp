@@ -23,14 +23,14 @@ struct WebsiteController: RouteCollection {
     let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
     protectedRoutes.get("elections", Election.parameter, use: electionHandler)
     protectedRoutes.get("elections", "create", use: createElectionHandler)
-    protectedRoutes.post(Election.self, at: "elections", "create", use: createElectionPostHandler)
+    protectedRoutes.post(CreateElectionData.self, at: "elections", "create", use: createElectionPostHandler)
   }
   
   func indexHandler(_ req: Request) throws -> Future<View> {
     return Election.query(on: req).all().flatMap(to: View.self) {
       elections in
       let electionsData = elections.isEmpty ? nil : elections
-      let userLoggedIn = try req.isAuthenticated(Admin.self)
+      let userLoggedIn = try req.isAuthenticated(Admin.self) ///would need to add this to each page, I think.
       let context = IndexContext(title: "Homepage", elections: electionsData, userLoggedIn: userLoggedIn)
       return try req.view().render("index", context)
     }
@@ -48,7 +48,9 @@ struct WebsiteController: RouteCollection {
   }
   
   func createElectionHandler(_ req: Request) throws -> Future<View> {
-    let context = CreateElectionContext(electionCategories: ElectionCategory.query(on: req).all())
+    let token = try CryptoRandom().generateData(count: 16).base64EncodedString()
+    let context = CreateElectionContext(electionCategories: ElectionCategory.query(on: req).all(), csrfToken: token)
+    try req.session()["CSRF_TOKEN"] = token
     return try req.view().render("createElection", context)
     /*
     // Code similar to this will allow you to steal variables out of the session.
@@ -61,8 +63,11 @@ struct WebsiteController: RouteCollection {
     */
   }
   
-  func createElectionPostHandler(_ req: Request, election: Election) throws -> Future<Response> {
-    return election.save(on: req).map(to: Response.self) {
+  func createElectionPostHandler(_ req: Request, data: CreateElectionData) throws -> Future<Response> {
+    let expectedToken = try req.session()["CSRF_TOKEN"]
+    try req.session()["CSRF_TOKEN"] = nil
+    guard expectedToken == data.csrfToken else { throw Abort(.badRequest) }
+    return data.election.save(on: req).map(to: Response.self) {
       election in
       guard let id = election.id else {
         throw Abort(.internalServerError)
@@ -87,7 +92,7 @@ struct WebsiteController: RouteCollection {
 struct IndexContext: Encodable {
   let title: String
   let elections: [Election]?
-  let userLoggedIn: Bool
+  let userLoggedIn: Bool ///would need to add this to each page. I think.
 }
 
 struct electionContext: Encodable {
@@ -99,6 +104,7 @@ struct electionContext: Encodable {
 struct CreateElectionContext: Encodable {
   let title = "Create an Election"
   let electionCategories: Future<[ElectionCategory]>
+  let csrfToken: String
 }
 
 
@@ -129,4 +135,9 @@ struct LoginPostData: Content {
 func logoutHandler(_ req: Request) throws -> Response {
   try req.unauthenticateSession(Admin.self)
   return req.redirect(to: "/")
+}
+
+struct CreateElectionData: Content {
+  let election: Election
+  let csrfToken: String
 }
