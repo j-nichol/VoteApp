@@ -5,9 +5,9 @@
   <p>Paragraph</p>
   <label>Label</label>
   <a>Link</a>
-  <div class='startButton'>
-    <p>Click here to begin<p>
-  </div>
+  <a class='startButton'>
+    <h3>Click here to begin</h3>
+  </a>
   #if(elections) {
     <table>
       <thead>

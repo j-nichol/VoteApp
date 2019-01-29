@@ -8,14 +8,16 @@
   </head>
   <body>
     <div class='nav'>
-      <a href='/'>Vote</a>
-      <a href='/'>Home</a>
-      <a href='/elections/create'>Create an Election</a>
-      #if(userLoggedIn) {
-      <form method='post' action='/logout'>
-        <input type='submit' value='Log Out'></input>
-      </form>
-      }
+      <div class='navInner'>
+        <a href='/'>Vote</a>
+        <a href='/'>Home</a>
+        <a href='/elections/create'>Create an Election</a>
+        #if(userLoggedIn) {
+        <form method='post' action='/logout'>
+          <input type='submit' value='Log Out'></input>
+        </form>
+        }
+      </div>
     </div>
     #get(content)
   </body>
