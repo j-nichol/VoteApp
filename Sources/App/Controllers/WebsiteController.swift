@@ -18,6 +18,7 @@ struct WebsiteController: RouteCollection {
     authSessionRoutes.get(use: indexHandler)
     authSessionRoutes.get("login", use: loginHandler)
     authSessionRoutes.post(LoginPostData.self, at: "login", use: loginPostHandler)
+    authSessionRoutes.post("logout", use: logoutHandler) 
     
     let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
     protectedRoutes.get("elections", Election.parameter, use: electionHandler)
@@ -29,7 +30,8 @@ struct WebsiteController: RouteCollection {
     return Election.query(on: req).all().flatMap(to: View.self) {
       elections in
       let electionsData = elections.isEmpty ? nil : elections
-      let context = IndexContext(title: "Homepage", elections: electionsData)
+      let userLoggedIn = try req.isAuthenticated(Admin.self)
+      let context = IndexContext(title: "Homepage", elections: electionsData, userLoggedIn: userLoggedIn)
       return try req.view().render("index", context)
     }
   }
@@ -48,6 +50,15 @@ struct WebsiteController: RouteCollection {
   func createElectionHandler(_ req: Request) throws -> Future<View> {
     let context = CreateElectionContext(electionCategories: ElectionCategory.query(on: req).all())
     return try req.view().render("createElection", context)
+    /*
+    // Code similar to this will allow you to steal variables out of the session.
+     
+    let user = try req.requireAuthenticated(User.self)
+    let acronym = try Acronym(
+      short: data.short,
+      long: data.long,
+      userID: user.requireID())”
+    */
   }
   
   func createElectionPostHandler(_ req: Request, election: Election) throws -> Future<Response> {
@@ -76,6 +87,7 @@ struct WebsiteController: RouteCollection {
 struct IndexContext: Encodable {
   let title: String
   let elections: [Election]?
+  let userLoggedIn: Bool
 }
 
 struct electionContext: Encodable {
@@ -112,4 +124,9 @@ func loginHandler(_ req: Request) throws -> Future<View> {
 struct LoginPostData: Content {
   let username: String
   let password: String
+}
+
+func logoutHandler(_ req: Request) throws -> Response {
+  try req.unauthenticateSession(Admin.self)
+  return req.redirect(to: "/")
 }
