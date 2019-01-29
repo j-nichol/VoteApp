@@ -67,7 +67,8 @@ struct WebsiteController: RouteCollection {
     let expectedToken = try req.session()["CSRF_TOKEN"]
     try req.session()["CSRF_TOKEN"] = nil
     guard expectedToken == data.csrfToken else { throw Abort(.badRequest) }
-    return data.election.save(on: req).map(to: Response.self) {
+    let election = Election(name: data.name, electionCategoryID: data.electionCategoryID)
+    return election.save(on: req).map(to: Response.self) {
       election in
       guard let id = election.id else {
         throw Abort(.internalServerError)
@@ -138,6 +139,7 @@ func logoutHandler(_ req: Request) throws -> Response {
 }
 
 struct CreateElectionData: Content {
-  let election: Election
+  let name: String
+  let electionCategoryID: Int
   let csrfToken: String
 }
