@@ -113,25 +113,27 @@ struct CreateElectionContext: Encodable {
 
 struct LoginContext: Encodable {
   let title = "Log In"
-  let userLoggedIn: Bool ///would need to add this to each page. I think.
   let isHelp = false
   
   let loginError: Bool
-  init(loginError: Bool = false, userLoggedIn: Bool = false) {
+  init(loginError: Bool = false) {
     self.loginError = loginError
-    self.userLoggedIn = userLoggedIn
   }
 }
 
 func loginHandler(_ req: Request) throws -> Future<View> {
   let context: LoginContext
   let userLoggedIn = try req.isAuthenticated(Admin.self)
-  if req.query[Bool.self, at: "error"] != nil {
-    context = LoginContext(loginError: true, userLoggedIn: userLoggedIn)
+  if (userLoggedIn) {
+    return try req.view().render("/")
   } else {
-    context = LoginContext(userLoggedIn: userLoggedIn)
+    if req.query[Bool.self, at: "error"] != nil {
+      context = LoginContext(loginError: true)
+    } else {
+      context = LoginContext()
+    }
+    return try req.view().render("login", context)
   }
-  return try req.view().render("login", context)
 }
 
 struct LoginPostData: Content {
