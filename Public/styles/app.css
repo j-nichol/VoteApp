@@ -77,8 +77,8 @@ a { color: var(--blue); text-decoration: none; }
   width: 100%;
 }
 .navInner a {
-  padding: 16px 0;
-  padding: 1rem 0;
+  padding: 8px 0;
+  padding: 0.5rem 0;
   text-align: center;
   border-radius: 4px;
   transition: background 0.5s;
@@ -91,8 +91,8 @@ a { color: var(--blue); text-decoration: none; }
   background: none;
   border: none;
   color: var(--grey);
-  padding: 16px 0;
-  padding: 1rem 9;
+  padding: 8px 0;
+  padding: 0.5rem 9;
   margin: 0;
   font-size: 16px;
   font-size: 1rem;
@@ -104,8 +104,14 @@ a { color: var(--blue); text-decoration: none; }
 .navInner input:hover {
   background: var(--lightGrey);
 }
-.navInner .active {
+.navInner .active p{
   color: var(--blue) !important;
+}
+.navInner p {
+  margin: 0;
+}
+.navInner img {
+  height: 4rem;
 }
 
 .andItsDerivatives {}
