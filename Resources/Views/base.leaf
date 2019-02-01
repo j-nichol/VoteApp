@@ -14,7 +14,7 @@
         <a href='/elections/create'>Create an Election</a>
         #if(userLoggedIn) {
         <form method='post' action='/logout'>
-          <input type='submit' value='Log Out'></input>
+          <input type='submit' value='Log Out' id='logOutButton'></input>
         </form>
         }
       </div>
