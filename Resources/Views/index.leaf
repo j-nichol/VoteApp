@@ -1,33 +1,16 @@
-#set("content") {
-  <h1>Elections</h1>
-  <h2>Secondary Heading</h1>
-  <h3>Tertiary Heading</h3>
-  <p>Paragraph</p>
-  <label>Label</label>
-  <a>Link</a>
-  <a class='startButton'>
-    <h3>Click here to begin</h3>
-  </a>
-  #if(elections) {
-    <table>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        #for(election in elections) {
-          <tr>
-            <td><a href='/elections/#(election.id)'>#(election.id)</a></td>
-            <td>#(election.name)</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-    } else {
-    <h2>There are no elections currently running</h2>
-    }
+#if(userLoggedIn) {
+  #set("content") {
+    #embed("electionSelection")
+  }
+} else {
+  #set("content") {
+    <h1>Welcome</h1>
+    <h3>If you're ready to participate in an election...</h3>
+    <a class='startButton' href='/login'>
+      <h3>Click here to begin</h3>
+    </a>
+    <h3>If you'd like some information before you begin, press the 'Help' button below</h3>
+  }
 }
 
 #embed("base")
