@@ -1,9 +1,14 @@
+#if(userLoggedIn) {
+
 #set("content"){
 
 <h1>#(title)</h1>
 
 #if(loginError) {
-<p style='color: red;'>User authentication error. Either your username or password was invalid.</p>
+<p style='color: red;'>Something's gone wrong. Either your username or password was entered incorrectly.</p>
+} else {
+<p>Before we begin, you'll need to enter your Username and Password which were provided {in made up letter, probably}</p>
+<p>This helps us to ensure that votes are only cast by the person eligible to cast them</p>
 }
 
 <form method="post">
