@@ -1,6 +1,6 @@
 #if(userLoggedIn) {
   #set("content") {
-    #embed("electionSelection")
+    <p>embed election selection</p>
   }
 } else {
   #set("content") {
