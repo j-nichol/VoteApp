@@ -75,6 +75,7 @@ a { color: var(--blue); text-decoration: none; }
   padding: 16px 0;
   padding: 1rem 0;
   width: 100%;
+  transition: background: 0.5s;
 }
 .navInner a {
   padding: 8px 0;
@@ -82,30 +83,34 @@ a { color: var(--blue); text-decoration: none; }
   text-align: center;
   border-radius: 4px;
   transition: background 0.5s;
-  color: var(--grey);
   display: flex;
   align-content: center;
-  justify-cnotent: center;
+  justify-content: center;
   flex-wrap: wrap;
 }
 .navInner a:hover {
   background:  var(--lightGrey);
 }
 .navInner input {
-  background: none;
   border: none;
   color: var(--grey);
   padding: 8px 0;
   padding: 0.5rem 9;
   margin: 0;
-  font-size: 16px;
-  font-size: 1rem;
+  font-size: 12px;
+  font-size: 0.75rem;
   -webkit-appearance: none;
   border-radius: 4px;
-  transition: background: 0.5s;
   cursor: pointer;
+  background: url(/icons/logout.png);
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 8px;
+  background-position-y: 0.5rem;
+  background-size: 32.5px;
+  background-size: 2.2rem;
 }
-.navInner input:hover {
+.navInner form:hover {
   background: var(--lightGrey);
 }
 .navInner .active p{
@@ -115,8 +120,10 @@ a { color: var(--blue); text-decoration: none; }
   margin: 0;
   font-size: 12px;
   font-size: 0.75rem;
+   color: var(--grey);
 }
 .navInner img {
+  height: 35.2px;
   height: 2.2rem;
 }
 
