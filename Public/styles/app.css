@@ -113,9 +113,11 @@ a { color: var(--blue); text-decoration: none; }
 }
 .navInner p {
   margin: 0;
+  font-size: 12px;
+  font-size: 0.75rem;
 }
 .navInner img {
-  height: 4rem;
+  height: 2.2rem;
 }
 
 .andItsDerivatives {}
