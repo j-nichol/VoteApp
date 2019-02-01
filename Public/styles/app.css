@@ -109,6 +109,9 @@ a { color: var(--blue); text-decoration: none; }
   background-position-y: 0.5rem;
   background-size: 32.5px;
   background-size: 2.2rem;
+  height: 100%;
+  padding-top: 41.6px;
+  padding-top: 2.6rem;
 }
 .navInner form:hover {
   background: var(--lightGrey);
