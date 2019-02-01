@@ -32,7 +32,7 @@ struct WebsiteController: RouteCollection {
       let electionsData = elections.isEmpty ? nil : elections
       let userLoggedIn = try req.isAuthenticated(Admin.self) ///would need to add this to each page, I think.
       let isHelp = false
-      let context = IndexContext(title: "Homepage", elections: electionsData, userLoggedIn: userLoggedIn, isHelp: isHelp)
+      let context = IndexContext(title: "Homepage", elections: electionsData, userLoggedIn: userLoggedIn)
       return try req.view().render("index", context)
     }
   }
@@ -95,7 +95,7 @@ struct IndexContext: Encodable {
   let title: String
   let elections: [Election]?
   let userLoggedIn: Bool ///would need to add this to each page. I think.
-  let isHelp: Bool
+  let isHelp = false
 }
 
 struct electionContext: Encodable {
@@ -113,19 +113,23 @@ struct CreateElectionContext: Encodable {
 
 struct LoginContext: Encodable {
   let title = "Log In"
-  let loginError: Bool
+  let userLoggedIn: Bool ///would need to add this to each page. I think.
+  let isHelp = false
   
-  init(loginError: Bool = false) {
+  let loginError: Bool
+  init(loginError: Bool = false, userLoggedIn: Bool = false) {
     self.loginError = loginError
+    self.userLoggedIn = userLoggedIn
   }
 }
 
 func loginHandler(_ req: Request) throws -> Future<View> {
   let context: LoginContext
+  let userLoggedIn = try req.isAuthenticated(Admin.self)
   if req.query[Bool.self, at: "error"] != nil {
-    context = LoginContext(loginError: true)
+    context = LoginContext(loginError: true, userLoggedIn: userLoggedIn)
   } else {
-    context = LoginContext()
+    context = LoginContext(userLoggedIn: userLoggedIn)
   }
   return try req.view().render("login", context)
 }
