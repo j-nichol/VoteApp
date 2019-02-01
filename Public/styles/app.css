@@ -89,16 +89,22 @@ a { color: var(--blue); text-decoration: none; }
 .navInner input {
   background: none;
   border: none;
-  color: var(--blue);
-  padding: 0;
+  color: var(--grey);
+  padding: 16px 0;
+  padding: 1rem 9;
   margin: 0;
   font-size: 16px;
   font-size: 1rem;
   -webkit-appearance: none;
-  border-radius: 0;
+  border-radius: 4px;
+  transition: background: 0.5s;
+  cursor: pointer;
+}
+.navInner input:hover {
+  background: var(--lightGrey);
 }
 .navInner .active {
-  color: var(--blue);
+  color: var(--blue) !important;
 }
 
 .andItsDerivatives {}
@@ -125,9 +131,6 @@ button {
   float: right;
   margin: 16px 0;
   margin: 1rem 0;
-}
-.logOutButton {
-  
 }
 
 .selectionList {}
