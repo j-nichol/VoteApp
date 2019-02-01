@@ -71,7 +71,7 @@ a { color: var(--blue); text-decoration: none; }
   display: flex;
   justify-content: space-around;
 }
-.navInner .form {
+.navInner form {
   padding: 16px 0;
   padding: 1rem 0;
   width: 100%;
