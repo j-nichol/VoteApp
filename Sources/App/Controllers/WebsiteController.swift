@@ -31,7 +31,8 @@ struct WebsiteController: RouteCollection {
       elections in
       let electionsData = elections.isEmpty ? nil : elections
       let userLoggedIn = try req.isAuthenticated(Admin.self) ///would need to add this to each page, I think.
-      let context = IndexContext(title: "Homepage", elections: electionsData, userLoggedIn: userLoggedIn)
+      let isHelp = false
+      let context = IndexContext(title: "Homepage", elections: electionsData, userLoggedIn: userLoggedIn, isHelp: isHelp)
       return try req.view().render("index", context)
     }
   }
@@ -94,6 +95,7 @@ struct IndexContext: Encodable {
   let title: String
   let elections: [Election]?
   let userLoggedIn: Bool ///would need to add this to each page. I think.
+  let isHelp: Bool
 }
 
 struct electionContext: Encodable {
