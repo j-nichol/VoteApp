@@ -10,10 +10,7 @@ struct ElectorateController: RouteCollection {
   
     let guardAuthMiddleware = Admin.guardAuthMiddleware()
     let tokenAuthMiddleware = Admin.tokenAuthMiddleware()
-    
     let tokenAuthGroup = electorateRoutes.grouped(tokenAuthMiddleware, guardAuthMiddleware)
-    
-    
   
     //create
     tokenAuthGroup.post(Elector.self, use: createHandler)
