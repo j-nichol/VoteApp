@@ -9,8 +9,8 @@
   <body>
     <div class='nav'>
       <div class='navInner'>
-        <a href='/' #if(!meta.isHelp) { class='active' }><img #if(!isHelp) { src='/icons/vote-active.png'} else { src='icons/vote.png'}><p>Vote</p></a>
-        <a href='/elections/create' #if(meta.isHelp) { class='active' }><img #if(isHelp) { src='/icons/help-active.png'} else { src='icons/help.png'}><p>Help</p></a>
+        <a href='/' #if(!meta.isHelp) { class='active' }><img #if(!meta.isHelp) { src='/icons/vote-active.png'} else { src='icons/vote.png'}><p>Vote</p></a>
+        <a href='/elections/create' #if(meta.isHelp) { class='active' }><img #if(meta.isHelp) { src='/icons/help-active.png'} else { src='icons/help.png'}><p>Help</p></a>
         #if(meta.userLoggedIn) {
         <form method='post' action='/logout'>
           <input type='submit' value='Log Out' id='logOutButton'></input>
