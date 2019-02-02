@@ -13,7 +13,7 @@ struct WebsiteController: RouteCollection {
     authSessionRoutes.post(LoginPostData.self, at: "login", use: loginPostHandler)
     authSessionRoutes.post("logout", use: logoutHandler) 
     
-    let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
+    //let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
     
 /* Bin ->
     //protectedRoutes.get("elections", Election.parameter, use: electionHandler)
