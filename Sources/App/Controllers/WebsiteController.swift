@@ -10,7 +10,7 @@ struct WebsiteController: RouteCollection {
     let authSessionRoutes = router.grouped(Admin.authSessionsMiddleware())
     authSessionRoutes.get(use: indexHandler)
     authSessionRoutes.get("login", use: loginHandler)
-    authSessionRoutes.post(LoginPostData.self, at: "login", use: loginPostHandler)
+    authSessionRoutes.post(LoginData.self, at: "login", use: loginPostHandler)
     authSessionRoutes.post("logout", use: logoutHandler) 
     
     //let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
@@ -30,7 +30,9 @@ struct WebsiteController: RouteCollection {
   
   //Login
   func loginHandler(_ req: Request) throws -> Future<View> {
-    if (try req.isAuthenticated(Admin.self)) { return try req.view().render("/") } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil)))}
+    let csrfToken = try CryptoRandom().generateData(count: 16).base64EncodedString()
+    try req.session()["CSRF_TOKEN"] = csrfToken
+    if (try req.isAuthenticated(Admin.self)) { return try req.view().render("/") } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
   }
   
 /* BIN ->
@@ -58,8 +60,10 @@ struct WebsiteController: RouteCollection {
 ///POSTs
   
   //Log In
-  func loginPostHandler(_ req: Request, userData: LoginPostData) throws -> Future<Response> {
-    return Admin.authenticate(username: userData.username, password: userData.password, using: BCryptDigest(), on: req).map(to: Response.self) {
+  func loginPostHandler(_ req: Request, loginData: LoginData) throws -> Future<Response> {
+    let expectedCsrfToken = try req.session()["CSRF_TOKEN"]; try req.session()["CSRF_TOKEN"] = nil
+    guard expectedCsrfToken == loginData.csrfToken else { throw Abort(.badRequest) }
+    return Admin.authenticate(username: loginData.username, password: loginData.password, using: BCryptDigest(), on: req).map(to: Response.self) {
       admin in
       guard let admin = admin else { return req.redirect(to: "/login?error") }
       try req.authenticateSession(admin)
@@ -102,6 +106,7 @@ struct IndexContext: Encodable {
 struct LoginContext: Encodable {
   let meta: Meta
   var loginError: Bool
+  let csrfToken: String
 }
 
 /* BIN ->
@@ -129,9 +134,10 @@ struct Meta: Content {
 }
 
 //Login Data
-struct LoginPostData: Content {
+struct LoginData: Content {
   let username: String
   let password: String
+  let csrfToken: String
 }
 
 /* BIN ->
