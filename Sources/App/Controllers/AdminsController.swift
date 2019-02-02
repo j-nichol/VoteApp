@@ -22,9 +22,11 @@ struct AdminsController: RouteCollection {
     adminsRoutes.delete(Admin.parameter, use: deleteHandler)
      */
     
-    let basicAuthMiddleware = Admin.basicAuthMiddleware(using: BCryptDigest()) //the Admin part of thses is what's being protected - not who has access.
+    ///This bit's for token creation
+    let basicAuthMiddleware = Admin.basicAuthMiddleware(using: BCryptDigest())
     let basicAuthGroup = adminsRoutes.grouped(basicAuthMiddleware)
     basicAuthGroup.post("login", use: loginHandler)
+    
     
     let guardAuthMiddleware = Admin.guardAuthMiddleware()
     let tokenAuthMiddlewear = Admin.tokenAuthMiddleware()
