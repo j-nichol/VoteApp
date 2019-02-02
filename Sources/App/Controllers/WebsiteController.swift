@@ -7,7 +7,7 @@ struct WebsiteController: RouteCollection {
   
 ///Routes
   func boot(router: Router) throws {
-    let authSessionRoutes = router.grouped(Admin.authSessionsMiddleware())
+    let authSessionRoutes = router.grouped(Elector.authSessionsMiddleware())
     authSessionRoutes.get(use: indexHandler)
     authSessionRoutes.get("login", use: loginHandler)
     authSessionRoutes.post(LoginData.self, at: "login", use: loginPostHandler)
@@ -25,14 +25,14 @@ struct WebsiteController: RouteCollection {
 ///GETs
   //Index
   func indexHandler(_ req: Request) throws -> Future<View> {
-    return try req.view().render("index", IndexContext(meta: Meta(title: "HomePage", isHelp: false, userLoggedIn: try req.isAuthenticated(Admin.self))))
+    return try req.view().render("index", IndexContext(meta: Meta(title: "HomePage", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self))))
   }
   
   //Login
   func loginHandler(_ req: Request) throws -> Future<View> {
     let csrfToken = try CryptoRandom().generateData(count: 16).base64EncodedString()
     try req.session()["CSRF_TOKEN"] = csrfToken
-    if (try req.isAuthenticated(Admin.self)) { return try req.view().render("/") } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
+    if (try req.isAuthenticated(Elector.self)) { return try req.view().render("/") } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
   }
   
 /* BIN ->
@@ -63,17 +63,17 @@ struct WebsiteController: RouteCollection {
   func loginPostHandler(_ req: Request, loginData: LoginData) throws -> Future<Response> {
     let expectedCsrfToken = try req.session()["CSRF_TOKEN"]; try req.session()["CSRF_TOKEN"] = nil
     guard expectedCsrfToken == loginData.csrfToken else { throw Abort(.badRequest) }
-    return Admin.authenticate(username: loginData.username, password: loginData.password, using: BCryptDigest(), on: req).map(to: Response.self) {
-      admin in
-      guard let admin = admin else { return req.redirect(to: "/login?error") }
-      try req.authenticateSession(admin)
+    return Elector.authenticate(username: loginData.username, password: loginData.password, using: BCryptDigest(), on: req).map(to: Response.self) {
+      elector in
+      guard let elector = elector else { return req.redirect(to: "/login?error") }
+      try req.authenticateSession(elector)
       return req.redirect(to: "/")
     }
   }
   
   //Log Out
   func logoutHandler(_ req: Request) throws -> Response {
-    try req.unauthenticateSession(Admin.self)
+    try req.unauthenticateSession(Elector.self)
     return req.redirect(to: "/")
   }
   
