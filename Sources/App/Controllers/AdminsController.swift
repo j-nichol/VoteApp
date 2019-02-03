@@ -78,6 +78,7 @@ struct AdminsController: RouteCollection {
     return try req.parameters.next(Admin.self).delete(on: req).transform(to: HTTPStatus.ok)
   }
   
+  ///login
   func loginHandler(_ req: Request) throws -> Future<Token> {
     let admin =  try req.requireAuthenticated(Admin.self)
     let token = try Token.generate(for: admin)

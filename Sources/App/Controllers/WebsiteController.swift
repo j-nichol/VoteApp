@@ -95,8 +95,6 @@ struct WebsiteController: RouteCollection {
     for elector in data.preload.electorate {
       _ = Elector(name: elector.name, username: elector.username, password: elector.password).save(on: req)
     }
-    
-    
     for candidate in data.preload.candidates {
       _ = Party.query(on: req).group(.or) { or in or.filter(\.name == candidate.partyName)}.first().map(to: Party.self) {party in
         _ = Candidate(name: candidate.name, partyID: party!.id!).save(on: req)
