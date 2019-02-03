@@ -11,7 +11,13 @@ struct WebsiteController: RouteCollection {
     authSessionRoutes.get(use: indexHandler)
     authSessionRoutes.get("login", use: loginHandler)
     authSessionRoutes.post(LoginData.self, at: "login", use: loginPostHandler)
-    authSessionRoutes.post("logout", use: logoutHandler) 
+    authSessionRoutes.post("logout", use: logoutHandler)
+    
+    let tokenGuardAuthMiddleWare = Admin.guardAuthMiddleware()
+    let tokenAuthMiddleWare = Admin.tokenAuthMiddleware()
+    let tokenAuthGroup = authSessionRoutes.grouped(tokenAuthMiddleWare, tokenGuardAuthMiddleWare)
+    tokenAuthGroup.post(PreloadData.self, at: "preload", use: preloadHandler)
+    
     
     //let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
     
@@ -77,6 +83,12 @@ struct WebsiteController: RouteCollection {
     return req.redirect(to: "/")
   }
   
+  //Preload
+  
+  func preloadHandler(_ req: Request, data: PreloadData) throws -> PreloadData {
+   return data
+  }
+  
 /* BIN ->
   //Create Election
   func createElectionPostHandler(_ req: Request, data: CreateElectionData) throws -> Future<Response> {
@@ -139,6 +151,18 @@ struct LoginData: Content {
   let password: String
   let csrfToken: String
 }
+
+//Preload Data
+struct PreloadData: Content {
+  var electionCategories: [ElectionCategory]
+  var parties: [Party]
+  var electorate: [Elector]
+  var candidates: [Candidate]
+  var elections: [Election]
+  var eligibilities: [Eligibility]
+  var runners: [Result]
+}
+
 
 /* BIN ->
 //Create Election Data
