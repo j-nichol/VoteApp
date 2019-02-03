@@ -4,16 +4,13 @@ import FluentPostgreSQL
 final class ElectionCategory: Codable {
     var id: Int?
     var name: String
-    var startDate: Date
-    var endDate: Date
+    var startDate: String
+    var endDate: String
     
     init(name: String, startDate: String, endDate: String) {
       self.name = name
-      
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-      self.startDate = dateFormatter.date(from: startDate)!
-      self.endDate = dateFormatter.date(from: endDate)!
+      self.startDate = startDate
+      self.endDate = endDate
 
     }
 }

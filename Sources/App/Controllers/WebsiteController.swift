@@ -16,7 +16,7 @@ struct WebsiteController: RouteCollection {
     let tokenGuardAuthMiddleWare = Admin.guardAuthMiddleware()
     let tokenAuthMiddleWare = Admin.tokenAuthMiddleware()
     let tokenAuthGroup = authSessionRoutes.grouped(tokenAuthMiddleWare, tokenGuardAuthMiddleWare)
-    tokenAuthGroup.post(PreloadData.self, at: "preload", use: preloadHandler)
+    tokenAuthGroup.post(PreloadDataHolder.self, at: "preload", use: preloadHandler)
     
     
     //let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
@@ -85,9 +85,16 @@ struct WebsiteController: RouteCollection {
   
   //Preload
   
-  func preloadHandler(_ req: Request, data: PreloadData) throws -> PreloadData {
-   return data
+  func preloadHandler(_ req: Request, data: PreloadDataHolder) throws -> PreloadData {
+    return data.preloadData
   }
+  /*
+  func preloadHandler(_ req: Request, data: PreloadDataHolder) throws -> Future<ElectionCategory> {
+    let electionCategory = ElectionCategory(name: data.preloadData.electionCategories[0].name, startDate: data.preloadData.electionCategories[0].startDate, endDate: data.preloadData.electionCategories[0].endDate)
+    return electionCategory.save(on: req)
+    
+  }
+ */
   
 /* BIN ->
   //Create Election
@@ -153,16 +160,17 @@ struct LoginData: Content {
 }
 
 //Preload Data
+struct PreloadDataHolder: Content {
+  var preloadData: PreloadData
+}
 struct PreloadData: Content {
-  struct data: Content {
-    var electionCategories: [ElectionCategory]
-    var parties: [Party]
-    var electorate: [Elector]
-    var candidates: [Candidate]
-    var elections: [Election]
-    var eligibilities: [Eligibility]
-    var runners: [Result]
-  }
+  var electionCategories: [ElectionCategory]
+  var parties: [Party]
+  var electorate: [Elector]
+  var candidates: [Candidate]
+  var elections: [Election]
+  var eligibilities: [Eligibility]
+  var runners: [Result]
 }
 
 
