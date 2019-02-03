@@ -95,22 +95,24 @@ struct WebsiteController: RouteCollection {
     for elector in data.preload.electorate {
       _ = Elector(name: elector.name, username: elector.username, password: elector.password).save(on: req)
     }
+    
+    
     for candidate in data.preload.candidates {
       _ = Party.query(on: req).group(.or) { or in or.filter(\.name == candidate.partyName)}.first().map(to: Party.self) {party in
-        _ = Candidate(name: candidate.name, partyID: party!.id!)
+        _ = Candidate(name: candidate.name, partyID: party!.id!).save(on: req)
         return party!
       }
     }
     for election in data.preload.elections {
       _ = ElectionCategory.query(on: req).group(.or) { or in or.filter(\.name == election.electionCategoryName)}.first().map(to: ElectionCategory.self) { electionCategory in
-        _ = Election(name: election.name, electionCategoryID: electionCategory!.id!)
+        _ = Election(name: election.name, electionCategoryID: electionCategory!.id!).save(on: req)
         return electionCategory!
       }
     }
     for eligibility in data.preload.eligibilities {
       _ = Elector.query(on: req).group(.or) { or in or.filter(\.username == eligibility.electorUsername)}.first().map(to: Elector.self) { elector in
         _ = Election.query(on: req).group(.or) { or in or.filter(\.name == eligibility.electionName)}.first().map(to: Election.self) { election in
-          _ = Eligibility(electorID: elector!.id!, electionID: election!.id!)
+          _ = Eligibility(electorID: elector!.id!, electionID: election!.id!).save(on: req)
           return election!
         }
         return elector!
@@ -119,7 +121,7 @@ struct WebsiteController: RouteCollection {
     for runner in data.preload.runners {
       _ = Candidate.query(on: req).group(.or) { or in or.filter(\.name == runner.candidateName)}.first().map(to: Candidate.self) { candidate in
         _ = Election.query(on: req).group(.or) { or in or.filter(\.name == runner.electionName)}.first().map(to: Election.self) { election in
-          _ = Runner(candidateID: candidate!.id!, electionID: election!.id!)
+          _ = Runner(candidateID: candidate!.id!, electionID: election!.id!).save(on: req)
           return election!
         }
         return candidate!
