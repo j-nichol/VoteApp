@@ -85,8 +85,8 @@ struct WebsiteController: RouteCollection {
   
   //Preload
   
-  func preloadHandler(_ req: Request, data: PreloadDataHolder) throws -> PreloadData {
-    return data.preloadData
+  func preloadHandler(_ req: Request, data: PreloadDataHolder) throws -> PreloadDataHolder {
+    return data
   }
   /*
   func preloadHandler(_ req: Request, data: PreloadDataHolder) throws -> Future<ElectionCategory> {
@@ -162,16 +162,50 @@ struct LoginData: Content {
 //Preload Data
 struct PreloadDataHolder: Content {
   var preloadData: PreloadData
+  
+  struct PreloadData: Content {
+    var electionCategories: [ElectionCategoriesPreload]
+    var parties: [PartiesPreload]
+    var electorate: [ElectoratePreload]
+    var candidates: [CandidatesPreload]
+    var elections: [ElectionsPreload]
+    var eligibilities: [EligibilitiesPreload]
+    var runners: [RunnersPreload]
+    
+    struct ElectionCategoriesPreload: Content {
+      var name: String
+    }
+    struct PartiesPreload: Content {
+      var name: String
+    }
+    struct ElectoratePreload: Content {
+      var name: String
+      var username: String
+      var password: String
+    }
+    struct CandidatesPreload: Content {
+      var name: String
+      var partyName: String
+    }
+    struct ElectionsPreload: Content {
+      var name: String
+      var electionCategoryName: String
+    }
+    struct EligibilitiesPreload: Content {
+      var electorUsername: String
+      var electionName: String
+    }
+    struct RunnersPreload: Content {
+      var electionName: String
+      var candidateName: String
+    }
+  }
 }
-struct PreloadData: Content {
-  var electionCategories: [ElectionCategory]
-  var parties: [Party]
-  var electorate: [Elector]
-  var candidates: [Candidate]
-  var elections: [Election]
-  var eligibilities: [Eligibility]
-  var runners: [Result]
-}
+
+
+
+
+
 
 
 /* BIN ->
