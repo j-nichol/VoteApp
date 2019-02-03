@@ -44,17 +44,11 @@ a { color: var(--blue); text-decoration: none; }
 
 
 .startButton {
-  width: 100%;
-  text-align: center;
 }
 .startButton h3 {
-  width: 75%;
-  display: inline-block;
-  padding: 32px;
-  padding: 2rem;
-  background: var(--green);
-  border-radius: 4px;
-  box-shadow: 0px 5px 5px -5px var(--black);
+  color: var(blue);
+  margin-right: 32px;
+  margin-right: 2rem;
 }
 
 .nav {
@@ -133,7 +127,7 @@ a { color: var(--blue); text-decoration: none; }
 .andItsDerivatives {}
 
 form {
-  width: 75%;
+  width: 100%;
   box-sizing: border-box;
 }
 .formGroup {
