@@ -154,13 +154,15 @@ struct LoginData: Content {
 
 //Preload Data
 struct PreloadData: Content {
-  var electionCategories: [ElectionCategory]
-  var parties: [Party]
-  var electorate: [Elector]
-  var candidates: [Candidate]
-  var elections: [Election]
-  var eligibilities: [Eligibility]
-  var runners: [Result]
+  struct data: Content {
+    var electionCategories: [ElectionCategory]
+    var parties: [Party]
+    var electorate: [Elector]
+    var candidates: [Candidate]
+    var elections: [Election]
+    var eligibilities: [Eligibility]
+    var runners: [Result]
+  }
 }
 
 
