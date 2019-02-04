@@ -1,0 +1,7 @@
+#set("content") {
+<p>#(eligibilities)</p>
+
+}
+
+#embed("base")
+

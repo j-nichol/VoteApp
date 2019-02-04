@@ -19,7 +19,8 @@ struct WebsiteController: RouteCollection {
     tokenAuthGroup.post(PreloadDataHolder.self, at: "preload", use: preloadHandler)
     
     
-    //let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
+    let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
+    protectedRoutes.get("elections", use: electionsHandler)
     
 /* Bin ->
     //protectedRoutes.get("elections", Election.parameter, use: electionHandler)
@@ -39,6 +40,18 @@ struct WebsiteController: RouteCollection {
     let csrfToken = try CryptoRandom().generateData(count: 16).base64EncodedString()
     try req.session()["CSRF_TOKEN"] = csrfToken
     if (try req.isAuthenticated(Elector.self)) { return try req.view().render("/") } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
+  }
+  
+  func electionsHandler(_ req: Request) throws -> Future<View> {
+    //get all elections what user is eligible for.
+    let name = try req.session()["name"]
+    let userID = try req.session()["id"]
+    
+   
+    let eligibilities = Eligibility.query(on: req).group(.or) { or in or.filter(\.electorID == UUID(userID!)!)}.all()
+  
+    return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, eligibilities: eligibilities))
+                                 
   }
   
 /* BIN ->
@@ -73,6 +86,8 @@ struct WebsiteController: RouteCollection {
       elector in
       guard let elector = elector else { return req.redirect(to: "/login?error") }
       try req.authenticateSession(elector)
+      try req.session()["name"] = elector.name
+      try req.session()["userID"] = elector.id?.uuidString
       return req.redirect(to: "/")
     }
   }
@@ -165,6 +180,12 @@ struct LoginContext: Encodable {
   let meta: Meta
   var loginError: Bool
   let csrfToken: String
+}
+
+struct ElectionsContext: Encodable {
+  let meta: Meta
+  let name: String
+  let eligibilities: Future<[Eligibility]>
 }
 
 /* BIN ->

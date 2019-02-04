@@ -1,7 +1,0 @@
-#set("content") {
-  <h1>#(election.name)</h1>
-  <h2>#(electionCategory.name)</h2>
-}
-
-#embed("base")
-
