@@ -51,15 +51,14 @@ struct WebsiteController: RouteCollection {
   func electionsHandler(_ req: Request) throws -> Future<View> {
     //get all elections what user is eligible for.
     let name = try req.session()["name"]
-    let userID = UUID(try req.session()["id"]!)!
+    let userID = try req.session()["id"]
     
     //Galaxy.query(on: conn).join(\Planet.galaxyID, to: \Galaxy.id).filter(\Planet.name == "Earth")
     
-    let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).join(\Elector.id, to: \Eligibility.electorID).filter(\Elector.id == userID).all()
+     let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID.uuidString == userID!).all()
     
     let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, elections: elections)
     return try req.view().render("elections", context)
-                                 
   }
   
 /* BIN ->
