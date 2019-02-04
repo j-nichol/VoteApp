@@ -45,7 +45,7 @@ struct WebsiteController: RouteCollection {
     }
     let csrfToken = try CryptoRandom().generateData(count: 16).base64EncodedString()
     try req.session()["CSRF_TOKEN"] = csrfToken
-    if (try req.isAuthenticated(Elector.self)) { return try req.view().render("/elections") } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
+    if (try req.isAuthenticated(Elector.self)) { return try electionsHandler(_: req) } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
   }
   
   func electionsHandler(_ req: Request) throws -> Future<View> {
@@ -55,7 +55,7 @@ struct WebsiteController: RouteCollection {
     
     //Galaxy.query(on: conn).join(\Planet.galaxyID, to: \Galaxy.id).filter(\Planet.name == "Earth")
     
-    //let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID.uuidString == userID!).all()
+    //let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID.uuidString == userID!)
     let elections = Election.query(on: req).all()
     
     let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, elections: elections)

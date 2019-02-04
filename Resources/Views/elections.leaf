@@ -1,9 +1,9 @@
 #set("content") {
-
-#for(election in elections) {
-<p>#(election.name)</p>
-}
-
+  #if(elections){
+    #for(election in elections) {
+    <p>#(election.name)</p>
+    }
+  }
 }
 
 #embed("base")
