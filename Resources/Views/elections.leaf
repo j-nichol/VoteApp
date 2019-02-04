@@ -1,5 +1,5 @@
 #set("content") {
-<p>#(eligibilities)</p>
+<p>#(eligibilities[0].electorID)</p>
 
 }
 
