@@ -1,10 +1,14 @@
 #set("content") {
-  #if(name){
-    <h3>#(name)</h3>
-  }
+  <h1>Elections</h1>
+  <h2>Welcome #(name)</h2>
+  <p>You are eligible to vote in the following elecion#if(#count(elections)>1){s}.</p>
+  <p>Please select an election to continue...</p>
+
   #if(elections){
     #for(election in elections) {
-      <p>#(election.name)</p>
+      <a href=''><h3>#(election.categoryID)</h3>
+        <p>#(election.name)</p>
+      </a>
     }
   }
 }
