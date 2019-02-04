@@ -50,13 +50,14 @@ struct WebsiteController: RouteCollection {
   
   func electionsHandler(_ req: Request) throws -> Future<View> {
     //get all elections what user is eligible for.
-    let name = try req.session()["name"]
-    let userID = UUID(uuidString: try req.session()["id"]!)
+    let user = try req.requireAuthenticated(Elector.self)
+    let name = user.name
+    let userID = user.id
     
     let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == userID!).all()
     //let elections = Election.query(on: req).all()
     
-    let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, elections: elections)
+    let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name, elections: elections)
     return try req.view().render("elections", context)
   }
   
@@ -92,8 +93,6 @@ struct WebsiteController: RouteCollection {
       elector in
       guard let elector = elector else { return req.redirect(to: "/login?error") }
       try req.authenticateSession(elector)
-      try req.session()["name"] = elector.name
-      try req.session()["userID"] = elector.id?.uuidString
       return req.redirect(to: "/elections")
     }
   }
