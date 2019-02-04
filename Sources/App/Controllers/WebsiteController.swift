@@ -51,7 +51,7 @@ struct WebsiteController: RouteCollection {
   func electionsHandler(_ req: Request) throws -> Future<View> {
     let user = try req.requireAuthenticated(Elector.self)
     let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).all()
-    let electionCategories = ElectionCategory.query(on: req).join(\ElectionCategory.id, to: \Election.electionCategoryID).join(\Election.id, to: \Eligibility.electionID).filter(\Eligibility.electorID == user.id!).all()
+    let electionCategories = ElectionCategory.query(on: req).join(\Election.electionCategoryID, to: \ElectionCategory.id).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).all()
     
     return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: user.name, elections: elections, electionCategories: electionCategories))
   }
