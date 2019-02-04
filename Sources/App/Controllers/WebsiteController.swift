@@ -32,11 +32,17 @@ struct WebsiteController: RouteCollection {
 ///GETs
   //Index
   func indexHandler(_ req: Request) throws -> Future<View> {
-    if (try req.isAuthenticated(Elector.self)) { return try req.view().render("/elections") } else { return try req.view().render("index", IndexContext(meta: Meta(title: "HomePage", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)))) }
+    if (try req.isAuthenticated(Elector.self)) {
+      return try electionsHandler(_: req)
+    }
+    return try req.view().render("index", IndexContext(meta: Meta(title: "HomePage", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self))))
   }
   
   //Login
   func loginHandler(_ req: Request) throws -> Future<View> {
+    if (try req.isAuthenticated(Elector.self)) {
+      return try electionsHandler(_: req)
+    }
     let csrfToken = try CryptoRandom().generateData(count: 16).base64EncodedString()
     try req.session()["CSRF_TOKEN"] = csrfToken
     if (try req.isAuthenticated(Elector.self)) { return try req.view().render("/elections") } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
@@ -46,6 +52,18 @@ struct WebsiteController: RouteCollection {
     //get all elections what user is eligible for.
     let name = try req.session()["name"]
     let userID = try req.session()["id"]
+    
+/*return req.transaction(on: .<#dbid#>) { conn in
+ return userA.save(on: conn).flatMap { _ in
+ return userB.save(on: conn)
+ }.transform(to: HTTPStatus.ok)
+ }
+ */
+    
+    /*
+ let res = try req.client().get("http://vapor.codes")
+ print(res)
+ */
    
     let elections = Election.query(on: req).all()
     let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, elections: elections)
