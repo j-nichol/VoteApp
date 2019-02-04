@@ -32,14 +32,14 @@ struct WebsiteController: RouteCollection {
 ///GETs
   //Index
   func indexHandler(_ req: Request) throws -> Future<View> {
-    return try req.view().render("index", IndexContext(meta: Meta(title: "HomePage", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self))))
+    if (try req.isAuthenticated(Elector.self)) { return try req.view().render("/elections") } else { return try req.view().render("index", IndexContext(meta: Meta(title: "HomePage", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)))) }
   }
   
   //Login
   func loginHandler(_ req: Request) throws -> Future<View> {
     let csrfToken = try CryptoRandom().generateData(count: 16).base64EncodedString()
     try req.session()["CSRF_TOKEN"] = csrfToken
-    if (try req.isAuthenticated(Elector.self)) { return try req.view().render("/") } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
+    if (try req.isAuthenticated(Elector.self)) { return try req.view().render("/elections") } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
   }
   
   func electionsHandler(_ req: Request) throws -> Future<View> {
@@ -87,7 +87,7 @@ struct WebsiteController: RouteCollection {
       try req.authenticateSession(elector)
       try req.session()["name"] = elector.name
       try req.session()["userID"] = elector.id?.uuidString
-      return req.redirect(to: "/")
+      return req.redirect(to: "/elections")
     }
   }
   
