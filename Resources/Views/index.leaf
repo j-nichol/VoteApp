@@ -1,6 +1,6 @@
 #if(meta.userLoggedIn) {
   #set("content") {
-    <p>embed election selection</p>
+    #embed("elections")
   }
 } else {
   #set("content") {
