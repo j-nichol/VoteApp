@@ -55,7 +55,7 @@ struct WebsiteController: RouteCollection {
     
     //Galaxy.query(on: conn).join(\Planet.galaxyID, to: \Galaxy.id).filter(\Planet.name == "Earth")
     
-    //let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID.uuidString == userID!)
+    //let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID.uuidString == userID!).all()
     let elections = Election.query(on: req).all()
     
     let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, elections: elections)

@@ -1,7 +1,10 @@
 #set("content") {
+  #if(name){
+    <h3>#(name)</h3>
+  }
   #if(elections){
     #for(election in elections) {
-    <p>#(election.name)</p>
+      <p>#(election.name)</p>
     }
   }
 }

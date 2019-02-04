@@ -25,11 +25,13 @@ struct ElectionsController: RouteCollection {
     //get elector
     tokenAuthGroup.get(Election.parameter, "electionCategory", use: getElectionCategoryHandler)
     //get eligibilities
-    tokenAuthGroup.get(Eligibility.parameter, "eligibilities", use: getEligibilitiesHandler)
+    tokenAuthGroup.get(Election.parameter, "eligibilities", use: getEligibilitiesHandler)
     //get results
-    tokenAuthGroup.get(Eligibility.parameter, "results", use: getResultsHandler)
+    tokenAuthGroup.get(Election.parameter, "results", use: getResultsHandler)
     //get runners
-    tokenAuthGroup.get(Eligibility.parameter, "runners", use: getRunnersHandler)
+    tokenAuthGroup.get(Election.parameter, "runners", use: getRunnersHandler)
+    //test
+    tokenAuthGroup.get("test", use: testHandler)
     
   }
   
@@ -91,6 +93,11 @@ struct ElectionsController: RouteCollection {
     return try req.parameters.next(Election.self).flatMap(to: [Runner].self) {
       election in try election.runners.query(on: req).all()
     }
+  }
+  //test
+  func testHandler(_ req: Request) throws -> Future<[Election]> {
+    return Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID.uuidString == "6932927F-FE4E-4810-AFC5-CB003DD1F835").all()
+
   }
     
 }
