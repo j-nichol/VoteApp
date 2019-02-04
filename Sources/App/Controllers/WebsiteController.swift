@@ -53,17 +53,11 @@ struct WebsiteController: RouteCollection {
     let name = try req.session()["name"]
     let userID = UUID(try req.session()["id"]!)!
     
+    //Galaxy.query(on: conn).join(\Planet.galaxyID, to: \Galaxy.id).filter(\Planet.name == "Earth")
     
-    // ? //let eligibilities = try req.client().get( "/api/electorate/\(userID ?? "")/eligibilities")
+    let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).join(\Elector.id, to: \Eligibility.electorID).filter(\Elector.id == userID).all()
     
-    
-    let election = Eligibility.query(on: req).filter(\.electorID == userID).first().flatMap(to: Election?.self) { eligibility in
-      let election = Election.find((eligibility?.electionID)!, on: req)
-      return election
-    }
-    
-    
-    let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, election: election)
+    let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, elections: elections)
     return try req.view().render("elections", context)
                                  
   }
@@ -199,7 +193,7 @@ struct LoginContext: Encodable {
 struct ElectionsContext: Encodable {
   let meta: Meta
   let name: String
-  let election: Future<Election?>
+  let elections: Future<[Election]>
 }
 
 /* BIN ->
