@@ -6,7 +6,13 @@
 
   #if(elections){
     #for(election in elections) {
-      <a href=''><h3>#(election.categoryID)</h3>
+      <a href=''><h3>
+        #for(electionCategory in electionCategories) {
+          #if(electionCategory.id == election.electionCategoryID) {
+            #(electionCategory.name)
+          }
+        }
+      </h3>
         <p>#(election.name)</p>
       </a>
     }
