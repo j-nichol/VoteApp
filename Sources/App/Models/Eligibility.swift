@@ -10,6 +10,8 @@ final class Eligibility: Codable {
         self.electorID = electorID
         self.electionID = electionID
     }
+  
+  
 }
 
 extension Eligibility: PostgreSQLModel {}

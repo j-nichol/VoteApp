@@ -46,11 +46,10 @@ struct WebsiteController: RouteCollection {
     //get all elections what user is eligible for.
     let name = try req.session()["name"]
     let userID = try req.session()["id"]
-    
    
-    let eligibilities = Eligibility.query(on: req).group(.or) { or in or.filter(\.electorID == UUID(userID!)!)}.all()
-  
-    return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, eligibilities: eligibilities))
+    let elections = Election.query(on: req).all()
+    let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, elections: elections)
+    return try req.view().render("elections", context)
                                  
   }
   
@@ -185,7 +184,7 @@ struct LoginContext: Encodable {
 struct ElectionsContext: Encodable {
   let meta: Meta
   let name: String
-  let eligibilities: Future<[Eligibility]>
+  let elections: Future<[Election]>
 }
 
 /* BIN ->

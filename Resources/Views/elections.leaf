@@ -1,5 +1,8 @@
 #set("content") {
-<p>#(eligibilities[0].electorID)</p>
+
+#for(election in elections) {
+<p>#(election.name)</p>
+}
 
 }
 
