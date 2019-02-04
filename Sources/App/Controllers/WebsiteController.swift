@@ -49,16 +49,9 @@ struct WebsiteController: RouteCollection {
   }
   
   func electionsHandler(_ req: Request) throws -> Future<View> {
-    //get all elections what user is eligible for.
     let user = try req.requireAuthenticated(Elector.self)
-    let name = user.name
-    let userID = user.id
-    
-    let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == userID!).all()
-    //let elections = Election.query(on: req).all()
-    
-    let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name, elections: elections)
-    return try req.view().render("elections", context)
+    let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).all()
+    return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: user.name, elections: elections))
   }
   
 /* BIN ->
