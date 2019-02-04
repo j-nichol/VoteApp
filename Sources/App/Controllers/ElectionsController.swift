@@ -96,7 +96,8 @@ struct ElectionsController: RouteCollection {
   }
   //test
   func testHandler(_ req: Request) throws -> Future<[Election]> {
-    return Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID.uuidString == "6932927F-FE4E-4810-AFC5-CB003DD1F835").all()
+    let uuid = UUID(uuidString: "6932927F-FE4E-4810-AFC5-CB003DD1F835")
+    return Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == uuid!).all()
 
   }
     
