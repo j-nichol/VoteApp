@@ -51,22 +51,19 @@ struct WebsiteController: RouteCollection {
   func electionsHandler(_ req: Request) throws -> Future<View> {
     //get all elections what user is eligible for.
     let name = try req.session()["name"]
-    let userID = try req.session()["id"]
+    let userID = UUID(try req.session()["id"]!)!
     
-/*return req.transaction(on: .<#dbid#>) { conn in
- return userA.save(on: conn).flatMap { _ in
- return userB.save(on: conn)
- }.transform(to: HTTPStatus.ok)
- }
- */
     
-    /*
- let res = try req.client().get("http://vapor.codes")
- print(res)
- */
-   
-    let elections = Election.query(on: req).all()
-    let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, elections: elections)
+    // ? //let eligibilities = try req.client().get( "/api/electorate/\(userID ?? "")/eligibilities")
+    
+    
+    let election = Eligibility.query(on: req).filter(\.electorID == userID).first().flatMap(to: Election?.self) { eligibility in
+      let election = Election.find((eligibility?.electionID)!, on: req)
+      return election
+    }
+    
+    
+    let context = ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: name!, election: election)
     return try req.view().render("elections", context)
                                  
   }
@@ -202,7 +199,7 @@ struct LoginContext: Encodable {
 struct ElectionsContext: Encodable {
   let meta: Meta
   let name: String
-  let elections: Future<[Election]>
+  let election: Future<Election?>
 }
 
 /* BIN ->
