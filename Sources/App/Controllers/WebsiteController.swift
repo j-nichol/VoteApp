@@ -19,7 +19,7 @@ struct WebsiteController: RouteCollection {
     tokenAuthGroup.post(PreloadDataHolder.self, at: "preload", use: preloadHandler)
     
     
-    let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Admin>(path: "/login"))
+    let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Elector>(path: "/login"))
     protectedRoutes.get("elections", use: electionsHandler)
     
 /* Bin ->
