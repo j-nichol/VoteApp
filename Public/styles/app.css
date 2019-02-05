@@ -68,10 +68,7 @@ a { color: var(--blue); text-decoration: none; }
   justify-content: space-around;
 }
 .navInner form {
-  padding: 16px 0;
-  padding: 1rem 0;
-  width: 100%;
-  transition: background: 0.5s;
+  display: none;
 }
 .navInner a {
   padding: 8px 0;
@@ -83,34 +80,10 @@ a { color: var(--blue); text-decoration: none; }
   align-content: center;
   justify-content: center;
   flex-wrap: wrap;
+  cursor: pointer;
 }
 .navInner a:hover {
   background:  var(--lightGrey);
-}
-.navInner input {
-  border: none;
-  color: var(--grey);
-  padding: 8px 0;
-  padding: 0.5rem 9;
-  margin: 0;
-  font-size: 12px;
-  font-size: 0.75rem;
-  -webkit-appearance: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background: url(/icons/logout.png);
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: 8px;
-  background-position-y: 0.5rem;
-  background-size: 32.5px;
-  background-size: 2.2rem;
-  height: 100%;
-  padding-top: 41.6px;
-  padding-top: 2.6rem;
-}
-.navInner form:hover {
-  background: var(--lightGrey);
 }
 .navInner .active p{
   color: var(--blue) !important;
@@ -186,4 +159,5 @@ button {
 
 
 .popUpContinueBox {}
+
 
