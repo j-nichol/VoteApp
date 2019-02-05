@@ -4,7 +4,7 @@
   }
 } else {
   #set("content") {
-    <h1>Welcome</h1>
+    <h1 class='pageTitle'>Welcome</h1>
     <h2>You can use this application to vote in the election.</h2>
     <p>If you'd like some information before you begin, select the 'Help' button in the navigation bar at the bottom of the screen.</p>
     <p>Otherwise, select 'Begin' to get started.</p>

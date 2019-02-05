@@ -1,6 +1,6 @@
 #set("content"){
 
-  <h1>#(meta.title)</h1>
+  <h1 class='pageTitle'>#(meta.title)</h1>
 
   #if(loginError) {
   <p style='color: red;'>Something's gone wrong. Either your username or password was entered incorrectly.</p>

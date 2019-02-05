@@ -30,6 +30,10 @@ body {
   background: var(--offWhite);
 }
 
+.pageTitle {
+  margin-top: 0;
+}
+
 h1, h2, h3, p, label, a {
   font-family: 'Helvetica Neue', 'Helvetica';
   width:  100%;
@@ -60,7 +64,7 @@ a { color: var(--blue); text-decoration: none; }
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: 3rem;
 }
 .navInner {
   width: 100%;
