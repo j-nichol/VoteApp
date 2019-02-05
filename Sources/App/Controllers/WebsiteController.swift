@@ -22,6 +22,7 @@ struct WebsiteController: RouteCollection {
     let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Elector>(path: "/login"))
     protectedRoutes.get("elections", use: electionsHandler)
     protectedRoutes.get("ballot", Election.parameter, use: ballotHandler)
+    protectedRoutes.get("confirm", use: confirmHandler)
     
 /* Bin ->
     //protectedRoutes.get("elections", Election.parameter, use: electionHandler)
@@ -72,6 +73,10 @@ struct WebsiteController: RouteCollection {
       let context = BallotContext(meta: Meta(title: "Ballot | \(election.name)", isHelp: false, userLoggedIn: true), election: eligibleElection, candidates: candidates, parties: parties)
       return try req.view().render("ballot", context)
     }
+  }
+  
+  func confirmHandler(_ req: Request) throws -> Future<View> {
+    return try req.view().render("confirm")
   }
   
 /* BIN ->

@@ -5,7 +5,7 @@
   <p>You may in stead choose to spoil your ballot. Select 'Spoil Ballot' to do so.</p>
   <p>You will have an opportunity to confirm your selection on the following page.</p>
   #for(candidate in candidates) {
-    <a href='' class='selectionList'><h3 #if(candidate.name == "Spoil Ballot") {style='color: var(--grey)'}>#(candidate.name)</h3>
+    <a href='/confirm' class='selectionList'><h3 #if(candidate.name == "Spoil Ballot") {style='color: var(--grey)'}>#(candidate.name)</h3>
       #for(party in parties) {
         <p #if(candidate.name == "Spoil Ballot") {style='color: var(--grey)'}>
         #if(party.id == candidate.partyID) {
