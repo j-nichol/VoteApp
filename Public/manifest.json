@@ -1,0 +1,8 @@
+{
+  "name": "Vote",
+  "short_name": "Vote",
+  "lang": "en-GB",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone"
+}

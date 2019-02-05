@@ -3,9 +3,9 @@
   <h2>Welcome #(name)</h2>
   <p>You are eligible to vote in the following elecion#if(count(elections)>1){s}.</p>
   #if(count(elections)>1) {
-    <p>Please confirm that you would like to participate in the election by selecting it below.</p>
-  } else {
     <p>Please confirm which election you would like to participate in by selecting it below.</p>
+  } else {
+    <p>Please confirm that you would like to participate in the election by selecting it below.</p>
   }
     #if(elections){
       #for(election in elections) {
