@@ -60,6 +60,7 @@ a { color: var(--blue); text-decoration: none; }
   width: 100%;
   display: flex;
   justify-content: center;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .navInner {
   width: 100%;
