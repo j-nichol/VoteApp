@@ -21,6 +21,7 @@ struct WebsiteController: RouteCollection {
     
     let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Elector>(path: "/login"))
     protectedRoutes.get("elections", use: electionsHandler)
+    protectedRoutes.get("ballot", Election.parameter, use: ballotHandler)
     
 /* Bin ->
     //protectedRoutes.get("elections", Election.parameter, use: electionHandler)
@@ -54,6 +55,23 @@ struct WebsiteController: RouteCollection {
     let electionCategories = ElectionCategory.query(on: req).join(\Election.electionCategoryID, to: \ElectionCategory.id).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).all()
     
     return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: user.name, elections: elections, electionCategories: electionCategories))
+  }
+  
+  func ballotHandler(_ req: Request) throws -> Future<View> {
+    return try req.parameters.next(Election.self).flatMap(to: View.self) {
+      election in
+      
+      let user = try req.requireAuthenticated(Elector.self)
+      //check eligible. If so return election //must check exists in leaf or display error.
+      let eligibleElection = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).first()
+      //return [candidate]
+      let candidates = Candidate.query(on: req).join(\Runner.candidateID, to: \Candidate.id).join(\Election.id, to: \Runner.electionID).filter(\Election.id == election.id).all()
+      //return [party] (of candidates)
+      let parties = Party.query(on: req).join(\Candidate.partyID, to: \Party.id).join(\Runner.candidateID, to: \Candidate.id).join(\Election.id, to: \Runner.electionID).filter(\Election.id == election.id).all()
+      //let context = whatever.
+      let context = BallotContext(meta: Meta(title: "Ballot | \(election.name)", isHelp: false, userLoggedIn: true), election: eligibleElection, candidates: candidates, parties: parties)
+      return try req.view().render("ballot", context)
+    }
   }
   
 /* BIN ->
@@ -189,6 +207,12 @@ struct ElectionsContext: Encodable {
   let electionCategories: Future<[ElectionCategory]>
 }
 
+struct BallotContext: Encodable {
+  let meta: Meta
+  let election: Future<Election?>
+  let candidates: Future<[Candidate]>
+  let parties: Future<[Party]>
+}
 /* BIN ->
 //Election
 struct electionContext: Encodable {

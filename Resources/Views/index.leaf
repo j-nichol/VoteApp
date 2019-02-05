@@ -7,9 +7,9 @@
     <h1>Welcome</h1>
     <h2>You can use this application to vote in the election.</h2>
     <p>If you'd like some information before you begin, select the 'Help' button in the navigation bar at the bottom of the screen.</p>
-    <p>Otherwise, if you're ready to participate in the election...</p>
+    <p>Otherwise, select 'Begin' to get started.</p>
     <a class='startButton' href='/login'>
-      <h3>Tap here to begin</h3>
+      <h3>Begin</h3>
     </a>
   }
 }

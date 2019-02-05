@@ -9,7 +9,7 @@
   }
     #if(elections){
       #for(election in elections) {
-        <a href='' class='selectionList'><h3>#(election.name)</h3>
+        <a href='/ballot/#(election.id)' class='selectionList'><h3>#(election.name)</h3>
           <p>
           #for(electionCategory in electionCategories) {
             #if(electionCategory.id == election.electionCategoryID) {

@@ -1,0 +1,20 @@
+#set("content") {
+  #if(!election) { <p style='color: red;'>Something's gone wrong.</p><p style='color: red;'>You've found your way to an election you're not eligible to vote in.</p> } else {
+    <h1>Ballot</h1>
+    <h3>These are the candidates running in #(election.name)</h3>
+    <p>Select the one you would like to vote for, then select confirm at the bottom of this page.</p>
+    #for(candidate in candidates) {
+      <a href='' class='selectionList'><h3>#(candidate.name)</h3>
+        <p>
+        #for(party in parties) {
+          #if(party.id == candidate.partyID) {
+            #(party.name)
+          }
+        }
+        </p>
+      </a>
+    }
+  }
+}
+
+#embed("base")
