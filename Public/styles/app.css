@@ -68,7 +68,7 @@ a { color: var(--blue); text-decoration: none; }
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-bottom: 3rem;
+  padding-bottom: 1.5rem;
   z-index: 1;
 }
 .navInner {
