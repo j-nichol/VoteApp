@@ -18,16 +18,10 @@
         <form id='logoutForm' method='post' action='/logout'>
           <input type='hidden' name='name' value='value'></input>
         </form>
-        <a onclick="document.getElementById('logoutForm').submit();"><img src='/icons/logout.png'}><p>Log Out</p></a>
+        <a onclick="document.getElementById('logoutForm').submit();"><img src='/icons/logout.png'><p>Log Out</p></a>
         }
       </div>
     </div>
     #get(content)
   </body>
 </html>
-
-
-<form id="myform" method="post" action="target.html">
-  <input type="hidden" name="name" value="value" />
-  <a onclick="document.getElementById('myform').submit();">click here</a>
-</form>
