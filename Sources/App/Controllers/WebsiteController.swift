@@ -76,7 +76,7 @@ struct WebsiteController: RouteCollection {
   }
   
   func confirmHandler(_ req: Request) throws -> Future<View> {
-    return try req.view().render("confirm")
+    return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true)))
   }
   
 /* BIN ->
@@ -217,6 +217,10 @@ struct BallotContext: Encodable {
   let election: Future<Election>
   let candidates: Future<[Candidate]>
   let parties: Future<[Party]>
+}
+
+struct ConfirmContext:Encodable {
+  let meta: Meta
 }
 /* BIN ->
 //Election
