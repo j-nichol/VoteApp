@@ -63,7 +63,7 @@ struct WebsiteController: RouteCollection {
       
       let user = try req.requireAuthenticated(Elector.self)
       //check eligible. If so return election //must check exists in leaf or display error.
-      let eligibleElection = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).first()
+      let eligibleElection = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Election"))
       //return [candidate]
       let candidates = Candidate.query(on: req).join(\Runner.candidateID, to: \Candidate.id).join(\Election.id, to: \Runner.electionID).filter(\Election.id == election.id).all()
       //return [party] (of candidates)
@@ -209,7 +209,7 @@ struct ElectionsContext: Encodable {
 
 struct BallotContext: Encodable {
   let meta: Meta
-  let election: Future<Election?>
+  let election: Future<Election>
   let candidates: Future<[Candidate]>
   let parties: Future<[Party]>
 }
@@ -266,6 +266,7 @@ struct PreloadDataHolder: Content {
     struct RunnersPreload: Content { var electionName, candidateName: String }
   }
 }
+
 
 
 
