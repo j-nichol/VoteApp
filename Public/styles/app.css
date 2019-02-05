@@ -132,6 +132,7 @@ button {
 
 .selectionList {
   position: relative;
+  padding-right: 10%;
 }
 
 .selectionList:before {

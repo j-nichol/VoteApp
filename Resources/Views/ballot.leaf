@@ -1,16 +1,18 @@
 #set("content") {
   <h1 class='pageTitle'>Ballot</h1>
   <h3>These are the candidates running in #(election.name)</h3>
-  <p>Select the one you would like to vote for, then select confirm at the bottom of this page.</p>
+  <p>Select the the candidate you would like to vote for to continue.</p>
+  <p>You may in stead choose to spoil your ballot. Select 'Spoil Ballot' to do so.</p>
+  <p>You will have an opportunity to confirm your selection on the following page.</p>
   #for(candidate in candidates) {
-    <a href='' class='selectionList'><h3>#(candidate.name)</h3>
-      <p>
+    <a href='' class='selectionList'><h3 #if(candidate.name == "Spoil Ballot") {style='color: var(--grey)'}>#(candidate.name)</h3>
       #for(party in parties) {
+        <p #if(candidate.name == "Spoil Ballot") {style='color: var(--grey)'}>
         #if(party.id == candidate.partyID) {
           #(party.name)
         }
+        </p>
       }
-      </p>
     </a>
   }
 }
