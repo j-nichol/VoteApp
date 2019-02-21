@@ -1,19 +1,18 @@
 #set("content") {
-<h1 class='pageTitle'>Confirm Ballot</h1>
+  <h1 class='pageTitle'>Ballot Confirmation</h1>
 
-<h2>You have chosen to vote for</h3>
-  <h3>#(candidate.name)</h3>
-  <p>#(party.name)</p>
-  <h2>in the election for</h2>
-  <h3>#(election.name)</h3>
+  <h2>You have chosen</h3>
+  <h3 class='confirmationItem'>#(candidate.name) <p style='display: inline;'>(#(party.name))</p></h3>
+  <h3>in the election</h3>
+  <h3 class='confirmationItem'>#(election.name)</h3>
   
   <p>Before you cast your ballot, there are a number of things you can do to ensure that your vote is counted correctly.</p>
   <p>If you'd like more information before you proceed, you can select 'Help' in the menu bar at the bottom of this page.</p>
   <p>//Put verification things here.</p>
   
-  <p>If you're confident that your ballot is correct, and you'd like to cast it - Select 'Cast Ballot' below. This action is final.</p>
+  <p>Once you're ready, select 'Cast Ballot' below. <span class='warning'This action is final.</span></p>
   <a>Cast Ballot</a>
-  }
+}
   
   
-  #embed("base")
+#embed("base")

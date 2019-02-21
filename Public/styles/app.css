@@ -161,7 +161,15 @@ button {
   color: var(--grey)
 }
 .selectionList h3 {
-  margin: 1rem 0
+  margin: 1rem 0;
+}
+
+.confirmationItem {
+  color: var(--green);
+}
+
+.warning {
+  color: var(--orange);
 }
 
 .checkBox {}
