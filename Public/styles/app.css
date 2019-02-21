@@ -172,6 +172,54 @@ button {
   color: var(--orange);
 }
 
+.ballotTable {
+  background: var(--lightGrey);
+  width: 100%;
+  padding: 1rem;
+  border: var(--grey) solid 1px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.ballotTitle {
+  width: 100%;
+  text-align: center;
+  border-bottom: var(--black) solid 1px;
+  margin-top: 0;
+}
+
+.ballotSubTitleLeft, .ballotSubTitleRight {
+  text-align: center;
+  margin-top: 0;
+  border-bottom: var(--grey) solid 1px;
+}
+.ballotSubTitleLeft { width: 40%;}
+.ballotSubTitleRight  { width:40%;}
+
+.ballotElection {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-right: var(--grey) solid 1px;
+  box-sizing: border-box;
+}
+
+.ballotCandidateHolder {
+  width: 60%;
+  text-align: center;
+}
+
+.ballotCandidate {
+  margin: 1rem 0;
+  color: var(--blue);
+}
+.ballotParty{}
+
 .checkBox {}
 
 .fullWidthBox {}

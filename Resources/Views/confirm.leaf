@@ -1,17 +1,26 @@
 #set("content") {
   <h1 class='pageTitle'>Ballot Confirmation</h1>
 
-  <h2>You have chosen</h3>
-  <h3 class='confirmationItem'>#(candidate.name) <p style='display: inline;'>(#(party.name))</p></h3>
-  <h3>in the election</h3>
-  <h3 class='confirmationItem'>#(election.name)</h3>
+  <div class='ballotTable'>
+    <h3 class='ballotTitle'>Your Ballot</h3>
+    <p class='ballotSubTitleLeft'>Election</p>
+    <p class='ballutSubTitleRight'>Candidate</p>
+    <p class='ballotElection'>#(election.name)</p>
+    <div class='ballotCandidateHolder'>
+      <h3 class='ballotCandidate'>#(candidate.name)</h3>
+      <p class='ballotParty'>#(party.name)</p>
+    </div>
+  </div>
   
   <p>Before you cast your ballot, there are a number of things you can do to ensure that your vote is counted correctly.</p>
   <p>If you'd like more information before you proceed, you can select 'Help' in the menu bar at the bottom of this page.</p>
   <p>//Put verification things here.</p>
   
-  <p>Once you're ready, select 'Cast Ballot' below. <span class='warning'This action is final.</span></p>
-  <a>Cast Ballot</a>
+  <p>Once you're ready, select 'Cast Ballot' below.</p>
+  <p class='warning'>Warning: This action is final. You will no longer be able to modify your vote after casting your ballot.</p>
+  <a href='' class='selectionList'>
+    <h3>Cast Ballot</h3>
+  </a>
 }
   
   
