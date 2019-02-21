@@ -22,7 +22,7 @@ struct WebsiteController: RouteCollection {
     let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Elector>(path: "/login"))
     protectedRoutes.get("elections", use: electionsHandler)
     protectedRoutes.get("ballot", Election.parameter, use: ballotHandler)
-    protectedRoutes.get("confirm", Election.parameter, Party.parameter, Candidate.parameter, use: confirmHandler)
+    protectedRoutes.get("confirm", Election.parameter, Candidate.parameter, use: confirmHandler)
     
 /* Bin ->
     //protectedRoutes.get("elections", Election.parameter, use: electionHandler)
@@ -79,12 +79,14 @@ struct WebsiteController: RouteCollection {
     
     return try req.parameters.next(Election.self).flatMap(to: View.self) {
       election in
-      return try req.parameters.next(Party.self).flatMap(to: View.self) {
-        party in
-        return try req.parameters.next(Candidate.self).flatMap(to: View.self) {
-          candidate in
-          return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: election, party: party, candidate: candidate))
-        }
+      return try req.parameters.next(Candidate.self).flatMap(to: View.self) {
+        candidate in
+        
+        let user = try req.requireAuthenticated(Elector.self)
+        let _ = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Election"))
+        let _ = Runner.query(on: req).filter(\.candidateID == candidate.id!).filter(\.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Candidate"))
+        let party = Party.query(on: req).join(\Candidate.partyID, to: \Party.id).filter(\Candidate.partyID == candidate.id!).first().unwrap(or: Abort(.unauthorized, reason: "Party not found"))
+        return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: election, party: party, candidate: candidate))
       }
     }
   }
@@ -232,7 +234,7 @@ struct BallotContext: Encodable {
 struct ConfirmContext:Encodable {
   let meta: Meta
   let election: Election
-  let party: Party
+  let party: Future<Party>
   let candidate: Candidate
 }
 /* BIN ->
