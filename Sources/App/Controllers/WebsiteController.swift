@@ -85,7 +85,7 @@ struct WebsiteController: RouteCollection {
         let user = try req.requireAuthenticated(Elector.self)
         let _ = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Election"))
         let _ = Runner.query(on: req).filter(\.candidateID == candidate.id!).filter(\.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Candidate"))
-        let party = Party.query(on: req).join(\Candidate.partyID, to: \Party.id).filter(\Candidate.partyID == candidate.id!).first().unwrap(or: Abort(.unauthorized, reason: "Party not found"))
+        let party = Party.query(on: req).join(\Candidate.partyID, to: \Party.id).filter(\Candidate.id == candidate.id!).first().unwrap(or: Abort(.unauthorized, reason: "Party not found"))
         return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: election, party: party, candidate: candidate))
       }
     }
