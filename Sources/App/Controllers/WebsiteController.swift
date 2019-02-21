@@ -83,10 +83,10 @@ struct WebsiteController: RouteCollection {
         candidate in
         
         let user = try req.requireAuthenticated(Elector.self)
-        let _ = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Election"))
-        let _ = Runner.query(on: req).filter(\.candidateID == candidate.id!).filter(\.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Candidate"))
+        let eligibleElection = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Election"))
+        let eligibleCandidate = Candidate.query(on: req).join(\Runner.candidateID, to: \Candidate.id).filter(\Runner.candidateID == candidate.id!).filter(\Runner.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Candidate"))
         let party = Party.query(on: req).join(\Candidate.partyID, to: \Party.id).filter(\Candidate.id == candidate.id!).first().unwrap(or: Abort(.unauthorized, reason: "Party not found"))
-        return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: election, party: party, candidate: candidate))
+        return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: eligibleElection, party: party, candidate: eligibleCandidate))
       }
     }
   }
@@ -233,9 +233,9 @@ struct BallotContext: Encodable {
 
 struct ConfirmContext:Encodable {
   let meta: Meta
-  let election: Election
+  let election: Future<Election>
   let party: Future<Party>
-  let candidate: Candidate
+  let candidate: Future<Candidate>
 }
 /* BIN ->
 //Election
