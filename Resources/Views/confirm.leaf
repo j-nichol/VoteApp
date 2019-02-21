@@ -1,14 +1,19 @@
+#set("content") {
+<h1 class='pageTitle'>Confirm Ballot</h1>
 
-#set("content"){
-
-<h1 class='pageTitle'>Hi Lynsay</h1>
-
-<p>I ran out of time after spending 4 days trying to join database tables.</p>
-
-<p>The good news is, the foundation is squarely in place (and (I think) I know how to do all the things I need to do).</p>
-
-<p>Writing the last few pages will be trivial (should be done today).</p>
-
-}
-
-#embed("base")
+<h2>You have chosen to vote for</h3>
+  <h3>#(candidate.name)</h3>
+  <p>#(party.name)</p>
+  <h2>in the election for</h2>
+  <h3>#(election.name)</h3>
+  
+  <p>Before you cast your ballot, there are a number of things you can do to ensure that your vote is counted correctly.</p>
+  <p>If you'd like more information before you proceed, you can select 'Help' in the menu bar at the bottom of this page.</p>
+  <p>//Put verification things here.</p>
+  
+  <p>If you're confident that your ballot is correct, and you'd like to cast it - Select 'Cast Ballot' below. This action is final.</p>
+  <a>Cast Ballot</a>
+  }
+  
+  
+  #embed("base")

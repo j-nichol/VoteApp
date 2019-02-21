@@ -22,7 +22,7 @@ struct WebsiteController: RouteCollection {
     let protectedRoutes = authSessionRoutes.grouped(RedirectMiddleware<Elector>(path: "/login"))
     protectedRoutes.get("elections", use: electionsHandler)
     protectedRoutes.get("ballot", Election.parameter, use: ballotHandler)
-    protectedRoutes.get("confirm", use: confirmHandler)
+    protectedRoutes.get("confirm", Election.parameter, Party.parameter, Candidate.parameter, use: confirmHandler)
     
 /* Bin ->
     //protectedRoutes.get("elections", Election.parameter, use: electionHandler)
@@ -76,7 +76,17 @@ struct WebsiteController: RouteCollection {
   }
   
   func confirmHandler(_ req: Request) throws -> Future<View> {
-    return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true)))
+    
+    return try req.parameters.next(Election.self).flatMap(to: View.self) {
+      election in
+      return try req.parameters.next(Party.self).flatMap(to: View.self) {
+        party in
+        return try req.parameters.next(Candidate.self).flatMap(to: View.self) {
+          candidate in
+          return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: election, party: party, candidate: candidate))
+        }
+      }
+    }
   }
   
 /* BIN ->
@@ -221,6 +231,9 @@ struct BallotContext: Encodable {
 
 struct ConfirmContext:Encodable {
   let meta: Meta
+  let election: Election
+  let party: Party
+  let candidate: Candidate
 }
 /* BIN ->
 //Election
