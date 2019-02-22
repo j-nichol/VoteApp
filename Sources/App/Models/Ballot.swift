@@ -4,10 +4,10 @@ import FluentPostgreSQL
 final class Ballot: Codable {
     var id: Int?
     var electorID: Elector.ID
-    var encryptedBallot: String
-    var ballotChecker: String
+    var encryptedBallot: Data
+    var ballotChecker: Data
     
-    init(electorID: Elector.ID, encryptedBallot: String, ballotChecker: String) {
+    init(electorID: Elector.ID, encryptedBallot: Data, ballotChecker: Data) {
         self.electorID = electorID
         self.encryptedBallot = encryptedBallot
         self.ballotChecker = ballotChecker

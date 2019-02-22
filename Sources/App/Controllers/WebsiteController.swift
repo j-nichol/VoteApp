@@ -2,6 +2,7 @@ import Vapor
 import Fluent
 import Leaf
 import Authentication
+import Crypto
 
 struct WebsiteController: RouteCollection {
   
@@ -130,6 +131,16 @@ struct WebsiteController: RouteCollection {
   //Log Out
   func logoutHandler(_ req: Request) throws -> Response {
     try req.unauthenticateSession(Elector.self)
+    return req.redirect(to: "/")
+  }
+  
+  //Cast Ballot
+  func castBallotHandler(_ req: Request) throws -> Response {
+    let ciphertext = try AES256GCM.encrypt("This will be encrypted", key: "Using this super secret key.", iv: "This will be the thing what the user uses to check the thing.")
+    let _ = try AES256GCM.decrypt(ciphertext.ciphertext, key: "Using this super secret key", iv: "This will be the thing what the user uses to check the thing.", tag: ciphertext.tag).convert(to: String.self)
+      //AES128.encrypt("vapor", key: "secret")
+    //let aes = try AES(key: "passwordpassword", iv: "drowssapdrowssap") // aes128
+    //let ciphertext = try aes.encrypt(Array("Nullam quis risus eget urna mollis ornare vel eu leo.".utf8))
     return req.redirect(to: "/")
   }
   

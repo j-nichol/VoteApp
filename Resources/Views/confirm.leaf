@@ -4,7 +4,7 @@
   <div class='ballotTable'>
     <h3 class='ballotTitle'>Your Ballot</h3>
     <p class='ballotSubTitleLeft'>Election</p>
-    <p class='ballutSubTitleRight'>Candidate</p>
+    <p class='ballotSubTitleRight'>Candidate</p>
     <p class='ballotElection'>#(election.name)</p>
     <div class='ballotCandidateHolder'>
       <h3 class='ballotCandidate'>#(candidate.name)</h3>
@@ -13,14 +13,15 @@
   </div>
   
   <p>Before you cast your ballot, there are a number of things you can do to ensure that your vote is counted correctly.</p>
-  <p>If you'd like more information before you proceed, you can select 'Help' in the menu bar at the bottom of this page.</p>
   <p>//Put verification things here.</p>
   
   <p>Once you're ready, select 'Cast Ballot' below.</p>
-  <p class='warning'>Warning: This action is final. You will no longer be able to modify your vote after casting your ballot.</p>
+
+  <!-- Remake into form, post to castBallot or something. -->
   <a href='' class='selectionList'>
     <h3>Cast Ballot</h3>
   </a>
+  <p class='warning'>Warning: Casting your ballot is final. You will no longer be able to modify your vote after casting your ballot.</p>
 }
   
   
