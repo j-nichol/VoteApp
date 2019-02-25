@@ -23,7 +23,7 @@ struct BallotsController: RouteCollection {
     //delete
     tokenAuthGroup.delete(Ballot.parameter, use: deleteHandler)
     //get elector
-    tokenAuthGroup.get(Ballot.parameter, "elector", use: getElectorHandler)
+    //tokenAuthGroup.get(Ballot.parameter, "elector", use: getElectorHandler)
 
   }
   
@@ -50,7 +50,7 @@ struct BallotsController: RouteCollection {
   func updateHandler(_ req: Request) throws -> Future<Ballot> {
     return try flatMap(to: Ballot.self, req.parameters.next(Ballot.self), req.content.decode(Ballot.self)){
       ballot, updatedBallot in
-      ballot.electorID = updatedBallot.electorID
+      //ballot.electorID = updatedBallot.electorID
       ballot.encryptedBallot = updatedBallot.encryptedBallot
       ballot.ballotChecker = updatedBallot.ballotChecker
       return ballot.update(on: req) //may need to revert to save(on:)
@@ -63,11 +63,11 @@ struct BallotsController: RouteCollection {
   }
   
   ///get Elector
-  func getElectorHandler(_ req: Request) throws -> Future<Elector> {
-    return try req.parameters.next(Ballot.self).flatMap(to: Elector.self) {
-      ballot in ballot.elector.get(on: req)
-    }
-  }
+//  func getElectorHandler(_ req: Request) throws -> Future<Elector> {
+//    return try req.parameters.next(Ballot.self).flatMap(to: Elector.self) {
+//      ballot in ballot.elector.get(on: req)
+//    }
+//  }
     
 
 }

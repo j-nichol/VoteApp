@@ -24,6 +24,7 @@ struct WebsiteController: RouteCollection {
     protectedRoutes.get("elections", use: electionsHandler)
     protectedRoutes.get("ballot", Election.parameter, use: ballotHandler)
     protectedRoutes.get("confirm", Election.parameter, Candidate.parameter, use: confirmHandler)
+    protectedRoutes.post(CreateBallotData.self, at:  "cast", "ballot", use: castBallotHandler)
     
 /* Bin ->
     //protectedRoutes.get("elections", Election.parameter, use: electionHandler)
@@ -135,14 +136,24 @@ struct WebsiteController: RouteCollection {
   }
   
   //Cast Ballot
-  func castBallotHandler(_ req: Request) throws -> Response {
+    func castBallotHandler(_ req: Request, data: CreateBallotData) throws -> Response {
     let ciphertext = try AES256GCM.encrypt("This will be encrypted", key: "Using this super secret key.", iv: "This will be the thing what the user uses to check the thing.")
     let _ = try AES256GCM.decrypt(ciphertext.ciphertext, key: "Using this super secret key", iv: "This will be the thing what the user uses to check the thing.", tag: ciphertext.tag).convert(to: String.self)
     guard let _ = try? BCrypt.hash("election id + elector id + candidate id") else { fatalError("Failed to create Elector.") }
       //AES128.encrypt("vapor", key: "secret")
     //let aes = try AES(key: "passwordpassword", iv: "drowssapdrowssap") // aes128
     //let ciphertext = try aes.encrypt(Array("Nullam quis risus eget urna mollis ornare vel eu leo.".utf8))
-    return req.redirect(to: "/")
+    
+//    let election = Election(name: data.name, electionCategoryID: data.electionCategoryID)
+//    return election.save(on: req).map(to: Response.self) {
+//        election in
+//        guard let id = election.id else {
+//            throw Abort(.internalServerError)
+//        }
+//        return req.redirect(to: "/elections/\(id)")
+//    }
+    
+    return req.redirect(to: "/") //Will probably need to change expected return type to future after rest of work is completed.
   }
   
   //Preload
@@ -301,6 +312,13 @@ struct PreloadDataHolder: Content {
     struct EligibilitiesPreload: Content { var electorUsername, electionName: String }
     struct RunnersPreload: Content { var electionName, candidateName: String }
   }
+}
+
+//BallotCreationData
+struct CreateBallotData: Content {
+    let electionID: Int
+    let candidateID: Int
+    //Should probably add csrfToken.
 }
 
 
