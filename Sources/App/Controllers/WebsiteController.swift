@@ -57,7 +57,7 @@ struct WebsiteController: RouteCollection {
     let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.hasVoted == false).all()
     let electionCategories = ElectionCategory.query(on: req).join(\Election.electionCategoryID, to: \ElectionCategory.id).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).all()
     
-    return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: user.name, elections: elections, electionCategories: electionCategories))
+    return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: user.name, voteSuccesful: (req.query[Bool.self, at: "voteSuccesful"] != nil), elections: elections, electionCategories: electionCategories))
   }
   
   func ballotHandler(_ req: Request) throws -> Future<View> {
@@ -169,7 +169,7 @@ struct WebsiteController: RouteCollection {
           
           return eligibility.update(on: req).map(to: Response.self) {
             newEligibility in
-            return req.redirect(to: "/") ///Should actually redirect this somewhere meaningful
+            return req.redirect(to: "/elections?voteSuccesful")
           }
         }
       }
@@ -285,6 +285,7 @@ struct LoginContext: Encodable {
 struct ElectionsContext: Encodable {
   let meta: Meta
   let name: String
+  let voteSuccesful: Bool
   let elections: Future<[Election]>
   let electionCategories: Future<[ElectionCategory]>
 }

@@ -1,12 +1,21 @@
 #set("content") {
   <h1 class='pageTitle'>Elections</h1>
   <h2>Welcome #(name)</h2>
-  <p>You are eligible to vote in the following elecion#if(count(elections)>1){s}.</p>
-  #if(count(elections)>1) {
-    <p>Please confirm which election you would like to participate in by selecting it below.</p>
-  } else {
-    <p>Please confirm that you would like to participate in the election by selecting it below.</p>
+
+  #if(voteSuccesful) {
+  <p class='antiwarning'>Your vote has been cast succesfully.</p>
   }
+
+  #if(count(elections) == 0){
+  <p>There are no #if(voteSuccesful) { more } elections for you to vote in at the moment.</p>
+  <p>If you believe you are eligible to vote in an election which you have not already voted in, please contact 555-1234</p>
+  } ##else {
+    <p>You are eligible to vote in the following elecion#if(count(elections)>1){s}.</p>
+    #if(count(elections)>1) {
+      <p>Please confirm which election you would like to participate in by selecting it below.</p>
+    } else {
+      <p>Please confirm that you would like to participate in the election by selecting it below.</p>
+    }
     #if(elections){
       #for(election in elections) {
         <a href='/ballot/#(election.id)' class='selectionList'><h3>#(election.name)</h3>
@@ -20,6 +29,7 @@
         </a>
       }
     }
+  }
 }
 
 #embed("base")
