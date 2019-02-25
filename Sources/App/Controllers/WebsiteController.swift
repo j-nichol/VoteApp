@@ -136,15 +136,49 @@ struct WebsiteController: RouteCollection {
   }
   
   //Cast Ballot
-    func castBallotHandler(_ req: Request, data: CreateBallotData) throws -> Response {
+    func castBallotHandler(_ req: Request, data: CreateBallotData) throws -> Future<Response> {
         
       let electionID = data.electionID
       let candidateID = data.candidateID
       let electorID = try req.requireAuthenticated(Elector.self).id
       
-      let ciphertext = try AES256GCM.encrypt("This will be encrypted", key: "Using this super secret key.", iv: "This will be the thing what the user uses to check the thing.")
-      let _ = try AES256GCM.decrypt(ciphertext.ciphertext, key: "Using this super secret key", iv: "This will be the thing what the user uses to check the thing.", tag: ciphertext.tag).convert(to: String.self)
-      guard let _ = try? BCrypt.hash("election id + elector id + candidate id") else { fatalError("Failed to create Elector.") }
+      //check eligibility
+      let electorEligibility = Eligibility.query(on: req).filter(\.electionID == electionID).filter(\.electorID == electorID!).filter(\.hasVoted == false).first().unwrap(or: Abort(.unauthorized, reason:  "User ineligible to vote in this election"))
+      let _ = Runner.query(on: req).filter(\.electionID == electionID).filter(\.candidateID == candidateID).first().unwrap(or: Abort(.unauthorized, reason: "Invalid ballot"))
+  
+      let plaintext = "In the election with ID: \(electionID), candidate with id: \(candidateID) recieved a vote."
+      let key = "This is an incredibly secret password, which should probably be more secure than it is - written in plaintext in the source code."
+      let iv = String((0...128).map{ _ in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".randomElement()! })
+      let cipherText = try AES256GCM.encrypt(plaintext, key: key, iv: iv)
+      let electorIDString: String = electorID!.uuidString
+      let ballotCheckerText = "In the election with ID: \(electionID), elector with UUID: \(electorIDString) voted for \(candidateID)"
+      guard let ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot.") }
+      
+      let ballot = Ballot(ballotChecker: ballotCheckerHash, encryptedBallotData: cipherText.ciphertext, encryptedBallotTag: cipherText.tag, ballotInitialisationVector: iv)
+      
+      return ballot.save(on: req).flatMap(to: Response.self) {
+        ballot in
+    
+        /// Flat-map the future string to a future response
+        return electorEligibility.flatMap(to: Response.self) {
+          eligibility in
+          eligibility.hasVoted = true
+          
+          return eligibility.update(on: req).map(to: Response.self) {
+            newEligibility in
+            return req.redirect(to: "/") ///Should actually redirect this somewhere meaningful
+          }
+        }
+      }
+      
+      
+      
+      ///remove eligibility
+      
+      
+      //let ciphertext = try AES256GCM.encrypt("This will be encrypted", key: "Using this super secret key.", iv: "This will be the thing what the user uses to check the thing.")
+      //To Decrypt // let _ = try AES256GCM.decrypt(ciphertext.ciphertext, key: "Using this super secret key", iv: "This will be the thing what the user uses to check the thing.", tag: ciphertext.tag).convert(to: String.self)
+      //guard let _ = try? BCrypt.hash("election id + elector id + candidate id") else { fatalError("Failed to create Elector.") }
         //AES128.encrypt("vapor", key: "secret")
       //let aes = try AES(key: "passwordpassword", iv: "drowssapdrowssap") // aes128
       //let ciphertext = try aes.encrypt(Array("Nullam quis risus eget urna mollis ornare vel eu leo.".utf8))
@@ -158,7 +192,7 @@ struct WebsiteController: RouteCollection {
   //        return req.redirect(to: "/elections/\(id)")
   //    }
     
-    return req.redirect(to: "/") //Will probably need to change expected return type to future after rest of work is completed.
+    //return req.redirect(to: "/") //Will probably need to change expected return type to future after rest of work is completed.
   }
   
   //Preload
@@ -325,9 +359,6 @@ struct CreateBallotData: Content {
     let candidateID: Int
     //Should probably add csrfToken.
 }
-
-
-
 
 
 

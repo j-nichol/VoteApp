@@ -2,15 +2,16 @@ import Vapor
 import FluentPostgreSQL
 
 final class Eligibility: Codable {
-    var id: Int?
-    var electorID: Elector.ID
-    var electionID: Election.ID
-    var hasVoted: Bool = false
+  var id: Int?
+  var electorID: Elector.ID
+  var electionID: Election.ID
+  var hasVoted: Bool
     
-    init(electorID: Elector.ID, electionID: Election.ID) {
-        self.electorID = electorID
-        self.electionID = electionID
-    }
+  init(electorID: Elector.ID, electionID: Election.ID, hasVoted: Bool = false) {
+    self.electorID = electorID
+    self.electionID = electionID
+    self.hasVoted = hasVoted
+  }
   
   
 }

@@ -2,16 +2,18 @@ import Vapor
 import FluentPostgreSQL
 
 final class Ballot: Codable {
-    var id: Int?
-    var ballotChecker: String //hash
-    var encryptedBallot: Data
-    var ballotInitialisationVector: Data
-    
-    init(ballotChecker: String, encryptedBallot: Data, ballotInitialisationVector: Data) {
-        self.ballotChecker = ballotChecker
-        self.encryptedBallot = encryptedBallot
-        self.ballotInitialisationVector = ballotInitialisationVector
-    }
+  var id: Int?
+  var ballotChecker: String //hash
+  var encryptedBallotData: Data
+  var encryptedBallotTag: Data
+  var ballotInitialisationVector: String
+
+  init(ballotChecker: String, encryptedBallotData: Data, encryptedBallotTag: Data, ballotInitialisationVector: String) {
+    self.ballotChecker = ballotChecker
+    self.encryptedBallotData = encryptedBallotData
+    self.encryptedBallotTag = encryptedBallotTag
+    self.ballotInitialisationVector = ballotInitialisationVector
+  }
 }
 
 extension Ballot: PostgreSQLModel {}
