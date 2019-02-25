@@ -13,6 +13,7 @@
   </div>
   
   <p>Before you cast your ballot, there are a number of things you can do to ensure that your vote is counted correctly.</p>
+  <p>Ballot Checker: #(ballotChecker)></p>
   <p>//Put verification things here.</p>
   
   <p>Once you're ready, select 'Cast Ballot' below.</p>

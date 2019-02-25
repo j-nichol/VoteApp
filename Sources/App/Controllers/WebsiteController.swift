@@ -88,7 +88,11 @@ struct WebsiteController: RouteCollection {
         let eligibleElection = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).filter(\Eligibility.hasVoted == false).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Election"))
         let eligibleCandidate = Candidate.query(on: req).join(\Runner.candidateID, to: \Candidate.id).filter(\Runner.candidateID == candidate.id!).filter(\Runner.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Candidate"))
         let party = Party.query(on: req).join(\Candidate.partyID, to: \Party.id).filter(\Candidate.id == candidate.id!).first().unwrap(or: Abort(.unauthorized, reason: "Party not found"))
-        return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: eligibleElection, party: party, candidate: eligibleCandidate))
+        
+        let ballotCheckerText = "In the election with ID: \(election.id ?? -1), elector with username: \(user.username) voted for \(candidate.id ?? -1)."
+        guard let ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot check.") }
+        
+        return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: eligibleElection, party: party, candidate: eligibleCandidate, ballotChecker: ballotCheckerHash))
       }
     }
   }
@@ -140,18 +144,17 @@ struct WebsiteController: RouteCollection {
         
       let electionID = data.electionID
       let candidateID = data.candidateID
-      let electorID = try req.requireAuthenticated(Elector.self).id
+      let elector = try req.requireAuthenticated(Elector.self)
       
       //check eligibility
-      let electorEligibility = Eligibility.query(on: req).filter(\.electionID == electionID).filter(\.electorID == electorID!).filter(\.hasVoted == false).first().unwrap(or: Abort(.unauthorized, reason:  "User ineligible to vote in this election"))
+      let electorEligibility = Eligibility.query(on: req).filter(\.electionID == electionID).filter(\.electorID == elector.id!).filter(\.hasVoted == false).first().unwrap(or: Abort(.unauthorized, reason:  "User ineligible to vote in this election"))
       let _ = Runner.query(on: req).filter(\.electionID == electionID).filter(\.candidateID == candidateID).first().unwrap(or: Abort(.unauthorized, reason: "Invalid ballot"))
   
       let plaintext = "In the election with ID: \(electionID), candidate with id: \(candidateID) recieved a vote."
       let key = "An Incredibly secret password!!1"
       let iv = String((0...11).map{ _ in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".randomElement()! })
       let cipherText = try AES256GCM.encrypt(plaintext, key: key, iv: iv)
-      let electorIDString: String = electorID!.uuidString
-      let ballotCheckerText = "In the election with ID: \(electionID), elector with UUID: \(electorIDString) voted for \(candidateID)"
+      let ballotCheckerText = "In the election with ID: \(electionID), elector with username: \(elector.username) voted for \(candidateID)"
       guard let ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot.") }
       
       let ballot = Ballot(ballotChecker: ballotCheckerHash, encryptedBallotData: cipherText.ciphertext, encryptedBallotTag: cipherText.tag, ballotInitialisationVector: iv)
@@ -298,6 +301,7 @@ struct ConfirmContext:Encodable {
   let election: Future<Election>
   let party: Future<Party>
   let candidate: Future<Candidate>
+  let ballotChecker: String
 }
 /* BIN ->
 //Election

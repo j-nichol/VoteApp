@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/vapor/auth.git",
         "state": {
           "branch": null,
-          "revision": "90868627c7587ea207c0b6d4054265e68f6a33ef",
-          "version": "2.0.1"
+          "revision": "ed402783942af1d40b5c9e537e956aea51618f0e",
+          "version": "2.0.3"
         }
       },
       {
@@ -38,15 +38,6 @@
         }
       },
       {
-        "package": "CryptoSwift",
-        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
-        "state": {
-          "branch": null,
-          "revision": "8b3435bd3236819318cde87c8d9315fb89906df3",
-          "version": "0.14.0"
-        }
-      },
-      {
         "package": "DatabaseKit",
         "repositoryURL": "https://github.com/vapor/database-kit.git",
         "state": {
@@ -71,6 +62,15 @@
           "branch": null,
           "revision": "8e3eb9d24d54ac58c8d04c194ad6b24f0b1b667e",
           "version": "1.0.0"
+        }
+      },
+      {
+        "package": "FluentSQLite",
+        "repositoryURL": "https://github.com/vapor/fluent-sqlite.git",
+        "state": {
+          "branch": null,
+          "revision": "c32f5bda84bf4ea691d19afe183d40044f579e11",
+          "version": "3.0.0"
         }
       },
       {
@@ -134,6 +134,15 @@
           "branch": null,
           "revision": "f77bcae7c95150cdab62095e7bf321ed8c7551bd",
           "version": "2.3.0"
+        }
+      },
+      {
+        "package": "SQLite",
+        "repositoryURL": "https://github.com/vapor/sqlite.git",
+        "state": {
+          "branch": null,
+          "revision": "4f5e173abafb0bb185608d28fccec3df166c689a",
+          "version": "3.2.0"
         }
       },
       {
@@ -204,8 +213,8 @@
         "repositoryURL": "https://github.com/vapor/vapor.git",
         "state": {
           "branch": null,
-          "revision": "54cbf396147aba77ecb32e7fc75a3d13251551b1",
-          "version": "3.1.1"
+          "revision": "6c7284681c3432fee29c268babf954be6816cbfb",
+          "version": "3.2.2"
         }
       },
       {
