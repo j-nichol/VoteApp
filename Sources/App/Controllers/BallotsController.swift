@@ -50,9 +50,17 @@ struct BallotsController: RouteCollection {
   func updateHandler(_ req: Request) throws -> Future<Ballot> {
     return try flatMap(to: Ballot.self, req.parameters.next(Ballot.self), req.content.decode(Ballot.self)){
       ballot, updatedBallot in
-      //ballot.electorID = updatedBallot.electorID
-      ballot.encryptedBallot = updatedBallot.encryptedBallot
+      
+//      var id: Int?
+//      var ballotChecker: String //hash
+//      var encryptedBallotData: Data
+//      var encryptedBallotTag: Data
+//      var ballotInitialisationVector: String
+      
       ballot.ballotChecker = updatedBallot.ballotChecker
+      ballot.encryptedBallotData = updatedBallot.encryptedBallotData
+      ballot.encryptedBallotTag = updatedBallot.encryptedBallotTag
+      ballot.ballotInitialisationVector = updatedBallot.ballotInitialisationVector
       return ballot.update(on: req) //may need to revert to save(on:)
     }
   }
