@@ -147,7 +147,7 @@ struct WebsiteController: RouteCollection {
       let _ = Runner.query(on: req).filter(\.electionID == electionID).filter(\.candidateID == candidateID).first().unwrap(or: Abort(.unauthorized, reason: "Invalid ballot"))
   
       let plaintext = "In the election with ID: \(electionID), candidate with id: \(candidateID) recieved a vote."
-      let key = "This is an incredibly secret password, which should probably be more secure than it is - written in plaintext in the source code."
+      let key = "An Incredibly secret password!!1"
       let iv = String((0...128).map{ _ in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".randomElement()! })
       let cipherText = try AES256GCM.encrypt(plaintext, key: key, iv: iv)
       let electorIDString: String = electorID!.uuidString
