@@ -5,6 +5,7 @@ final class Eligibility: Codable {
     var id: Int?
     var electorID: Elector.ID
     var electionID: Election.ID
+    var hasVoted: Bool = false
     
     init(electorID: Elector.ID, electionID: Election.ID) {
         self.electorID = electorID

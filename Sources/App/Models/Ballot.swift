@@ -17,6 +17,7 @@ final class Ballot: Codable {
 extension Ballot: PostgreSQLModel {}
 extension Ballot: Content {}
 extension Ballot: Parameter {}
+extension Ballot: Migration {}
 
 //extension Ballot { var elector: Parent<Ballot, Elector> { return parent(\.electorID)}}
 //extension Ballot: Migration {

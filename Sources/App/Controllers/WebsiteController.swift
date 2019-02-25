@@ -54,7 +54,7 @@ struct WebsiteController: RouteCollection {
   
   func electionsHandler(_ req: Request) throws -> Future<View> {
     let user = try req.requireAuthenticated(Elector.self)
-    let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).all()
+    let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.hasVoted == false).all()
     let electionCategories = ElectionCategory.query(on: req).join(\Election.electionCategoryID, to: \ElectionCategory.id).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).all()
     
     return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: user.name, elections: elections, electionCategories: electionCategories))
@@ -66,7 +66,7 @@ struct WebsiteController: RouteCollection {
       
       let user = try req.requireAuthenticated(Elector.self)
       //check eligible. If so return election //must check exists in leaf or display error.
-      let eligibleElection = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Election"))
+      let eligibleElection = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).filter(\Eligibility.hasVoted == false).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Election"))
       //return [candidate]
       let candidates = Candidate.query(on: req).join(\Runner.candidateID, to: \Candidate.id).join(\Election.id, to: \Runner.electionID).filter(\Election.id == election.id).all()
       //return [party] (of candidates)
@@ -85,7 +85,7 @@ struct WebsiteController: RouteCollection {
         candidate in
         
         let user = try req.requireAuthenticated(Elector.self)
-        let eligibleElection = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Election"))
+        let eligibleElection = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.electionID == election.id!).filter(\Eligibility.hasVoted == false).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Election"))
         let eligibleCandidate = Candidate.query(on: req).join(\Runner.candidateID, to: \Candidate.id).filter(\Runner.candidateID == candidate.id!).filter(\Runner.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Candidate"))
         let party = Party.query(on: req).join(\Candidate.partyID, to: \Party.id).filter(\Candidate.id == candidate.id!).first().unwrap(or: Abort(.unauthorized, reason: "Party not found"))
         return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: eligibleElection, party: party, candidate: eligibleCandidate))
@@ -137,21 +137,26 @@ struct WebsiteController: RouteCollection {
   
   //Cast Ballot
     func castBallotHandler(_ req: Request, data: CreateBallotData) throws -> Response {
-    let ciphertext = try AES256GCM.encrypt("This will be encrypted", key: "Using this super secret key.", iv: "This will be the thing what the user uses to check the thing.")
-    let _ = try AES256GCM.decrypt(ciphertext.ciphertext, key: "Using this super secret key", iv: "This will be the thing what the user uses to check the thing.", tag: ciphertext.tag).convert(to: String.self)
-    guard let _ = try? BCrypt.hash("election id + elector id + candidate id") else { fatalError("Failed to create Elector.") }
-      //AES128.encrypt("vapor", key: "secret")
-    //let aes = try AES(key: "passwordpassword", iv: "drowssapdrowssap") // aes128
-    //let ciphertext = try aes.encrypt(Array("Nullam quis risus eget urna mollis ornare vel eu leo.".utf8))
-    
-//    let election = Election(name: data.name, electionCategoryID: data.electionCategoryID)
-//    return election.save(on: req).map(to: Response.self) {
-//        election in
-//        guard let id = election.id else {
-//            throw Abort(.internalServerError)
-//        }
-//        return req.redirect(to: "/elections/\(id)")
-//    }
+        
+      let electionID = data.electionID
+      let candidateID = data.candidateID
+      let electorID = try req.requireAuthenticated(Elector.self).id
+      
+      let ciphertext = try AES256GCM.encrypt("This will be encrypted", key: "Using this super secret key.", iv: "This will be the thing what the user uses to check the thing.")
+      let _ = try AES256GCM.decrypt(ciphertext.ciphertext, key: "Using this super secret key", iv: "This will be the thing what the user uses to check the thing.", tag: ciphertext.tag).convert(to: String.self)
+      guard let _ = try? BCrypt.hash("election id + elector id + candidate id") else { fatalError("Failed to create Elector.") }
+        //AES128.encrypt("vapor", key: "secret")
+      //let aes = try AES(key: "passwordpassword", iv: "drowssapdrowssap") // aes128
+      //let ciphertext = try aes.encrypt(Array("Nullam quis risus eget urna mollis ornare vel eu leo.".utf8))
+      
+  //    let election = Election(name: data.name, electionCategoryID: data.electionCategoryID)
+  //    return election.save(on: req).map(to: Response.self) {
+  //        election in
+  //        guard let id = election.id else {
+  //            throw Abort(.internalServerError)
+  //        }
+  //        return req.redirect(to: "/elections/\(id)")
+  //    }
     
     return req.redirect(to: "/") //Will probably need to change expected return type to future after rest of work is completed.
   }
