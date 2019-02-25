@@ -17,8 +17,12 @@
   
   <p>Once you're ready, select 'Cast Ballot' below.</p>
 
-  <!-- Remake into form, post to castBallot or something. -->
-  <a href='' class='selectionList'>
+  <form id='submitBallotForm' method='post' action='/cast/ballot'>
+    <input type='hidden' name='electionID' value='#(election.id)'></input>
+    <input type='hidden' name='candidateID' value='#(candidate.id)'></input>
+  </form>
+
+  <a onclick="document.getElementById('submitBallotForm').submit();" class='selectionList'>
     <h3>Cast Ballot</h3>
   </a>
   <p class='warning'>Warning: Casting your ballot is final. You will no longer be able to modify your vote after casting your ballot.</p>
