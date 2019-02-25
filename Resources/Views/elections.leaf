@@ -3,7 +3,7 @@
   <h2>Welcome #(name)</h2>
 
   #if(voteSuccesful) {
-  <p class='antiwarning'>Your vote has been cast succesfully.</p>
+  <p class='antiWarning'>Your vote has been cast succesfully.</p>
   }
 
   #if(count(elections) == 0){
