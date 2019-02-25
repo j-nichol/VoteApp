@@ -148,7 +148,7 @@ struct WebsiteController: RouteCollection {
   
       let plaintext = "In the election with ID: \(electionID), candidate with id: \(candidateID) recieved a vote."
       let key = "An Incredibly secret password!!1"
-      let iv = String((0...128).map{ _ in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".randomElement()! })
+      let iv = String((0...11).map{ _ in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".randomElement()! })
       let cipherText = try AES256GCM.encrypt(plaintext, key: key, iv: iv)
       let electorIDString: String = electorID!.uuidString
       let ballotCheckerText = "In the election with ID: \(electionID), elector with UUID: \(electorIDString) voted for \(candidateID)"
