@@ -8,8 +8,8 @@
 
   #if(count(elections) == 0){
   <p>There are no #if(voteSuccesful) { more } elections for you to vote in at the moment.</p>
-  <p>If you believe you are eligible to vote in an election which you have not already voted in, please contact 555-1234</p>
-  } ##else {
+  <p>If you believe you are eligible to vote in an election which you have not already voted in, please contact <a href='tel:555-1234'>555-1234</a>.</p>
+  } else {
     <p>You are eligible to vote in the following elecion#if(count(elections)>1){s}.</p>
     #if(count(elections)>1) {
       <p>Please confirm which election you would like to participate in by selecting it below.</p>
