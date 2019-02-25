@@ -23,7 +23,7 @@ struct ElectorateController: RouteCollection {
     //delete
     tokenAuthGroup.delete(Elector.parameter, use: deleteHandler)
     //get ballots
-    tokenAuthGroup.get(Elector.parameter, "ballots", use: getBallotsHandler)
+    //tokenAuthGroup.get(Elector.parameter, "ballots", use: getBallotsHandler)
     //get eligibilties
     tokenAuthGroup.get(Elector.parameter, "eligibilities", use: getEligibilitiesHandler)
     
@@ -66,12 +66,12 @@ struct ElectorateController: RouteCollection {
     return try req.parameters.next(Elector.self).delete(on: req).transform(to: HTTPStatus.ok)
   }
   
-  ///get Ballots
-  func getBallotsHandler(_ req: Request) throws -> Future<[Ballot]> {
-    return try req.parameters.next(Elector.self).flatMap(to: [Ballot].self) {
-      elector in try elector.ballots.query(on: req).all()
-    }
-  }
+//  ///get Ballots
+//  func getBallotsHandler(_ req: Request) throws -> Future<[Ballot]> {
+//    return try req.parameters.next(Elector.self).flatMap(to: [Ballot].self) {
+//      elector in try elector.ballots.query(on: req).all()
+//    }
+//  }
   
   ///get eligibilties
   func getEligibilitiesHandler(_ req: Request) throws -> Future<[Eligibility]> {
