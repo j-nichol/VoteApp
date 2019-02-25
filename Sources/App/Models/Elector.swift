@@ -29,7 +29,7 @@ extension Elector: PostgreSQLUUIDModel {}
 extension Elector: Content {}
 extension Elector.Public: Content {}
 extension Elector: Parameter {}
-extension Elector { var ballots: Children<Elector, Ballot> {return children(\.electorID)}}
+//extension Elector { var ballots: Children<Elector, Ballot> {return children(\.electorID)}}
 extension Elector { var eligibilities: Children<Elector, Eligibility> {return children(\.electorID)}}
 
 extension Elector: Migration {

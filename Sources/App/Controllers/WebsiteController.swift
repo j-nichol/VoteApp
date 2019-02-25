@@ -138,6 +138,7 @@ struct WebsiteController: RouteCollection {
   func castBallotHandler(_ req: Request) throws -> Response {
     let ciphertext = try AES256GCM.encrypt("This will be encrypted", key: "Using this super secret key.", iv: "This will be the thing what the user uses to check the thing.")
     let _ = try AES256GCM.decrypt(ciphertext.ciphertext, key: "Using this super secret key", iv: "This will be the thing what the user uses to check the thing.", tag: ciphertext.tag).convert(to: String.self)
+    guard let _ = try? BCrypt.hash("election id + elector id + candidate id") else { fatalError("Failed to create Elector.") }
       //AES128.encrypt("vapor", key: "secret")
     //let aes = try AES(key: "passwordpassword", iv: "drowssapdrowssap") // aes128
     //let ciphertext = try aes.encrypt(Array("Nullam quis risus eget urna mollis ornare vel eu leo.".utf8))
