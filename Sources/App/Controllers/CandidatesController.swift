@@ -7,7 +7,7 @@ struct CandidatesController: RouteCollection {
   func boot(router: Router) throws {
     
     let candidatesRoutes = router.grouped("api", "candidates")
-    candidatesRoutes.get(use: getAllHandler)
+    candidatesRoutes.get("election", Election.parameter, use: getAllInElectionHandler)
     
     let guardAuthMiddleware = Admin.guardAuthMiddleware()
     let tokenAuthMiddleware = Admin.tokenAuthMiddleware()
@@ -16,7 +16,7 @@ struct CandidatesController: RouteCollection {
     //create
     tokenAuthGroup.post(Candidate.self, use: createHandler)
     //retrieve all
-    //tokenAuthGroup.get(use: getAllHandler)
+    tokenAuthGroup.get(use: getAllHandler)
     //retrieve specific
     tokenAuthGroup.get("search", use: searchHandler)
     //update
@@ -84,6 +84,14 @@ struct CandidatesController: RouteCollection {
   func getRunnersHandler(_ req: Request) throws -> Future<[Runner]> {
     return try req.parameters.next(Candidate.self).flatMap(to: [Runner].self) {
       candidate in try candidate.runners.query(on: req).all()
+    }
+  }
+  
+  ///get allInElection
+  func getAllInElectionHandler(_ req: Request) throws -> Future<[Candidate]> {
+    return try req.parameters.next(Election.self).flatMap(to: [Candidate].self){
+      election in
+      return Candidate.query(on: req).join(\Runner.candidateID, to: \Candidate.id).join(\Election.id, to: \Runner.electionID).filter(\Election.id == election.id).all()
     }
   }
 }
