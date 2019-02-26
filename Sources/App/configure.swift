@@ -20,6 +20,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
   middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
   middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
   middlewares.use(SessionsMiddleware.self) // Allows the use of sessions
+  middlewares.use(CORSMiddleware.self) //Cross-origin-resource-sharing
   services.register(middlewares)
 
   /// Configure database
