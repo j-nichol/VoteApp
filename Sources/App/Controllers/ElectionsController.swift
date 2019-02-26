@@ -8,6 +8,8 @@ struct ElectionsController: RouteCollection {
   
     let electionsRoutes = router.grouped("api", "elections")
     
+    electionsRoutes.get(use: getAllHandler)
+    
     let guardAuthMiddleware = Admin.guardAuthMiddleware()
     let tokenAuthMiddleware = Admin.tokenAuthMiddleware()
     let tokenAuthGroup = electionsRoutes.grouped(tokenAuthMiddleware, guardAuthMiddleware)
@@ -15,7 +17,7 @@ struct ElectionsController: RouteCollection {
     //create
     tokenAuthGroup.post(Election.self, use: createHandler)
     //retrieve all
-    tokenAuthGroup.get(use: getAllHandler)
+    //tokenAuthGroup.get(use: getAllHandler)
     //retrieve specific
     tokenAuthGroup.get("search", use:searchHandler)
     //update
