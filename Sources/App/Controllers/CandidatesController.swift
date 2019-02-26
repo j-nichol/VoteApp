@@ -7,6 +7,7 @@ struct CandidatesController: RouteCollection {
   func boot(router: Router) throws {
     
     let candidatesRoutes = router.grouped("api", "candidates")
+    candidatesRoutes.get(use: getAllHandler)
     
     let guardAuthMiddleware = Admin.guardAuthMiddleware()
     let tokenAuthMiddleware = Admin.tokenAuthMiddleware()
@@ -15,7 +16,7 @@ struct CandidatesController: RouteCollection {
     //create
     tokenAuthGroup.post(Candidate.self, use: createHandler)
     //retrieve all
-    tokenAuthGroup.get(use: getAllHandler)
+    //tokenAuthGroup.get(use: getAllHandler)
     //retrieve specific
     tokenAuthGroup.get("search", use: searchHandler)
     //update
