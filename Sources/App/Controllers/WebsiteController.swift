@@ -89,11 +89,15 @@ struct WebsiteController: RouteCollection {
         let eligibleCandidate = Candidate.query(on: req).join(\Runner.candidateID, to: \Candidate.id).filter(\Runner.candidateID == candidate.id!).filter(\Runner.electionID == election.id!).first().unwrap(or: Abort(.unauthorized, reason: "Invalid Candidate"))
         let party = Party.query(on: req).join(\Candidate.partyID, to: \Party.id).filter(\Candidate.id == candidate.id!).first().unwrap(or: Abort(.unauthorized, reason: "Party not found"))
         
-        let ballotCheckerText = "In the election with ID: \(election.id ?? -1), elector with username: \(user.username) voted for \(candidate.id ?? -1)."
-        guard let ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot check.") }
-        ballotCheckerHash.dropFirst(7)
         
-        return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: eligibleElection, party: party, candidate: eligibleCandidate, ballotChecker: ballotCheckerHash))
+        
+        let ballotCheckerText = "\(election.id ?? -1) \(user.username) \(candidate.id ?? -1)"
+        guard var ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot check.") }
+        ballotCheckerHash = String(ballotCheckerHash.dropFirst(7))
+        
+        let context = ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: eligibleElection, party: party, candidate: eligibleCandidate, ballotChecker: ballotCheckerHash)
+        
+        return try req.view().render("confirm", context)
       }
     }
   }
@@ -155,7 +159,7 @@ struct WebsiteController: RouteCollection {
       let key = "An Incredibly secret password!!1"
       let iv = String((0...11).map{ _ in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".randomElement()! })
       let cipherText = try AES256GCM.encrypt(plaintext, key: key, iv: iv)
-      let ballotCheckerText = "In the election with ID: \(electionID), elector with username: \(elector.username) voted for \(candidateID)"
+      let ballotCheckerText = "\(electionID) \(elector.username) \(candidateID)"
       guard let ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot.") }
       
       let ballot = Ballot(ballotChecker: ballotCheckerHash, encryptedBallotData: cipherText.ciphertext, encryptedBallotTag: cipherText.tag, ballotInitialisationVector: iv)

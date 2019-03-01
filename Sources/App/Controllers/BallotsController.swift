@@ -75,7 +75,7 @@ struct BallotsController: RouteCollection {
   ///verify
   
   func verifyHandler(_ req: Request, data: VerifyData) throws -> PassData {
-    let testString = "In the election with ID: \(data.election), elector with username: \(data.username) voted for \(data.candidate)."
+    let testString = "\(data.election) \(data.username) \(data.candidate)"
     let hashString = "$2b$12$\(data.hash)"
     let pass = try BCrypt.verify(testString, created: hashString)
     
