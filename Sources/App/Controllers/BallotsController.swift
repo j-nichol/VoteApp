@@ -8,6 +8,8 @@ struct BallotsController: RouteCollection {
     
     let ballotsRoutes = router.grouped("api", "ballots")
     
+    ballotsRoutes.post(VerifyData.self, at: "verify",  use: verifyHandler)
+    
     let guardAuthMiddleware = Admin.guardAuthMiddleware()
     let tokenAuthMiddleware = Admin.tokenAuthMiddleware()
     let tokenAuthGroup = ballotsRoutes.grouped(tokenAuthMiddleware, guardAuthMiddleware)
@@ -70,6 +72,12 @@ struct BallotsController: RouteCollection {
     return try req.parameters.next(Ballot.self).delete(on: req).transform(to: HTTPStatus.ok)
   }
   
+  ///verify
+  
+  func verifyHandler(_ req: Request, data: VerifyData) throws -> PassData {
+    return PassData(pass: try BCrypt.verify("In the election with ID: \(data.election), elector with username: \(data.username) voted for \(data.candidate).", created: data.hash))
+  }
+  
   ///get Elector
 //  func getElectorHandler(_ req: Request) throws -> Future<Elector> {
 //    return try req.parameters.next(Ballot.self).flatMap(to: Elector.self) {
@@ -78,4 +86,15 @@ struct BallotsController: RouteCollection {
 //  }
     
 
+}
+
+struct VerifyData: Content {
+  let hash: String
+  let username: String
+  let election: Int
+  let candidate: Int
+}
+
+struct PassData: Content {
+  let pass: Bool
 }
