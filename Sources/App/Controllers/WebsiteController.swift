@@ -91,6 +91,7 @@ struct WebsiteController: RouteCollection {
         
         let ballotCheckerText = "In the election with ID: \(election.id ?? -1), elector with username: \(user.username) voted for \(candidate.id ?? -1)."
         guard let ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot check.") }
+        ballotCheckerHash.dropFirst(7)
         
         return try req.view().render("confirm", ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: eligibleElection, party: party, candidate: eligibleCandidate, ballotChecker: ballotCheckerHash))
       }
