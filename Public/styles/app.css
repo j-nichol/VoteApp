@@ -237,16 +237,16 @@ button {
   padding-top: 1rem;
 }
 
-.verificationCodeHolder Label {
+.verificationCodeHolder label {
   width: 100%;
   font-size: 1rem;
 }
-.verificationCode {
+#verificationCode {
   background: var(--white);
   color: var(--blue);
   text-align: center;
 }
-.copyVerificationCode {
+#copyVerificationCode {
   margin: 0.5rem 0 0 0;
 }
 
