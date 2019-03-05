@@ -25,10 +25,10 @@
   <p class='helpLink'>Will people know who I voted for?</p>
 
   <p>&nbsp;</p>
-  <p>You can check that your Verification Code is correct by visiting <a href="https://www.jacknichol.com/verification?code=#(ballotChecker)">www.jacknichol.com.</a></p>
+  <p>You can check that your Verification Code is correct by visiting <a href="https://www.jacknichol.com/verification?code=#(verificationCode)">www.jacknichol.com.</a></p>
   <p>You can create a new Verification Code by going <a href=''>&lt; Back</a> and selecting your chosen candidate again</p>
 
-  
+
   <form id='submitBallotForm' method='post' action='/cast/ballot'>
     <input type='hidden' name='electionID' value='#(election.id)'></input>
     <input type='hidden' name='candidateID' value='#(candidate.id)'></input>
