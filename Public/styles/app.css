@@ -230,9 +230,26 @@ button {
   cursor: pointer;
 }
 
-.verificationCodeHolder, .verificationCodeHolder Label {
+.verificationCodeHolder {
   width: 100%;
+  margin-top: 1rem;
+  border-top: solid 1px var(--grey);
+  padding-top: 1rem;
 }
+
+.verificationCodeHolder Label {
+  width: 100%;
+  font-size: 1rem;
+}
+.verificationCode {
+  background: var(--white);
+  color: var(--blue);
+  text-align: center;
+}
+.copyVerificationCode {
+  margin: 0.5rem 0 0 0;
+}
+
 
 
 .ballotParty{}
