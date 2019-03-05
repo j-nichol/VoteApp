@@ -18,15 +18,15 @@
     </div>
   </div>
 
-  <p class='warning'>Your Verification Code is very important, and should be kept secret.</p>
-  <p>You can use it to make sure that your vote is counted correctly.</p>
-  <p>When the election is closed, each voter's Verification Code and chosen candidate will be shown on this website.</p>
-  <p>If your unique Verification Code is listed alongside the candidate you voted for, you can be sure that your vote was counted correctly.</p>
+  <p><span class='bold'>Your Verification Code is very important, and should be kept secret.</span><br>
+  You can use it to make sure that your vote is counted correctly.<br>
+  When the election is closed, each voter's Verification Code and chosen candidate will be shown on this website.<br>
+  If your unique Verification Code is listed alongside the candidate you voted for, you can be sure that your vote was counted correctly.</p>
+
   <p class='helpLink'>Will people know who I voted for?</p>
 
-  <p>&nbsp;</p>
-  <p>You can check that your Verification Code is correct by visiting <a href="https://www.jacknichol.com/verification?code=#(verificationURL)">www.jacknichol.com.</a></p>
-  <p>You can create a new Verification Code by going <a href=''>&lt; Back</a> and selecting your chosen candidate again</p>
+  <p>You can check that your Verification Code is correct by visiting <a href="http://www.jacknichol.com/verification?code=#(verificationURL)">www.jacknichol.com.</a><br>
+  You can create a new Verification Code by going <a href='' class='bold'>&lt; Back</a> and selecting your chosen candidate again</p>
 
 
   <form id='submitBallotForm' method='post' action='/cast/ballot'>

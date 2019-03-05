@@ -52,7 +52,7 @@ h1 { font-size: 48px; font-size: 3rem; }
 h2 { font-size: 32px; font-size: 2rem; }
 h3, label { font-size: 24px; font-size: 1.5rem; }
 p, a {font-size: 16px; font-size: 1rem; }
-a { color: var(--blue); text-decoration: none; cursor: pointer;}
+a { color: var(--blue); text-decoration: none; cursor: pointer; font-weight: bold;}
 
 
 .startButton {
@@ -258,6 +258,10 @@ button {
   margin: 0.5rem 0;
   width: auto;
   display: inline-block;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 
