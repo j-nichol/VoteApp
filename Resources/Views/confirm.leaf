@@ -13,23 +13,29 @@
     <div class='verificationCodeHolder'>
       <label for='verificationCode'>Verification Code</label>
       <input type='text' id='verificationCode' value='#(verificationCode)' readonly></input>
+      <p class='helpLink' id='whatVerificationCode'>What is this?</p>
       <button type='submit' id='copyVerificationCode'>Copy to Clipboard</button>
     </div>
   </div>
-  
-  <p>Before you cast your ballot, you can use this Verification Code to make sure that your vote is counted correctly.<br><span class='helpLink'>What does this mean?</span></p>
 
-  <a href="https://www.jacknichol.com/verification?code=#(ballotChecker)">Check your code at jacknichol.com.</a>
-  
-  <p>Once you have a copy of your Verification Code you can continue by selecting 'Cast Ballot' below.</p>
+  <p class='warning'>Your Verification Code is very important, and should be kept secret.</p>
+  <p>You can use it to make sure that your vote is counted correctly.</p>
+  <p>When the election is closed, each voter's Verification Code and chosen candidate will be shown on this website.</p>
+  <p>If your unique Verification Code is listed alongside the candidate you voted for, you can be sure that your vote was counted correctly.</p>
+  <p class='helpLink'>Will people know who I voted for?</p>
 
+  <p>&nbsp;</p>
+  <p>You can check that your Verification Code is correct by visiting <a href="https://www.jacknichol.com/verification?code=#(ballotChecker)">www.jacknichol.com.</a></p>
+  <p>You can create a new Verification Code by going <a href=''>&lt; Back</a> and selecting your chosen candidate again</p>
+
+  
   <form id='submitBallotForm' method='post' action='/cast/ballot'>
     <input type='hidden' name='electionID' value='#(election.id)'></input>
     <input type='hidden' name='candidateID' value='#(candidate.id)'></input>
   </form>
 
   <a onclick="document.getElementById('submitBallotForm').submit();" class='selectionList'>
-    <h3>Cast Ballot</h3>
+    <h3>I am #(name), cast my Ballot</h3>
   </a>
   <p class='warning'>Warning: Casting your ballot is final. You will no longer be able to modify your vote after casting your ballot.</p>
 }

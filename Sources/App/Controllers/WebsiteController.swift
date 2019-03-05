@@ -95,7 +95,7 @@ struct WebsiteController: RouteCollection {
         guard var verificationCodeHash = try? BCrypt.hash(verificationCodeText) else { fatalError("Failed to create verification code.") }
         verificationCodeHash = String(verificationCodeHash.dropFirst(7))
         
-        let context = ConfirmContext(meta: Meta(title: "Confirmation", userLoggedIn: true), election: eligibleElection, party: party, candidate: eligibleCandidate, verificationCode: verificationCodeHash)
+        let context = ConfirmContext(meta: Meta(title: "Confirmation", userLoggedIn: true), name: user.name, election: eligibleElection, party: party, candidate: eligibleCandidate, verificationCode: verificationCodeHash)
         
         return try req.view().render("confirm", context)
       }
@@ -304,6 +304,7 @@ struct BallotContext: Encodable {
 
 struct ConfirmContext:Encodable {
   let meta: Meta
+  let name: String
   let election: Future<Election>
   let party: Future<Party>
   let candidate: Future<Candidate>

@@ -254,6 +254,12 @@ button {
     font-family: 'Helvetica Neue', 'Helvetica';
 }
 
+#whatVerificationCode {
+  margin: 0.5rem 0;
+  width: auto;
+  display: inline-block;
+}
+
 
 
 .ballotParty{}
