@@ -224,6 +224,11 @@ button {
   margin: 1rem 0;
   color: var(--blue);
 }
+
+.helpLink {
+  color: var(--orange);
+  cursor: pointer;
+}
 .ballotParty{}
 
 .checkBox {}

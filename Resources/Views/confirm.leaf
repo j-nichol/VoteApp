@@ -12,11 +12,14 @@
     </div>
   </div>
   
-  <p>Before you cast your ballot, there are a number of things you can do to ensure that your vote is counted correctly.</p>
-  <p>Ballot Checker: #(ballotChecker)</p>
-  <p>//Put verification things here.</p>
+  <p>Before you cast your ballot, you can use this Verification Code to make sure that your vote is counted correctly.<br><span class='helpLink'>What does this mean?</span></p>
+  <label for='verificationCode'>Verification Code</label>
+  <input type='text' id='ballotChecker' value='#(ballotChecker)' readonly></input>
+
+
+  <a href="https://www.jacknichol.com/verification?code=#(ballotChecker)">Check your code at jacknichol.com.</a>
   
-  <p>Once you're ready, select 'Cast Ballot' below.</p>
+  <p>Once you have a copy of your Verification Code you can continue by selecting 'Cast Ballot' below.</p>
 
   <form id='submitBallotForm' method='post' action='/cast/ballot'>
     <input type='hidden' name='electionID' value='#(election.id)'></input>
