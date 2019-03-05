@@ -19,19 +19,6 @@
   
   <p>Before you cast your ballot, you can use this Verification Code to make sure that your vote is counted correctly.<br><span class='helpLink'>What does this mean?</span></p>
 
-  <input type='submit' id='copyVerificationCode' value='Copy to Clipboard'>
-    
-  <script>
-    $(document).ready(function(){
-      $('copyVerificationCode').click(function(){
-        $('verificationCode').select();
-        document.execCommand("copy");
-        alertify.set('notifier', 'position', 'top-center');
-        alertify.success('Verification Code has been copied to your Clipboard');
-      }
-    };
-  </script>
-
   <a href="https://www.jacknichol.com/verification?code=#(ballotChecker)">Check your code at jacknichol.com.</a>
   
   <p>Once you have a copy of your Verification Code you can continue by selecting 'Cast Ballot' below.</p>
