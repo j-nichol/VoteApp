@@ -39,7 +39,7 @@ struct WebsiteController: RouteCollection {
     if (try req.isAuthenticated(Elector.self)) {
       return try electionsHandler(_: req)
     }
-    return try req.view().render("index", IndexContext(meta: Meta(title: "HomePage", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self))))
+    return try req.view().render("index", IndexContext(meta: Meta(title: "HomePage", userLoggedIn: try req.isAuthenticated(Elector.self))))
   }
   
   //Login
@@ -49,7 +49,7 @@ struct WebsiteController: RouteCollection {
     }
     let csrfToken = try CryptoRandom().generateData(count: 16).base64EncodedString()
     try req.session()["CSRF_TOKEN"] = csrfToken
-    if (try req.isAuthenticated(Elector.self)) { return try electionsHandler(_: req) } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", isHelp: false, userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
+    if (try req.isAuthenticated(Elector.self)) { return try electionsHandler(_: req) } else {return try req.view().render("login", LoginContext(meta: Meta(title: "Log In", userLoggedIn: false), loginError: (req.query[Bool.self, at: "error"] != nil), csrfToken: csrfToken))}
   }
   
   func electionsHandler(_ req: Request) throws -> Future<View> {
@@ -57,7 +57,7 @@ struct WebsiteController: RouteCollection {
     let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.hasVoted == false).all()
     let electionCategories = ElectionCategory.query(on: req).join(\Election.electionCategoryID, to: \ElectionCategory.id).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).all()
     
-    return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", isHelp: false, userLoggedIn: try req.isAuthenticated(Elector.self)), name: user.name, voteSuccesful: (req.query[Bool.self, at: "voteSuccesful"] != nil), elections: elections, electionCategories: electionCategories))
+    return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", userLoggedIn: try req.isAuthenticated(Elector.self)), name: user.name, voteSuccesful: (req.query[Bool.self, at: "voteSuccesful"] != nil), elections: elections, electionCategories: electionCategories))
   }
   
   func ballotHandler(_ req: Request) throws -> Future<View> {
@@ -72,7 +72,7 @@ struct WebsiteController: RouteCollection {
       //return [party] (of candidates)
       let parties = Party.query(on: req).join(\Candidate.partyID, to: \Party.id).join(\Runner.candidateID, to: \Candidate.id).join(\Election.id, to: \Runner.electionID).filter(\Election.id == election.id).all()
       //let context = whatever.
-      let context = BallotContext(meta: Meta(title: "Ballot | \(election.name)", isHelp: false, userLoggedIn: true), election: eligibleElection, candidates: candidates, parties: parties)
+      let context = BallotContext(meta: Meta(title: "Ballot | \(election.name)", userLoggedIn: true), election: eligibleElection, candidates: candidates, parties: parties)
       return try req.view().render("ballot", context)
     }
   }
@@ -91,11 +91,11 @@ struct WebsiteController: RouteCollection {
         
         
         
-        let ballotCheckerText = "\(election.id ?? -1) \(user.username) \(candidate.id ?? -1)"
-        guard var ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot check.") }
-        ballotCheckerHash = String(ballotCheckerHash.dropFirst(7))
+        let verificationCodeText = "\(election.id ?? -1) \(user.username) \(candidate.id ?? -1)"
+        guard var verificationCodeHash = try? BCrypt.hash(verificationCodeText) else { fatalError("Failed to create verification code.") }
+        verificationCodeHash = String(verificationCodeHash.dropFirst(7))
         
-        let context = ConfirmContext(meta: Meta(title: "Confirmation", isHelp: false, userLoggedIn: true), election: eligibleElection, party: party, candidate: eligibleCandidate, ballotChecker: ballotCheckerHash)
+        let context = ConfirmContext(meta: Meta(title: "Confirmation", userLoggedIn: true), election: eligibleElection, party: party, candidate: eligibleCandidate, verificationCode: verificationCodeHash)
         
         return try req.view().render("confirm", context)
       }
@@ -307,7 +307,7 @@ struct ConfirmContext:Encodable {
   let election: Future<Election>
   let party: Future<Party>
   let candidate: Future<Candidate>
-  let ballotChecker: String
+  let verificationCode: String
 }
 /* BIN ->
 //Election
@@ -329,7 +329,6 @@ struct CreateElectionContext: Encodable {
 //Page Meta
 struct Meta: Content {
   let title: String
-  let isHelp: Bool
   let userLoggedIn: Bool
 }
 

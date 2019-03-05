@@ -229,6 +229,12 @@ button {
   color: var(--orange);
   cursor: pointer;
 }
+
+.verificationCodeHolder, .verificationCodeHolder Label {
+  width: 100%;
+}
+
+
 .ballotParty{}
 
 .checkBox {}

@@ -4,21 +4,21 @@
     <meta charset='urf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.5.0/alertify.min.js"></script>
     <link rel="manifest" href="/manifest.json">
     <title>#(meta.title) | Vote</title>
     <link rel="stylesheet" type="text/css" href="/styles/app.css">
-    <!--<script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>-->
   </head>
   <body>
     <div class='nav'>
       <div class='navInner'>
-        <a href='/' #if(!meta.isHelp) { class='active' }><img #if(!meta.isHelp) { src='/icons/vote-active.png'} else { src='/icons/vote.png'}><p>Vote</p></a>
-        <a href='/elections/create' #if(meta.isHelp) { class='active' }><img #if(meta.isHelp) { src='/icons/help-active.png'} else { src='/icons/help.png'}><p>Help</p></a>
+        <a href='/' class='active'}><img src='/icons/vote-active.png'><p>Vote</p></a>
         #if(meta.userLoggedIn) {
-        <form id='logoutForm' method='post' action='/logout'>
-          <input type='hidden' name='name' value='value'></input>
-        </form>
-        <a onclick="document.getElementById('logoutForm').submit();"><img src='/icons/logout.png'><p>Log Out</p></a>
+          <form id='logoutForm' method='post' action='/logout'>
+            <input type='hidden' name='name' value='value'></input>
+          </form>
+          <a onclick="document.getElementById('logoutForm').submit();"><img src='/icons/logout.png'><p>Log Out</p></a>
         }
       </div>
     </div>

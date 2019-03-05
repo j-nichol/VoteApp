@@ -10,12 +10,27 @@
       <h3 class='ballotCandidate'>#(candidate.name)</h3>
       <p class='ballotParty'>#(party.name)</p>
     </div>
+    <div class='verificationCodeHolder'>
+      <label for='verificationCode'>Verification Code</label>
+      <input type='text' id='verificationCode' value='#(verificationCode)' readonly></input>
+      <button type='submit' id='copyVerificationCode'>Copy to Clipboard</button>
+    </div>
   </div>
   
   <p>Before you cast your ballot, you can use this Verification Code to make sure that your vote is counted correctly.<br><span class='helpLink'>What does this mean?</span></p>
-  <label for='verificationCode'>Verification Code</label>
-  <input type='text' id='ballotChecker' value='#(ballotChecker)' readonly></input>
 
+  <input type='submit' id='copyVerificationCode' value='Copy to Clipboard'>
+    
+  <script>
+    $(document).ready(function(){
+      $('copyVerificationCode').click(function(){
+        $('verificationCode').select();
+        document.execCommand("copy");
+        alertify.set('notifier', 'position', 'top-center');
+        alertify.success('Verification Code has been copied to your Clipboard');
+      }
+    };
+  </script>
 
   <a href="https://www.jacknichol.com/verification?code=#(ballotChecker)">Check your code at jacknichol.com.</a>
   
