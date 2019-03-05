@@ -54,6 +54,7 @@ struct EligibilitiesController: RouteCollection {
       eligibility, updatedEligibility in
       eligibility.electorID = updatedEligibility.electorID
       eligibility.electionID = updatedEligibility.electionID
+      eligibility.hasVoted = updatedEligibility.hasVoted
       return eligibility.update(on: req) //may need to revert to save(on:)
     }
   }
