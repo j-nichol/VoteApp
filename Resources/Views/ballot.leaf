@@ -1,5 +1,4 @@
 #set("content") {
-  <h1 class='pageTitle'>Ballot</h1>
   <h3>These are the candidates running in #(election.name)</h3>
   <p>Select the the candidate you would like to vote for to continue.</p>
   <p>You may in stead choose to spoil your ballot. Select 'Spoil Ballot' to do so.</p>

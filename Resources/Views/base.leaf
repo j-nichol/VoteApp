@@ -13,6 +13,13 @@
     <link rel="stylesheet" type="text/css" href="/styles/app.css">
   </head>
   <body>
+    <div class='header'>
+       #if(!meta.title == "Welcome") {
+       <!--back-->
+       }
+      <h1 class='pageTitle'>#(meta.title)</h1>
+    </div>
+    
     <div class='nav'>
       <div class='navInner'>
         <a href='/' class='active'}><img src='/icons/vote-active.png'><p>Vote</p></a>

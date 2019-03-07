@@ -1,5 +1,4 @@
 #set("content") {
-  <h1 class='pageTitle'>Ballot Confirmation</h1>
 
   <div class='ballotTable'>
     <h3 class='ballotTitle'>Your Ballot</h3>

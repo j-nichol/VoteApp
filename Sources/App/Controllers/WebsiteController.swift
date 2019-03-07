@@ -39,7 +39,7 @@ struct WebsiteController: RouteCollection {
     if (try req.isAuthenticated(Elector.self)) {
       return try electionsHandler(_: req)
     }
-    return try req.view().render("index", IndexContext(meta: Meta(title: "HomePage", userLoggedIn: try req.isAuthenticated(Elector.self))))
+    return try req.view().render("index", IndexContext(meta: Meta(title: "Welcome", userLoggedIn: try req.isAuthenticated(Elector.self))))
   }
   
   //Login

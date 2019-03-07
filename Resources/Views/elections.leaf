@@ -1,5 +1,4 @@
 #set("content") {
-  <h1 class='pageTitle'>Elections</h1>
   <h2>Welcome #(name)</h2>
 
   #if(voteSuccesful) {
