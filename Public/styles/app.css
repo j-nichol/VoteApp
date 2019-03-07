@@ -20,8 +20,7 @@ body {
   width: 100%;
   max-width: 800px;
   margin: 0;
-  padding: 2rem;
-  padding-bottom: 10rem;
+  padding: 8rem 2rem;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -37,6 +36,7 @@ body * {
 
 .pageTitle {
   margin-top: 0;
+  margin-bottom: 0;
 }
 
 h1, h2, h3, p, label, a {
@@ -60,6 +60,30 @@ a { color: var(--blue); text-decoration: none; cursor: pointer; font-weight: bol
 .startButton h3 {
   margin-right: 32px;
   margin-right: 2rem;
+}
+
+.header {
+  background: var(--white);
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 1.5rem;
+  z-index: 1;
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.headerInner a, .headerInner .space {
+  width: 100%;
+  font-size: 2rem;
 }
 
 .nav {
