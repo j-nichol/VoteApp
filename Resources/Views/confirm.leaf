@@ -35,10 +35,11 @@
     <input type='hidden' name='candidateID' value='#(candidate.id)'></input>
   </form>
 
+  <p class='warning'>Warning: Casting your ballot is final. You will no longer be able to modify your vote after casting your ballot.</p>
+
   <a onclick="document.getElementById('submitBallotForm').submit();" class='selectionList'>
     <h3>I am #(name), cast my Ballot</h3>
   </a>
-  <p class='warning'>Warning: Casting your ballot is final. You will no longer be able to modify your vote after casting your ballot.</p>
 }
   
   

@@ -94,6 +94,7 @@ struct WebsiteController: RouteCollection {
         let verificationCodeText = "\(election.id ?? -1) \(user.username) \(candidate.id ?? -1)"
         guard var verificationCodeHash = try? BCrypt.hash(verificationCodeText) else { fatalError("Failed to create verification code.") }
         verificationCodeHash = String(verificationCodeHash.dropFirst(7))
+        try req.session()["VerificationCode"] = verificationCodeHash
         
         let verificationURL = verificationCodeHash.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         
@@ -147,25 +148,32 @@ struct WebsiteController: RouteCollection {
   }
   
   //Cast Ballot
-    func castBallotHandler(_ req: Request, data: CreateBallotData) throws -> Future<Response> {
-        
-      let electionID = data.electionID
-      let candidateID = data.candidateID
-      let elector = try req.requireAuthenticated(Elector.self)
-      
-      //check eligibility
-      let electorEligibility = Eligibility.query(on: req).filter(\.electionID == electionID).filter(\.electorID == elector.id!).filter(\.hasVoted == false).first().unwrap(or: Abort(.unauthorized, reason:  "User ineligible to vote in this election"))
-      let _ = Runner.query(on: req).filter(\.electionID == electionID).filter(\.candidateID == candidateID).first().unwrap(or: Abort(.unauthorized, reason: "Invalid ballot"))
+  func castBallotHandler(_ req: Request, data: CreateBallotData) throws -> Future<Response> {
+    
+    let electionID = data.electionID
+    let candidateID = data.candidateID
+    let elector = try req.requireAuthenticated(Elector.self)
+    
+    //check eligibility
+    let electorEligibility = Eligibility.query(on: req).filter(\.electionID == electionID).filter(\.electorID == elector.id!).filter(\.hasVoted == false).first().unwrap(or: Abort(.unauthorized, reason:  "User ineligible to vote in this election"))
+    let _ = Runner.query(on: req).filter(\.electionID == electionID).filter(\.candidateID == candidateID).first().unwrap(or: Abort(.unauthorized, reason: "Invalid ballot"))
+
+    let plaintext = "In the election with ID: \(electionID), candidate with id: \(candidateID) recieved a vote."
+    let key = "An Incredibly secret password!!1"
+    let iv = String((0...11).map{ _ in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".randomElement()! })
+    let cipherText = try AES256GCM.encrypt(plaintext, key: key, iv: iv)
+//      let ballotCheckerText = "\(electionID) \(elector.username) \(candidateID)"
+//      guard let ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot.") }
+    
+    let ballotCheckerHash = try req.session()["VerificationCode"]; try req.session()["VerificationCode"] = nil
+    let testString = "\(electionID) \(elector.username) \(candidateID)"
+    let hashString = "$2b$12$\(ballotCheckerHash!)"
+    let pass = try BCrypt.verify(testString, created: hashString)
+    
+    if (!pass) {throw Abort(.badRequest, reason: "Invalid Validation Code found.")}
   
-      let plaintext = "In the election with ID: \(electionID), candidate with id: \(candidateID) recieved a vote."
-      let key = "An Incredibly secret password!!1"
-      let iv = String((0...11).map{ _ in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".randomElement()! })
-      let cipherText = try AES256GCM.encrypt(plaintext, key: key, iv: iv)
-      let ballotCheckerText = "\(electionID) \(elector.username) \(candidateID)"
-      guard let ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot.") }
-      
-      let ballot = Ballot(ballotChecker: ballotCheckerHash, encryptedBallotData: cipherText.ciphertext, encryptedBallotTag: cipherText.tag, ballotInitialisationVector: iv)
-      
+    let ballot = Ballot(ballotChecker: ballotCheckerHash!, encryptedBallotData: cipherText.ciphertext, encryptedBallotTag: cipherText.tag, ballotInitialisationVector: iv)
+    
 //      return ballot.save(on: req).flatMap(to: Response.self) {
 //        ballot in
 //
@@ -180,45 +188,22 @@ struct WebsiteController: RouteCollection {
 //          }
 //        }
 //      }
-      
-      return req.transaction(on: .psql) { conn in
-        return ballot.save(on: req).flatMap(to: Response.self) {
-          ballot in
-          /// Flat-map the future string to a future response
-          return electorEligibility.flatMap(to: Response.self) {
-            eligibility in
-            eligibility.hasVoted = true
-            
-            return eligibility.update(on: req).map(to: Response.self) {
-              newEligibility in
-              return req.redirect(to: "/elections?voteSuccesful")
-            }
+    
+    return req.transaction(on: .psql) { conn in
+      return ballot.save(on: req).flatMap(to: Response.self) {
+        ballot in
+        /// Flat-map the future string to a future response
+        return electorEligibility.flatMap(to: Response.self) {
+          eligibility in
+          eligibility.hasVoted = true
+          
+          return eligibility.update(on: req).map(to: Response.self) {
+            newEligibility in
+            return req.redirect(to: "/elections?voteSuccesful")
           }
         }
       }
-      
-      
-      
-      ///remove eligibility
-      
-      
-      //let ciphertext = try AES256GCM.encrypt("This will be encrypted", key: "Using this super secret key.", iv: "This will be the thing what the user uses to check the thing.")
-      //To Decrypt // let _ = try AES256GCM.decrypt(ciphertext.ciphertext, key: "Using this super secret key", iv: "This will be the thing what the user uses to check the thing.", tag: ciphertext.tag).convert(to: String.self)
-      //guard let _ = try? BCrypt.hash("election id + elector id + candidate id") else { fatalError("Failed to create Elector.") }
-        //AES128.encrypt("vapor", key: "secret")
-      //let aes = try AES(key: "passwordpassword", iv: "drowssapdrowssap") // aes128
-      //let ciphertext = try aes.encrypt(Array("Nullam quis risus eget urna mollis ornare vel eu leo.".utf8))
-      
-  //    let election = Election(name: data.name, electionCategoryID: data.electionCategoryID)
-  //    return election.save(on: req).map(to: Response.self) {
-  //        election in
-  //        guard let id = election.id else {
-  //            throw Abort(.internalServerError)
-  //        }
-  //        return req.redirect(to: "/elections/\(id)")
-  //    }
-    
-    //return req.redirect(to: "/") //Will probably need to change expected return type to future after rest of work is completed.
+    }
   }
   
   //Preload
