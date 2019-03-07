@@ -166,17 +166,33 @@ struct WebsiteController: RouteCollection {
       
       let ballot = Ballot(ballotChecker: ballotCheckerHash, encryptedBallotData: cipherText.ciphertext, encryptedBallotTag: cipherText.tag, ballotInitialisationVector: iv)
       
-      return ballot.save(on: req).flatMap(to: Response.self) {
-        ballot in
-    
-        /// Flat-map the future string to a future response
-        return electorEligibility.flatMap(to: Response.self) {
-          eligibility in
-          eligibility.hasVoted = true
-          
-          return eligibility.update(on: req).map(to: Response.self) {
-            newEligibility in
-            return req.redirect(to: "/elections?voteSuccesful")
+//      return ballot.save(on: req).flatMap(to: Response.self) {
+//        ballot in
+//
+//        /// Flat-map the future string to a future response
+//        return electorEligibility.flatMap(to: Response.self) {
+//          eligibility in
+//          eligibility.hasVoted = true
+//
+//          return eligibility.update(on: req).map(to: Response.self) {
+//            newEligibility in
+//            return req.redirect(to: "/elections?voteSuccesful")
+//          }
+//        }
+//      }
+      
+      return req.transaction(on: .psql) { conn in
+        return ballot.save(on: req).flatMap(to: Response.self) {
+          ballot in
+          /// Flat-map the future string to a future response
+          return electorEligibility.flatMap(to: Response.self) {
+            eligibility in
+            eligibility.hasVoted = true
+            
+            return eligibility.update(on: req).map(to: Response.self) {
+              newEligibility in
+              return req.redirect(to: "/elections?voteSuccesful")
+            }
           }
         }
       }
