@@ -16,7 +16,7 @@
     <div class='header'>
       <div class='headerInner'>
         #if(!meta.title == "Welcome") {
-          <a id='backButton'><span>&lt;</span> Back</a>
+          <a class='backButton'><span>&lt;</span> Back</a>
         }
         <h1 class='pageTitle'>#(meta.title)</h1>
         #if(!meta.title == "Welcome") {

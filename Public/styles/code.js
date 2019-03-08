@@ -6,7 +6,7 @@ $(document).ready(function(){
                                                    toastr.options = {"closeButton": true,"preventDuplicates": true};
                                                    toastr.success("has been copied to your clipboard.", "Verification Code");
                                                    });
-                  $('#backButton').click(function(){
+                  $('.backButton').click(function(){
                                          window.history.back();
                                          });
 });

@@ -1,5 +1,7 @@
 #set("content") {
 
+<h3 class='warning' style='text-align: center;'>⚠️ Your ballot has not yet been cast ⚠️ </h3>
+
   <div class='ballotTable'>
     <h3 class='ballotTitle'>Your Ballot</h3>
     <p class='ballotSubTitleLeft'>Election</p>
@@ -25,8 +27,8 @@
 <!--  If your unique Verification Code is listed alongside the candidate you voted for, you can be sure that your vote was counted correctly.</p>-->
 <!--  <p class='helpLink'>Will people know who I voted for?</p>-->
 
-  <p>You can check that your Verification Code is correct by visiting <a href="http://www.jacknichol.com/verification?code=#(verificationURL)">www.jacknichol.com.</a></p>
-  <p>You can create a new Verification Code by going <a href='' class='bold'>&lt; Back</a> and selecting your chosen candidate again</p>
+  <p>You can check that your Verification Code is correct by visiting <a href="http://www.jacknichol.com/verification?code=#(verificationURL)">www.jacknichol.com/verification.</a></p>
+  <p>You can create a new Verification Code by going <a class='bold backButton'>&lt; Back</a> and selecting your chosen candidate again</p>
 
 
   <form id='submitBallotForm' method='post' action='/cast/ballot'>
@@ -34,7 +36,7 @@
     <input type='hidden' name='candidateID' value='#(candidate.id)'></input>
   </form>
 
-  <p class='warning'>Warning: Casting your ballot is final. You will no longer be able to modify your vote after casting your ballot.</p>
+  <p><span class='warning'>Warning:</span> Casting your ballot is final. You will no longer be able to modify your vote after casting your ballot.</p>
 
   <a onclick="document.getElementById('submitBallotForm').submit();" class='selectionList'>
     <h3>I am #(name), cast my Ballot</h3>
