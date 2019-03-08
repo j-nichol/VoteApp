@@ -55,6 +55,13 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
   migrations.add(model: Admin.self, database: .psql)
   migrations.add(model: Token.self, database: .psql)
   migrations.add(migration: AdminUser.self, database: .psql)
+  migrations.add(migration: PartiesPreload.self, database: .psql)
+  migrations.add(migration: ElectionCategoriesPreload.self, database: .psql)
+  migrations.add(migration: ElectoratePreload.self, database: .psql)
+  migrations.add(migration: CandidatesPreload.self, database: .psql)
+  migrations.add(migration: ElectionsPreload.self, database: .psql)
+  migrations.add(migration: RunnersPreload.self, database: .psql)
+  migrations.add(migration: EligibilitiesPreload.self, database: .psql)
   services.register(migrations)
   
   /// Configure Fluent application commands
