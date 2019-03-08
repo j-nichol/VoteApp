@@ -72,7 +72,7 @@ struct WebsiteController: RouteCollection {
       //return [party] (of candidates)
       let parties = Party.query(on: req).join(\Candidate.partyID, to: \Party.id).join(\Runner.candidateID, to: \Candidate.id).join(\Election.id, to: \Runner.electionID).filter(\Election.id == election.id).all()
       //let context = whatever.
-      let context = BallotContext(meta: Meta(title: "Ballot | \(election.name)", userLoggedIn: true), election: eligibleElection, candidates: candidates, parties: parties)
+      let context = BallotContext(meta: Meta(title: "Ballot", userLoggedIn: true), election: eligibleElection, candidates: candidates, parties: parties)
       return try req.view().render("ballot", context)
     }
   }
