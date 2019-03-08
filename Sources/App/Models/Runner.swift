@@ -27,3 +27,29 @@ extension Runner: Migration {
         }
     }
 }
+
+struct RunnersPreload: Migration {
+  typealias Database = PostgreSQLDatabase
+  static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
+    
+    _ = Runner(candidateID: 1, electionID: 1).save(on: connection)
+    _ = Runner(candidateID: 2, electionID: 2).save(on: connection)
+    _ = Runner(candidateID: 3, electionID: 3).save(on: connection)
+    _ = Runner(candidateID: 4, electionID: 4).save(on: connection)
+    _ = Runner(candidateID: 5, electionID: 5).save(on: connection)
+    _ = Runner(candidateID: 6, electionID: 1).save(on: connection)
+    _ = Runner(candidateID: 7, electionID: 2).save(on: connection)
+    _ = Runner(candidateID: 8, electionID: 3).save(on: connection)
+    _ = Runner(candidateID: 9, electionID: 4).save(on: connection)
+    _ = Runner(candidateID: 10, electionID: 5).save(on: connection)
+    _ = Runner(candidateID: 11, electionID: 1).save(on: connection)
+    _ = Runner(candidateID: 12, electionID: 2).save(on: connection)
+    _ = Runner(candidateID: 13, electionID: 3).save(on: connection)
+    _ = Runner(candidateID: 14, electionID: 4).save(on: connection)
+    return Runner(candidateID: 15, electionID: 5).save(on: connection).transform(to: ())
+  }
+  
+  static func revert(on connection: PostgreSQLConnection) -> Future<Void> {
+    return .done(on: connection)
+  }
+}
