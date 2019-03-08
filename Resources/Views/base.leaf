@@ -14,13 +14,15 @@
   </head>
   <body>
     <div class='header'>
-       #if(!meta.title == "Welcome") {
-       <a href=''>&lt; Back</a>
-       }
-      <h1 class='pageTitle'>#(meta.title)</h1>
-      #if(!meta.title == "Welcome") {
-      <div class='space'></div>
-      }
+      <div class='headerInner'>
+        #if(!meta.title == "Welcome") {
+          <a href=''>&lt; Back</a>
+        }
+        <h1 class='pageTitle'>#(meta.title)</h1>
+        #if(!meta.title == "Welcome") {
+          <div class='space'></div>
+        }
+      </div>
     </div>
     
     <div class='nav'>
