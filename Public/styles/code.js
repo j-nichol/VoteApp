@@ -7,7 +7,7 @@ $(document).ready(function(){
                                                    toastr.success("has been copied to your clipboard.", "Verification Code");
                                                    });
                   $('#backButton').click(function(){
-                                         windows.history.back();
+                                         window.history.back();
                                          });
 });
 
