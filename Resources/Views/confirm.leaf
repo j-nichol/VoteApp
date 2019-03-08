@@ -1,6 +1,6 @@
 #set("content") {
 
-<h3 class='warning' style='text-align: center;'>⚠️ Your ballot has not yet been cast ⚠️ </h3>
+<h3 class='warning' style='text-align: center;'>Your ballot has not yet been cast<br>⚠️</h3>
 
   <div class='ballotTable'>
     <h3 class='ballotTitle'>Your Ballot</h3>
@@ -16,10 +16,12 @@
       <input type='text' id='verificationCode' value='#(verificationCode)' readonly></input>
       <p class='helpLink' id='whatVerificationCode'>What is this?</p>
       <button type='submit' id='copyVerificationCode'>Copy to Clipboard</button>
+      <button type='submit' id='emailVerificationCode'>Send Copy in Email</button>
+
     </div>
   </div>
 
-  <p><span class='bold'>Your <span class='helpLink'>Verification Code</span> is very important. You should write it down, and keep it secret.</span></p>
+  <p><span class='bold'>Your <span class='helpLink'>Verification Code</span> is very important. You should take a copy of it, and keep it secret.</span></p>
 
 <!--  Hide this within the pop-up for verification code.-->
 <!--  You can use it to make sure that your vote is counted correctly.<br>-->
