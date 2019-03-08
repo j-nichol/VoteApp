@@ -54,10 +54,12 @@ struct WebsiteController: RouteCollection {
   
   func electionsHandler(_ req: Request) throws -> Future<View> {
     let user = try req.requireAuthenticated(Elector.self)
+    let verificationCode = try req.session()["VerificationCode"]; try req.session()["VerificationCode"] = nil
+
     let elections = Election.query(on: req).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).filter(\Eligibility.hasVoted == false).all()
     let electionCategories = ElectionCategory.query(on: req).join(\Election.electionCategoryID, to: \ElectionCategory.id).join(\Eligibility.electionID, to: \Election.id).filter(\Eligibility.electorID == user.id!).all()
     
-    return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", userLoggedIn: try req.isAuthenticated(Elector.self)), name: user.name, voteSuccesful: (req.query[Bool.self, at: "voteSuccesful"] != nil), elections: elections, electionCategories: electionCategories))
+    return try req.view().render("elections", ElectionsContext(meta: Meta(title: "Elections", userLoggedIn: try req.isAuthenticated(Elector.self)), name: user.name, voteSuccesful: (req.query[Bool.self, at: "voteSuccesful"] != nil), elections: elections, electionCategories: electionCategories, verificationCode: verificationCode))
   }
   
   func ballotHandler(_ req: Request) throws -> Future<View> {
@@ -172,7 +174,7 @@ struct WebsiteController: RouteCollection {
 //      let ballotCheckerText = "\(electionID) \(elector.username) \(candidateID)"
 //      guard let ballotCheckerHash = try? BCrypt.hash(ballotCheckerText) else { fatalError("Failed to create ballot.") }
     
-    let ballotCheckerHash = try req.session()["VerificationCode"]; try req.session()["VerificationCode"] = nil
+    let ballotCheckerHash = try req.session()["VerificationCode"];
     let testString = "\(electionID) \(elector.username) \(candidateID)"
     let hashString = "$2b$12$\(ballotCheckerHash!)"
     let pass = try BCrypt.verify(testString, created: hashString)
@@ -303,6 +305,7 @@ struct ElectionsContext: Encodable {
   let voteSuccesful: Bool
   let elections: Future<[Election]>
   let electionCategories: Future<[ElectionCategory]>
+  let verificationCode: String?
 }
 
 struct BallotContext: Encodable {

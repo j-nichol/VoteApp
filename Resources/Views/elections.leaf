@@ -2,7 +2,20 @@
   <h2>Welcome #(name)</h2>
 
   #if(voteSuccesful) {
-  <p class='antiWarning'>Your vote has been cast succesfully.</p>
+    <p class='antiWarning bold'>Your vote has been cast succesfully.</p>
+    <p class='antiWarning'>We've recieved a copy of your ballot which will be stored alongside your verification code.</p>
+    <p class='antiWarning'>Once the election is closed, a list of all Verification Codes and chosen candidates will be published.</p>
+    <p class='antiWarning'>You will then be able to make sure that your Verification Code is counted along side the candidate you voted for</p>
+    <p class='antiWarning'>Nobody will know which Verificaiton Code belongs to you, so long as you keep it secret.</p>
+    #if(verificationCode) {
+      <p class='warning'>This is the last time you will be shown your verification code. If you don't copy it now, you won't be able to verify that your vote has been counted once the election is closed</p>
+      <div class='verificationCodeHolder'>
+        <label for='verificationCode'>Verification Code</label>
+        <input type='text' id='verificationCode' value='#(verificationCode)' readonly></input>
+        <p class='helpLink' id='whatVerificationCode'>What is this?</p>
+        <button type='submit' id='copyVerificationCode'>Copy to Clipboard</button>
+      </div>
+    }
   }
 
   #if(count(elections) == 0){
