@@ -131,6 +131,12 @@ struct WebsiteController: RouteCollection {
   
   //Log In
   func loginPostHandler(_ req: Request, loginData: LoginData) throws -> Future<Response> {
+    if (try req.isAuthenticated(Elector.self)) {
+      return req.future().map() {
+        return req.redirect(to: "/elections")
+      }
+    }
+    
     let expectedCsrfToken = try req.session()["CSRF_TOKEN"]; try req.session()["CSRF_TOKEN"] = nil
     guard expectedCsrfToken == loginData.csrfToken else { throw Abort(.badRequest) }
     return Elector.authenticate(username: loginData.username, password: loginData.password, using: BCryptDigest(), on: req).map(to: Response.self) {
@@ -139,6 +145,7 @@ struct WebsiteController: RouteCollection {
       try req.authenticateSession(elector)
       return req.redirect(to: "/elections")
     }
+    
   }
   
   //Log Out
