@@ -1,6 +1,6 @@
 #set("content") {
 
-<h3 class='warning' style='text-align: center;'>Your ballot has not yet been cast<br>⚠️</h3>
+<h3 class='warning' style='text-align: center;'>⚠️<br>Your ballot has not yet been cast</h3>
 
   <div class='ballotTable'>
     <h3 class='ballotTitle'>Your Ballot</h3>
@@ -38,7 +38,7 @@
     <input type='hidden' name='candidateID' value='#(candidate.id)'></input>
   </form>
 
-  <p><span class='warning'>Warning:</span> Casting your ballot is final. You will no longer be able to modify your vote after casting your ballot.</p>
+  <p><span class='warning'>Warning: Casting your ballot is final.</span> You will no longer be able to modify your vote after casting your ballot.</p>
 
   <a onclick="document.getElementById('submitBallotForm').submit();" class='selectionList'>
     <h3>I am #(name), cast my Ballot</h3>

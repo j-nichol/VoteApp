@@ -4,5 +4,6 @@
   "lang": "en-GB",
   "start_url": "/",
   "scope": "/",
-  "display": "standalone"
+  "display": "standalone",
+  "background_color": "#F8F8FF"
 }

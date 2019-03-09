@@ -9,6 +9,10 @@
     <script src="/styles/code.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" />
     <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/icons/Icon-App-20x20x-3x.png">
+    <link rel="apple-touch-icon" sizes="87x87" href="/icons/icons/Icon-App-29x29x-3x.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/icons/Icon-App-40x40x-3x.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icons/Icon-App-60x60x-3x.png">
     <title>#(meta.title) | Vote</title>
     <link rel="stylesheet" type="text/css" href="/styles/app.css">
   </head>
