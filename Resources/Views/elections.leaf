@@ -24,7 +24,7 @@
     <p>There are no elections for you to vote in at the moment.</p>
     <p>If you think there is an election which you should be able to vote in, please phone us on <a href='tel:555-1234'>555-1234</a>.</p>
   } else {
-    #if(count(elections)=1){
+    #if(count(elections) == 1){
       <p>This is the election which you can vote in.</p>
       <p>Touch the election below to continue</p>
     } else {
