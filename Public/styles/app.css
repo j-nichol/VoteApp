@@ -67,7 +67,7 @@ h1, h2, h3, p, label, a {
   width:  100%;
   color: var(--black);
 }
-a h1, a h2, a h3, a p, button {
+a, a h1, a h2, a h3, a p, button {
   color: var(--blue);
 }
 
