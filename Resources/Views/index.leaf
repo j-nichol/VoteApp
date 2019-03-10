@@ -8,7 +8,6 @@
     <p>You can tap <span class='help'>orange</span> words to find out more about them.</p>
     <p>Words which are coloured <span class='warning'>red</span> are important.</p>
     <p>If you have any questions about the application, please phone <a href='tel:5551234'>555-1234</a></p>
-    <p>Otherwise, select 'Begin' to get started.</p>
     <a class='startButton' href='/login'>
       <h3>Begin</h3>
     </a>

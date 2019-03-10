@@ -67,7 +67,7 @@ h1, h2, h3, p, label, a {
   width:  100%;
   color: var(--black);
 }
-a h1, a h2, a h3, a p, a label {
+a, button {
   color: var(--blue);
 }
 
@@ -75,7 +75,7 @@ h1 { font-size: 48px; font-size: 3rem; }
 h2 { font-size: 32px; font-size: 2rem; }
 h3, label { font-size: 24px; font-size: 1.5rem; }
 p, a {font-size: 16px; font-size: 1rem; }
-a { color: var(--blue); text-decoration: none; cursor: pointer; font-weight: bold;}
+a { text-decoration: none; cursor: pointer; font-weight: bold;}
 
 
 .startButton {
@@ -297,7 +297,6 @@ button {
 }
 #copyVerificationCode, #emailVerificationCode {
   margin: 0.5rem 0 0 0.5rem;
-  color: var(--blue);
 }
 
 #whatVerificationCode {
