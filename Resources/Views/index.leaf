@@ -4,8 +4,10 @@
   }
 } else {
   #set("content") {
-    <h2>You can use this application to vote in the election.</h2>
-    <p>If you'd like some information before you begin, select the 'Help' button in the navigation bar at the bottom of the screen.</p>
+    <h3>This application allows you to vote in elections</h3>
+    <p>You can tap <span class='help'>yellow</span> words to find out more about them.</p>
+    <p>Words which are coloured <span class='warning'>red</span> are important.</p>
+    <p>If you have any questions about the application, please phone <a href='tel:5551234'>555-1234</a></p>
     <p>Otherwise, select 'Begin' to get started.</p>
     <a class='startButton' href='/login'>
       <h3>Begin</h3>

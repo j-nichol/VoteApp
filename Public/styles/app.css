@@ -53,6 +53,8 @@ body {
 
 body * {
   z-index: 0;
+  font-family: 'SF';
+  color: var(--black);
 }
 
 .pageTitle {
@@ -62,7 +64,6 @@ body * {
 }
 
 h1, h2, h3, p, label, a {
-  font-family: 'SF';
   width:  100%;
   color: var(--black);
 }
@@ -275,12 +276,6 @@ button {
 
 .ballotCandidate {
   margin: 1rem 0;
-  color: var(--blue);
-}
-
-.helpLink {
-  color: var(--orange);
-  cursor: pointer;
 }
 
 .verificationCodeHolder {
@@ -296,17 +291,13 @@ button {
 }
 #verificationCode {
   background: var(--white);
-  color: var(--blue);
   text-align: center;
   font-size: 1.9vw;
+  font-weight: 100;
 }
 #copyVerificationCode, #emailVerificationCode {
   margin: 0.5rem 0 0 0.5rem;
   color: var(--blue);
-}
-
-.toast-title, .toast-message {
-    font-family: 'SF';
 }
 
 #whatVerificationCode {
@@ -323,5 +314,10 @@ button {
   body { padding-top: 20vw; }
   .pageTitle { font-size: 6vw; }
   .headerInner a { font-size: 4vw; }
-  .headerInner a span { font-size: 6vw; }
+  .headerInner a span { font-size: 6vw; position: relative; top: 0.3vw;}
+}
+
+.help {
+  color: var(--yellow);
+  cursor: pointer;
 }

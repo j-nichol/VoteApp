@@ -1,23 +1,26 @@
 #set("content") {
-  <h3>These are the candidates running in #(election.name)</h3>
-  <p>Select the the candidate you would like to vote for to continue.</p>
-  <p>You may in stead choose to spoil your ballot. Select 'Spoil Ballot' to do so.</p>
-  <p>You will have an opportunity to confirm your selection on the following page.</p>
+  <h3>These are the candidates for #(election.name)</h3>
+  <p>Touch the candidate you would like to vote for to continue.<br>
+    You will have a chance to confirm your selection on the next page.</p>
+  <p>If you don't want to vote for any of the candidates, you can <span class='help'>spoil your ballot</span>.<br>
+    Your ballot will still be counted, but no candidate will receive your vote.</p>
 
-  #for(candidate in candidates) { #if(candidate.id != 1){
-    <a href='/confirm/#(election.id)/#(candidate.id)' class='selectionList'>
-      <h3>#(candidate.name)</h3>
-      #for(party in parties) {<p>#if(party.id == candidate.partyID) { #(party.name) }</p>}
-    </a>
-  }}
-  #for(candidate in candidates) { #if(candidate.id == 1){
-    <a href='/confirm/#(election.id)/#(candidate.id)' class='selectionList'>
-      <h3 style='color: var(--grey)'>#(candidate.name)</h3>
-      #for(party in parties) {<p style='color: var(--grey)'>#if(party.id == candidate.partyID) {#(party.name)}</p>}
-    </a>
-  }}
-
+  #for(candidate in candidates) {
+    #if(candidate.id != 1) {
+      <a href='/confirm/#(election.id)/#(candidate.id)' class='selectionList'>
+        <h3>#(candidate.name)</h3>
+        #for(party in parties) {<p>#if(party.id == candidate.partyID) { #(party.name) }</p>}
+      </a>
+    }
+  }
+  #for(candidate in candidates) {
+    #if(candidate.id == 1) {
+      <a href='/confirm/#(election.id)/#(candidate.id)' class='selectionList'>
+        <h3 style='color: var(--grey)'>#(candidate.name)</h3>
+        #for(party in parties) {<p style='color: var(--grey)'>#if(party.id == candidate.partyID) {#(party.name)}</p>}
+      </a>
+    }
+  }
 }
-
 
 #embed("base")

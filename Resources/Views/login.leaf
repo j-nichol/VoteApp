@@ -1,10 +1,13 @@
 #set("content"){
 
   #if(loginError) {
-  <p class='warning'>Something's gone wrong. Either your username or password was entered incorrectly.</p>
+  <p class='warning'>Something's gone wrong. Check that you have entered your username and password correctly.</p>
   } else {
-  <p>Before you continue, you'll need to confirm your identiy by entering the Username and Password which were provided in --a letter?--.</p>
+  <p>Before we get started, we need to check who you are.</p>
   }
+  <p>You should have recieved a letter which has your <span class='help'>username and password</span> in it.</p>
+  <p>Type them into the boxes below, then touch <span class='help'>log in</span>.</p>
+
 
   <form method="post">
     #if(csrfToken) {<input type='hidden' name='csrfToken' value='#(csrfToken)'></input>}

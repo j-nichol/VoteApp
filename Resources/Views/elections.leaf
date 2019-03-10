@@ -1,15 +1,14 @@
 #set("content") {
-  <h2>Welcome #(name)</h2>
 
   #if(voteSuccesful) {
-    <p class='antiWarning bold'>Your vote has been cast succesfully.</p>
-    <p>We've recieved a copy of your ballot which will be stored alongside your verification code.<br>
-    Once the election is closed, a list of all Verification Codes and chosen candidates will be published.<br>
-    You will then be able to make sure that your Verification Code is counted along side the candidate you chose.</p>
-    <p class='warning'>Nobody other than you (not even us) will know which Verificaiton Code belongs to you, so long as you keep it secret.</p>
+    <h2>Your vote has been cast succesfully.</h2>
+    <p>We have received a copy of your ballot, which we will store <span class='help'>securely</span> with your <span class='help'>verification code</span>.</p>
+    <p>When the election has finished and we have counted the votes, we will publish a list with the  chosen candidate from each ballot, and the verification code for that ballot.</p>
+    <p>You can check this list to make sure that your verification code is with the candidate you chose.</p>
+    <p>Nobody will know which verification code is yours if you keep it secret.</p>
     #if(verificationCode) {
-      <p class='warning'>This is your last chance to take a copy of it.</p>
-        <div class='verificationCodeHolder' style='margin-bottom: 3rem;'>
+      <p class='warning'>This is your last chance to take a copy of your verification code, so that you can make sure your vote has been counted.</p>
+      <div class='verificationCodeHolder' style='margin-bottom: 3rem;'>
         <label for='verificationCode'>Verification Code</label>
         <input type='text' id='verificationCode' value='#(verificationCode)' readonly></input>
         <p class='helpLink' id='whatVerificationCode'>What is this?</p>
@@ -17,17 +16,20 @@
         <button type='submit' id='emailVerificationCode'>Send Copy in Email</button>
       </div>
     }
+  } else {
+  <h2>Welcome #(name)</h2>
   }
 
   #if(count(elections) == 0){
-  <p>There are no #if(voteSuccesful) { more } elections for you to vote in at the moment.</p>
-  <p>If you believe you are eligible to vote in an election which you have not already voted in, please contact <a href='tel:555-1234'>555-1234</a>.</p>
+    <p>There are no elections for you to vote in at the moment.</p>
+    <p>If you think there is an election which you should be able to vote in, please phone us on <a href='tel:555-1234'>555-1234</a>.</p>
   } else {
-    <p>You are eligible to vote in the following elecion#if(count(elections)>1){s}.</p>
-    #if(count(elections)>1) {
-      <p>Please confirm which election you would like to participate in by selecting it below.</p>
+    #if(count(elections)=1){
+      <p>This is the election which you can vote in.</p>
+      <p>Touch the election below to continue</p>
     } else {
-      <p>Please confirm that you would like to participate in the election by selecting it below.</p>
+      <p>These are the elections which you can vote in.</p>
+      <p>Touch the election you would like to vote in to continue.</p>
     }
     #if(elections){
       #for(election in elections) {
@@ -41,7 +43,9 @@
           </p>
         </a>
       }
+    <p>If you can't see the election you think you should be voting in, or you can see elections which you don't think you should be able to vote in, please phone us on <a href='tel:555-1234'>555-1234</a>.</p>
     }
+
   }
 }
 

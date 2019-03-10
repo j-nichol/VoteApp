@@ -14,35 +14,33 @@
     <div class='verificationCodeHolder'>
       <label for='verificationCode'>Verification Code</label>
       <input type='text' id='verificationCode' value='#(verificationCode)' readonly></input>
-      <p class='helpLink' id='whatVerificationCode'>What is this?</p>
+      <p class='help' id='whatVerificationCode'>What is this?</p>
       <button type='submit' id='copyVerificationCode'>Copy to Clipboard</button>
       <button type='submit' id='emailVerificationCode'>Send Copy in Email</button>
 
     </div>
   </div>
 
-  <p><span class='bold'>Your <span class='helpLink'>Verification Code</span> is very important. You should take a copy of it, and keep it secret.</span></p>
+  <h3>Your <span class='help'>verification code</span> is very important. You should take a copy of it, and keep it secret.</h3>
 
-<!--  Hide this within the pop-up for verification code.-->
-<!--  You can use it to make sure that your vote is counted correctly.<br>-->
-<!--  When the election is closed, each voter's Verification Code and chosen candidate will be shown on this website.<br>-->
-<!--  If your unique Verification Code is listed alongside the candidate you voted for, you can be sure that your vote was counted correctly.</p>-->
-<!--  <p class='helpLink'>Will people know who I voted for?</p>-->
-
-  <p>You can check that your Verification Code is correct by visiting <a href="http://www.jacknichol.com/verification?code=#(verificationURL)">www.jacknichol.com/verification.</a></p>
-  <p>You can create a new Verification Code by going <a class='bold backButton'>&lt; Back</a> and selecting your chosen candidate again</p>
-
+  <p>hecking your verification code now lets you make sure that your vote will be counted correctly.</p>
+  <p>You can <span class='help'>check that your verification code is correct</span> by visiting <a href="http://www.jacknichol.com/verification?code=#(verificationURL)">www.jacknichol.com.</a></p>
+  <p>You can select another candidate by going <a class='backButton'>back</a>.<.p>
+  <p class='warning'>If you go back, your verification code will change.</p>
 
   <form id='submitBallotForm' method='post' action='/cast/ballot'>
     <input type='hidden' name='electionID' value='#(election.id)'></input>
     <input type='hidden' name='candidateID' value='#(candidate.id)'></input>
   </form>
 
-  <p><span class='warning'>Warning: Casting your ballot is final.</span> You will no longer be able to modify your vote after casting your ballot.</p>
-
   <a onclick="document.getElementById('submitBallotForm').submit();" class='selectionList'>
-    <h3>I am #(name), cast my Ballot</h3>
+    #if(candidate.id == 1) {
+    <h3>I am #(name), spoil my ballot</h3>
+    } else {
+    <h3>I am #(name), cast my ballot for #(candidate.name)</h3>
+    }
   </a>
+  <p class='warning'>This is final. You won't be able to change your vote after you cast your ballot.</p>
 }
   
   
