@@ -108,7 +108,6 @@ a { text-decoration: none; cursor: pointer; font-weight: bold;}
 .headerInner a, .headerInner .space {
   width: 50%;
   font-size: 2rem;
-  padding-left: 2rem;
 }
 
 .headerInner a span {
