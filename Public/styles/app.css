@@ -318,6 +318,6 @@ button {
 }
 
 .help {
-  color: var(--yellow);
+  color: var(--orange);
   cursor: pointer;
 }
