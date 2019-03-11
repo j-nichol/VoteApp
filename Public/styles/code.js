@@ -15,16 +15,22 @@ $(document).ready(function(){
                                          });
                   
                   $('#orangeHelp').on('swipedown',function (e,data){
+                                      console.log(e);
                                       $("#orangeHelp").slideUp("slow");
+                                      $('html').css({ "position": "relative"})
+                                      $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" });
                                       });
                   
                   $('#orangeHelpButton').click(function(){
                                                $("#orangeHelp").slideDown("slow");
-                                               $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" });
+                                               $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(31px)" });
+                                               $('html').css({ "position": "fixed"})
                                                });
                   
                   $('#orangeHelp .helpDismiss').click(function(){
                                                       $("#orangeHelp").slideUp("slow");
+                                                      $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" });
+                                                      $('html').css({ "position": "relative"})
                                                       });
                   
 });
