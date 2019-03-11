@@ -15,15 +15,18 @@ $(document).ready(function(){
                                          });
                   
                   $('#orangeHelp').on('swipedown',function (e,data){
-                            $( "#orangeHelp" ).slideUp("slow");
-                            });
+                                      $("#orangeHelp").slideUp("slow");
+                                      $("body").css("overflow", "hidden");
+                                      });
                   
                   $('#orangeHelpButton').click(function(){
-                                               $( "#orangeHelp" ).slideDown("slow");
+                                               $("#orangeHelp").slideDown("slow");
+                                               $("body").css("overflow", "scroll");
                                                });
                   
                   $('#orangeHelp .helpDismiss').click(function(){
-                                                     $( "#orangeHelp" ).slideUp("slow");
+                                                      $("#orangeHelp").slideUp("slow");
+                                                      $("body").css("overflow", "hidden");
                                                       });
 });
 

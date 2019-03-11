@@ -334,8 +334,7 @@ button {
   width: 100vw;
   position: fixed;
   bottom: 0;
-  padding-bottom: 7rem;
-  height: 80vh;
+  height: 95vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
