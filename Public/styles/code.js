@@ -14,7 +14,7 @@ $(document).ready(function(){
                                          window.history.back();
                                          });
                   
-                  $('#orangeHelpInner').on('swipedown',function (e,data){
+                  $('#orangeHelp').on('swipedown',function (e,data){
                                       $("#orangeHelp").slideUp("slow");
                                       });
                   
@@ -27,10 +27,8 @@ $(document).ready(function(){
                                                       $("#orangeHelp").slideUp("slow");
                                                       });
                   
-                  $('.helpWindow').on('touchmove', function(e) {
-                                      //e.preventDefault();
-                                      e.stopPropagation();
-                                      return false;
-                                      });
+                  $('body').on('touchmove', function(event) {
+                               if (event.target !== this) {
+                               return;
+                               }
 });
-
