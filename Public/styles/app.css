@@ -329,6 +329,7 @@ button {
   height: 85vh;
   display: none;
   -webkit-backdrop-filter: blur(30px);
+  -webkit-transform: translate3d(0,0,0);
 }
 
 .helpTitleContainer {

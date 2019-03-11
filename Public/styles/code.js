@@ -20,12 +20,17 @@ $(document).ready(function(){
                   
                   $('#orangeHelpButton').click(function(){
                                                $("#orangeHelp").slideDown("slow");
-                                               $(".helpWindow").css("-webkit-backdrop-filter". "blur(30px)");
+                                               $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" });
                                                });
                   
                   $('#orangeHelp .helpDismiss').click(function(){
                                                       $("#orangeHelp").slideUp("slow");
                                                       });
                   
+                  $('.helpWindow').on('touchmove', function(e) {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      return false;
+                                      });
 });
 
