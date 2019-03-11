@@ -362,12 +362,13 @@ button {
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
+  height: calc(85vh - 5rem);
+  overflow: scroll;
 }
 
 .helpContent {
   width: 100%;
   max-width: 800px;
-  overflow: scroll;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
