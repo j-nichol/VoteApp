@@ -366,7 +366,6 @@ button {
   justify-content: center;
   align-content: flex-start;
   height: calc(85vh - 5rem);
-  overflow: scroll;
 }
 
 .helpContent {
@@ -377,6 +376,7 @@ button {
   align-content: flex-start;
   justify-content: center;
   padding: 1rem;
+  overflow: scroll;
 }
 
 .orangeExample {

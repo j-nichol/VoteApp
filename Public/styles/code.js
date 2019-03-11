@@ -24,8 +24,8 @@ $(document).ready(function(){
                   
                   
                   if (orange) {
-                    var orangeRegion = ZingTouch.Region(orange);
-                    orangeRegion.bind(orange, 'swipe', function(event){ var direction = event.detail.data[0].currentDirection; if (direction > 225 && direction < 315) { $("#orangeHelp").slideUp("slow"); $('html').css({ "position": "relative"}); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)"}); } }, false);
+                    var orangeRegion = ZingTouch.Region(orange, false, false);
+                    orangeRegion.bind(orange, 'swipe', function(event){ var direction = event.detail.data[0].currentDirection; if (direction > 225 && direction < 315) { $("#orangeHelp").slideUp("slow"); $('html').css({ "position": "relative"}); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)"}); } }, true);
                     $('#orangeHelpButton').click(function(){ $("#orangeHelp").slideDown("slow"); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(31px)" }); $('html').css({ "position": "fixed"}); });
                     $('#orangeHelp .helpDismiss').click(function(){ $("#orangeHelp").slideUp("slow"); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" }); $('html').css({ "position": "relative"}); });
                   }
