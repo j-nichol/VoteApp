@@ -15,7 +15,7 @@ $(document).ready(function(){
                                          });
                   
                   var orange = document.getElementById('orangeHelp');
-//                  var userpass = document.getElementById('userpassHelp');
+                  var userpass = document.getElementById('userpassHelp');
 //                  var login = document.getElementById('loginHelp');
 //                  var securely = document.getElementById('securelyHelp');
 //                  var verificationCode = document.getElementById('verificationCodeHelp');
@@ -23,7 +23,7 @@ $(document).ready(function(){
 //                  var checkVerificationCode = document.getElementById('checkVerificationCodeHelp');
                   
                   var orangeRegion = ZingTouch.Region(orange);
-//                  var userpassRegion = ZingTouch.Region(userpass);
+                  var userpassRegion = ZingTouch.Region(userpass);
 //                  var loginRegion = ZingTouch.Region(login);
 //                  var securelyRegion = ZingTouch.Region(securely);
 //                  var verificationCodeRegion = ZingTouch.Region(verificationCode);
@@ -39,6 +39,15 @@ $(document).ready(function(){
                                     }
                                     });
                   
+                  userpassRegion.bind.bind(userpass, 'swipe', function(event){
+                                    var direction = event.detail.data[0].currentDirection;
+                                    if (direction > 225 && direction < 315) {
+                                    $("#userpassHelp").slideUp("slow");
+                                    $('html').css({ "position": "relative"});
+                                    $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)"});
+                                    }
+                                    });
+                  
 //                  userpassRegion.bind(userpass, 'swipe', function(event){ var direction = event.detail.data[0].currentDirection; if (direction > 225 && direction < 315) { $("#userpassHelp").slideUp("slow"); $('html').css({ "position": "relative"}); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" }); } });
 //                  loginRegion.bind(login, 'swipe', function(event){ var direction = event.detail.data[0].currentDirection; if (direction > 225 && direction < 315) { $("#loginHelp").slideUp("slow"); $('html').css({ "position": "relative"}); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" }); } });
 //                  securelyRegion.bind(securely, 'swipe', function(event){ var direction = event.detail.data[0].currentDirection; if (direction > 225 && direction < 315) { $("#securelyHelp").slideUp("slow"); $('html').css({ "position": "relative"}); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" }); } });
@@ -51,6 +60,12 @@ $(document).ready(function(){
                                                $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(31px)" });
                                                $('html').css({ "position": "fixed"});
                                                });
+                  
+                  $('#userpassHelpButton').click(function(){
+                                               $("#userpassHelp").slideDown("slow");
+                                               $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(31px)" });
+                                               $('html').css({ "position": "fixed"});
+                                               });
 //                  $('#userpassHelpButton').click(function(){$("#userpassHelp").slideDown("slow");$(".helpWindow").css({ "-webkit-backdrop-filter": "blur(31px)" });$('html').css({ "position": "fixed"});});
 //                  $('#loginHelpButton').click(function(){$("#loginHelp").slideDown("slow");$(".helpWindow").css({ "-webkit-backdrop-filter": "blur(31px)" });$('html').css({ "position": "fixed"});});
 //                  $('#securelyHelpButton').click(function(){$("#securelyHelp").slideDown("slow");$(".helpWindow").css({ "-webkit-backdrop-filter": "blur(31px)" });$('html').css({ "position": "fixed"});});
@@ -60,6 +75,11 @@ $(document).ready(function(){
                   
                   $('#orangeHelp .helpDismiss').click(function(){
                                                       $("#orangeHelp").slideUp("slow");
+                                                      $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" });
+                                                      $('html').css({ "position": "relative"});
+                                                      });
+                  $('#userpassHelp .helpDismiss').click(function(){
+                                                      $("#userpassHelp").slideUp("slow");
                                                       $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" });
                                                       $('html').css({ "position": "relative"});
                                                       });
