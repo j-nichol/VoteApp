@@ -12,8 +12,8 @@
       <h3>Begin</h3>
     </a>
 
-    <div class='helpWindow'>
-      <div class='helpWindowInner' id='orangeHelp'>
+    <div class='helpWindow' id='orangeHelp'>
+      <div class='helpWindowInner' id='orangeHelpInner'>
         <div class='helpTitleContainer'>
           <h1 class='helpTitle'>Orange</h1>
           <h2 class='helpDismiss'>x</h2>

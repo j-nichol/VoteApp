@@ -14,7 +14,7 @@ $(document).ready(function(){
                                          window.history.back();
                                          });
                   
-                  $('#orangeHelp').on('swipedown',function (e,data){
+                  $('#orangeHelpInner').on('swipedown',function (e,data){
                                       $("#orangeHelp").slideUp("slow");
                                       });
                   
