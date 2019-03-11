@@ -332,6 +332,11 @@ button {
   -webkit-transform: translate3d(0,0,0);
 }
 
+.helpWindowInner {
+  height: 100%;
+  width: 100%;
+}
+
 .helpTitleContainer {
   background: var(--white);
   border-top: var(--grey) solid 1px;
