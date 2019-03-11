@@ -14,13 +14,13 @@ $(document).ready(function(){
                                          window.history.back();
                                          });
                   
-                  var yellowHammer = new Hammer($('#yellowHelp'));
-                  var userpassHammer = new Hammer($('#userpassHelp'));
-                  var loginHammer = new Hammer($('#loginHelp'));
-                  var securelyHammer = new Hammer($('#securelyHelp'));
-                  var verificationCodeHammer = new Hammer($('#verificationCodeHelp'));
-                  var spoilBallotHammer = new Hammer($('#spoilBallotHelp'));
-                  var checkVerificationCodeHammer = new Hammer($('#checkVerificationCodeHelp'));
+                  var yellowHammer = new Hammer(document.getElementById('yellowHelp'));
+                  var userpassHammer = new Hammer(document.getElementById('userpassHelp');
+                  var loginHammer = new Hammer(document.getElementById('loginHelo'));
+                  var securelyHammer = new Hammer(document.getElementById('securelyHelp'));
+                  var verificationCodeHammer = new Hammer(document.getElementById('verificationCodeHelp'));
+                  var spoilBallotHammer = new Hammer(document.getElementById('spoilBallotHelp'));
+                  var checkVerificationCodeHammer = new Hammer(document.getElementById('checkVerificationCodeHelp'));
                   
                   yellowHammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
                   userpassHammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
