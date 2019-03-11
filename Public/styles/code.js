@@ -28,7 +28,7 @@ $(document).ready(function(){
                                                       });
                   
                   $('.helpWindow').on('touchmove', function(e) {
-                                      e.preventDefault();
+                                      //e.preventDefault();
                                       e.stopPropagation();
                                       return false;
                                       });
