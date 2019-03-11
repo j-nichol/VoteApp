@@ -16,17 +16,17 @@ $(document).ready(function(){
                   
                   $('#orangeHelp').on('swipedown',function (e,data){
                                       $("#orangeHelp").slideUp("slow");
-                                      $("body").css("overflow", "hidden");
+                                      $("body").css("overflow", "scroll");
                                       });
                   
                   $('#orangeHelpButton').click(function(){
                                                $("#orangeHelp").slideDown("slow");
-                                               $("body").css("overflow", "scroll");
+                                               $("body").css("overflow", "hidden");
                                                });
                   
                   $('#orangeHelp .helpDismiss').click(function(){
                                                       $("#orangeHelp").slideUp("slow");
-                                                      $("body").css("overflow", "hidden");
+                                                      $("body").css("overflow", "scroll");
                                                       });
 });
 
