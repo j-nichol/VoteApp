@@ -19,7 +19,9 @@ $(document).ready(function(){
                   
                   activeRegion.bind(containerElement, 'swipe', function(event){
                                     console.log(event);
-                                    if (event.direction > 225 && event.direction < 315) {
+                                    var direction = event.detail.data[0].currentDirection;
+                                    console.log(direction);
+                                    if (direction > 225 && direction < 315) {
                                       $("#orangeHelp").slideUp("slow");
                                       $('html').css({ "position": "relative"})
                                       $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" });
