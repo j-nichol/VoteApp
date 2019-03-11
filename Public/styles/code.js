@@ -15,10 +15,7 @@ $(document).ready(function(){
                                          });
                   
                   $('#orangeHelp').on('swipedown',function (e,data){
-                            console.log(data.x);
-                            console.log(data.y);
-                            console.log(data.distance.x);
-                            console.log(data.distance.y);
+                            $( "#orangeHelp" ).slideUp("slow");
                             });
                   
                   $('#orangeHelpButton').click(function(){
