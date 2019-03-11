@@ -13,11 +13,15 @@
     </a>
 
     <div class='helpWindow' id='yellowHelp'>
-      <h3>Yellow</h3>
-      <p>Yellow is the colour of;<br>
-      - The skin of a lemon<br>
-      - The flower of a dandelion<br>
-      - The peel of a banana</p>
+      <div class='helpTitle'>
+        <h1>Yellow</h1>
+        <h2>x</h2>
+      </div>
+      <div class='helpContent'>
+        <p>Yellow is the colour of;<br>
+        - The skin of a lemon<br>
+        - The flower of a dandelion<br>
+        - The peel of a banana</p>
       <div class='yellowExample'></div>
     </div>
   }
