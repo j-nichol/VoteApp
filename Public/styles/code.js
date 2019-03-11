@@ -27,9 +27,4 @@ $(document).ready(function(){
                                                       $("#orangeHelp").slideUp("slow");
                                                       });
                   
-                  $('body').on('touchmove', function(event) {
-                               if (event.target !== this) {
-                               return;
-                               }
-                               });
 });

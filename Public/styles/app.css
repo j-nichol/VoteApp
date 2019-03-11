@@ -330,16 +330,11 @@ button {
   display: none;
   -webkit-backdrop-filter: blur(30px);
   -webkit-transform: translate3d(0,0,0);
-}
-
-.helpWindowInner {
-  height: 100%;
-  width: 100%;
+  box-shadow: 0px 0px 5px 0px var(--grey);
 }
 
 .helpTitleContainer {
   background: var(--white);
-  border-top: var(--grey) solid 1px;
   padding: 1rem 0;
   margin-top: 0;
   text-align: center;
