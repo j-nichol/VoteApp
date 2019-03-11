@@ -387,6 +387,7 @@ button {
   border-radius: 8px;
   display: flex;
   align-items: center;
+  margin-top: 1rem;
 }
 
 .orangeExample h3 {
