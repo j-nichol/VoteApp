@@ -31,4 +31,5 @@ $(document).ready(function(){
                                if (event.target !== this) {
                                return;
                                }
+                               });
 });
