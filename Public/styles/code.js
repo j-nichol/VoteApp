@@ -15,7 +15,7 @@ $(document).ready(function(){
                                          });
                   
                   var yellowHammer = new Hammer(document.getElementById('yellowHelp'));
-                  var userpassHammer = new Hammer(document.getElementById('userpassHelp');
+                  var userpassHammer = new Hammer(document.getElementById('userpassHelp'));
                   var loginHammer = new Hammer(document.getElementById('loginHelo'));
                   var securelyHammer = new Hammer(document.getElementById('securelyHelp'));
                   var verificationCodeHammer = new Hammer(document.getElementById('verificationCodeHelp'));
