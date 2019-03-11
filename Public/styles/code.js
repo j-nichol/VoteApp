@@ -14,6 +14,13 @@ $(document).ready(function(){
                                          window.history.back();
                                          });
                   
+                  $('#yellowHelp').on('swipedown',function (e,data){
+                            console.log(data.x);
+                            console.log(data.y);
+                            console.log(data.distance.x);
+                            console.log(data.distance.y);
+                            });
+                  
 //                  var yellowHammer = new Hammer(document.getElementById('yellowHelp'));
 //                  var userpassHammer = new Hammer(document.getElementById('userpassHelp'));
 //                  var loginHammer = new Hammer(document.getElementById('loginHelo'));
@@ -22,9 +29,9 @@ $(document).ready(function(){
 //                  var spoilBallotHammer = new Hammer(document.getElementById('spoilBallotHelp'));
 //                  var checkVerificationCodeHammer = new Hammer(document.getElementById('checkVerificationCodeHelp'));
                   
-                  $('.helpWindow').hammer(direction: Hammer.DIRECTION_VERTICAL).bind("swipeDown", function(ev) {
-                                                 console.log(ev);
-                                                 });
+//                  $('.helpWindow').hammer(direction: Hammer.DIRECTION_VERTICAL).bind("swipeDown", function(ev) {
+//                                                 console.log(ev);
+//                                                 });
                   
                   
 //                  yellowHammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
