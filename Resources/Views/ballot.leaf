@@ -2,7 +2,7 @@
   <h3>These are the candidates for #(election.name)</h3>
   <p>Touch the candidate you would like to vote for to continue.<br>
     You will have a chance to confirm your selection on the next page.</p>
-  <p>If you don't want to vote for any of the candidates, you can <span class='help'>spoil your ballot</span>.<br>
+  <p>If you don't want to vote for any of the candidates, you can <span class='help' id='spoilBallotHelpButton'>spoil your ballot</span>.<br>
     Your ballot will still be counted, but no candidate will receive your vote.</p>
 
   #for(candidate in candidates) {
@@ -21,6 +21,28 @@
       </a>
     }
   }
+
+<div class='helpWindow' id='spoilBallotHelp'>
+  <div class='helpTitleContainer'>
+    <h1 class='helpTitle'>Spoil your Ballot</h1>
+    <h2 class='helpDismiss'>x</h2>
+  </div>
+  <div class='helpContentOuter'>
+    <div class='helpContent'>
+      <p>When you are eligible to vote in an election you have three options;</p>
+      
+      <p>You can cast a ballot with a vote for one of the candidates.<br>
+      You can choose to not take part in the election at all.<br>
+      You can spoil your ballot.</p>
+      
+      <p>A spoiled ballot will still be counted, but no candidate will receive a vote.</p>
+      
+      <p>If you don't want to vote for any of the candidates running in your election, but still want your participation to be counted, you should spoil your ballot.</p>
+
+      <p>If you'd like any further information, please phone <a href='tel:5551234'>555-1234</a></p>
+    </div>
+  </div>
+</div>
 }
 
 #embed("base")

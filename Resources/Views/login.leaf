@@ -5,8 +5,8 @@
   } else {
   <p>Before we get started, we need to check who you are.</p>
   }
-  <p>You should have recieved a letter which has your <span class='help'>username and password</span> in it.</p>
-  <p>Type them into the boxes below, then touch <span class='help'>log in</span>.</p>
+  <p>You should have recieved a letter which has your <span class='help' id='userpassHelpButton'>username and password</span> in it.</p>
+  <p>Type them into the boxes below, then touch <span class='help' id='loginHelpButton'>log in</span>.</p>
 
 
   <form method="post">
@@ -21,6 +21,53 @@
     </div>
     <button type='submit'>Log In</button>
   </form>
+
+<div class='helpWindow' id='userpassHelp'>
+  <div class='helpTitleContainer'>
+    <h1 class='helpTitle'>Username and Password</h1>
+    <h2 class='helpDismiss'>x</h2>
+  </div>
+  <div class='helpContentOuter'>
+    <div class='helpContent'>
+      <h2>You should have received a letter asking you to vote which has your username and password in it.</h2>
+      <h3>Username</h3>
+      
+      <p>Your username is unique to you. We took four letters from your first name, and four from your last name, then added four numbers to make sure that it's unique.</p>
+      
+      <p>John Smith's username might look like this: JohnSmit1234.</p>
+      
+      <p>When you tell us your username, it lets us know who you are.</p>
+      
+      <h3>Password</h3>
+      
+      <p>Your password is a secret code which you use to prove who you are.</p>
+      
+      <p>When you put your username and password into this application, we check them to find out who you are, so that only you can cast your vote.</p>
+      
+      <p>If you'd like any further information, please phone <a href='tel:5551234'>555-1234</a></p>
+
+    </div>
+  </div>
+</div>
+  
+<div class='helpWindow' id='loginHelp'>
+  <div class='helpTitleContainer'>
+    <h1 class='helpTitle'>Log In</h1>
+    <h2 class='helpDismiss'>x</h2>
+  </div>
+  <div class='helpContentOuter'>
+    <div class='helpContent'>
+      <h2>You should have received a letter asking you to vote which has your username and password in it.</h2>
+
+      <p>When you put your username and password into this application, we check them to find out who you are, so that only you can cast your vote.</p>
+      
+      <p>Once we're happy that we know who you are, you can continue to cast your vote.</p>
+      
+      <p>If you'd like any further information, please phone <a href='tel:5551234'>555-1234</a></p>
+      
+    </div>
+  </div>
+<div>
 
 }
 

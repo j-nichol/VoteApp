@@ -14,18 +14,18 @@
     <div class='verificationCodeHolder'>
       <label for='verificationCode'>Verification Code</label>
       <input type='text' id='verificationCode' value='#(verificationCode)' readonly></input>
-      <p class='help' id='whatVerificationCode'>What is this?</p>
+      <p class='help' id='verificationCodeHelpButton'>What is this?</p>
       <button type='submit' id='copyVerificationCode'>Copy to Clipboard</button>
       <button type='submit' id='emailVerificationCode'>Send Copy in Email</button>
 
     </div>
   </div>
 
-  <h3>Your <span class='help'>verification code</span> is very important. You should take a copy of it, and keep it secret.</h3>
+  <h3>Your <span class='help' id='verificationCodeHelpButton'>verification code</span> is very important. You should take a copy of it, and keep it secret.</h3>
 
   <p>hecking your verification code now lets you make sure that your vote will be counted correctly.</p>
-  <p>You can <span class='help'>check that your verification code is correct</span> by visiting <a href="http://www.jacknichol.com/verification?code=#(verificationURL)">www.jacknichol.com.</a></p>
-  <p>You can select another candidate by going <a class='backButton'>back</a>.<.p>
+  <p>You can <span class='help' id='checkVerificationCodeHelpButton'>check that your verification code is correct</span> by visiting <a href="http://www.jacknichol.com/verification?code=#(verificationURL)">www.jacknichol.com.</a></p>
+  <p>You can select another candidate by going <a class='backButton'>back</a>.</p>
   <p class='warning'>If you go back, your verification code will change.</p>
 
   <form id='submitBallotForm' method='post' action='/cast/ballot'>
@@ -41,6 +41,41 @@
     }
   </a>
   <p class='warning'>This is final. You won't be able to change your vote after you cast your ballot.</p>
+
+<div class='helpWindow' id='verificationCodeHelp'>
+  <div class='helpTitleContainer'>
+    <h1 class='helpTitle'>Verification Code</h1>
+    <h2 class='helpDismiss'>x</h2>
+  </div>
+  <div class='helpContentOuter'>
+    <div class='helpContent'>
+      <p>Your verification code is made just before you cast your ballot, and will be stored with it.</p>
+      
+      <p>It's very important, and you should take a note of it.</p>
+      
+      <p>When the election has finished and we have counted the votes, we will publish a list with the  chosen candidate from each ballot, and the verification code for that ballot.</p>
+      
+      <p>You can check this list to make sure that your verification code is with the candidate you chose.</p>
+      <p>If you'd like any further information, please phone <a href='tel:5551234'>555-1234</a></p>
+    </div>
+  </div>
+</div>
+
+<div class='helpWindow' id='checkVerificationCodeHelp'>
+  <div class='helpTitleContainer'>
+    <h1 class='helpTitle'>Checking your Verificaiton Code</h1>
+    <h2 class='helpDismiss'>x</h2>
+  </div>
+  <div class='helpContentOuter'>
+    <div class='helpContent'>
+      <p>To be extra certain that your ballot is counted correctly, you can have your verification code checked by another institution.</p>
+      
+      <p>They will check that your verification code is accurate, so that you can be sure that your vote will be counted correctly.</p>
+      
+      <p>If you'd like any further information, please phone <a href='tel:5551234'>555-1234</a></p>
+    </div>
+  </div>
+</div>
 }
   
   

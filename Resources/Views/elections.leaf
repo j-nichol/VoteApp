@@ -11,7 +11,7 @@
       <div class='verificationCodeHolder' style='margin-bottom: 3rem;'>
         <label for='verificationCode'>Verification Code</label>
         <input type='text' id='verificationCode' value='#(verificationCode)' readonly></input>
-        <p class='helpLink' id='whatVerificationCode'>What is this?</p>
+        <p class='helpLink' id='verificationCodeHelpButton'>What is this?</p>
         <button type='submit' id='copyVerificationCode'>Copy to Clipboard</button>
         <button type='submit' id='emailVerificationCode'>Send Copy in Email</button>
       </div>
@@ -47,6 +47,41 @@
     }
 
   }
+
+<div class='helpWindow' id='securelyHelp'>
+  <div class='helpTitleContainer'>
+    <h1 class='helpTitle'>Security</h1>
+    <h2 class='helpDismiss'>x</h2>
+  </div>
+  <div class='helpContentOuter'>
+    <div class='helpContent'>
+      <p>When we receive your ballot, we encrypt it before it is stored. This means that we have a secret key which can unlock your ballot. Nobody can read your ballot without our secret key.</p>
+      
+      <p>When the election is finished, we unlock each ballot and count the votes.</p>
+    
+      <p>The ballot tells us which candidate received a vote, but does not tell us who cast the vote. Only you, with you verification code, can tell which ballot is yours.
+      <p>If you'd like any further information, please phone <a href='tel:5551234'>555-1234</a></p>
+    </div>
+  </div>
+  
+  <div class='helpWindow' id='verificationCodeHelp'>
+    <div class='helpTitleContainer'>
+      <h1 class='helpTitle'>Verification Code</h1>
+      <h2 class='helpDismiss'>x</h2>
+    </div>
+    <div class='helpContentOuter'>
+      <div class='helpContent'>
+        <p>Your verification code is made just before you cast your ballot, and will be stored with it.</p>
+        
+        <p>It's very important, and you should take a note of it.</p>
+        
+        <p>When the election has finished and we have counted the votes, we will publish a list with the  chosen candidate from each ballot, and the verification code for that ballot.</p>
+        
+        <p>You can check this list to make sure that your verification code is with the candidate you chose.</p>
+        <p>If you'd like any further information, please phone <a href='tel:5551234'>555-1234</a></p>
+      </div>
+    </div>
+  </div>
 }
 
 #embed("base")
