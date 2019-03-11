@@ -16,25 +16,16 @@ $(document).ready(function(){
                   
                   $('#orangeHelp').on('swipedown',function (e,data){
                                       $("#orangeHelp").slideUp("slow");
-                                      stopBodyScrolling(false);
                                       });
                   
                   $('#orangeHelpButton').click(function(){
                                                $("#orangeHelp").slideDown("slow");
-                                               stopBodyScrolling(true);
+                                               $(".helpWindow").css("-webkit-backdrop-filter". "blur(30px)");
                                                });
                   
                   $('#orangeHelp .helpDismiss').click(function(){
                                                       $("#orangeHelp").slideUp("slow");
-                                                      stopBodyScrolling(false);
                                                       });
                   
-                  function stopBodyScrolling (bool) {
-                    if (bool === true) {
-                        document.body.addEventListener("touchmove", function(e) { e.preventDefault(); }, false);
-                      } else {
-                  document.body.removeEventListener("touchmove", function(e) { e.preventDefault(); }, false);
-                    }
-                  }
 });
 
