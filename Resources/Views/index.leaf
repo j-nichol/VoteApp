@@ -17,12 +17,14 @@
         <h1 class='helpTitle'>Yellow</h1>
         <h2 class='helpDismiss'>x</h2>
       </div>
-      <div class='helpContent'>
-        <p>Orange is a colour. It is the combination of red and yellow.</p>
-        
-        <p>The colour is named after the orange fruit.</p>
-      <div class='orangeExample'>
-        <h3>This box is an orange colour</h3>
+      <div class='helpContentOuter'>
+        <div class='helpContent'>
+          <p>Orange is a colour. It is the combination of red and yellow.</p>
+          
+          <p>The colour is named after the orange fruit.</p>
+        <div class='orangeExample'>
+          <h3>This box is an orange colour</h3>
+        </div>
       </div>
     </div>
   }
