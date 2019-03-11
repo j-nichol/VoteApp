@@ -55,8 +55,10 @@ $(document).ready(function(){
                   var verificationCodeRegion = ZingTouch.Region(verificationCode);
                   verificationCodeRegion.bind(verificationCode, 'swipe', function(event){ var direction = event.detail.data[0].currentDirection; if (direction > 225 && direction < 315) { $("#verificationCodeHelp").slideUp("slow"); $('html').css({ "position": "relative"}); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)"}); } });
                   $('#verificationCodeHelpButton').click(function(){ $("#verificationCodeHelp").slideDown("slow"); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(31px)" }); $('html').css({ "position": "fixed"}); });
+                  $('#whatIsVerificationCodeHelpButton').click(function(){ $("#verificationCodeHelp").slideDown("slow"); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(31px)" }); $('html').css({ "position": "fixed"}); });
                   $('#verificationCodeHelp .helpDismiss').click(function(){ $("#verificationCodeHelp").slideUp("slow"); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" }); $('html').css({ "position": "relative"}); });
                   }
+                  
                   
                   if (spoilBallot) {
                   var spoilBallotRegion = ZingTouch.Region(spoilBallot);

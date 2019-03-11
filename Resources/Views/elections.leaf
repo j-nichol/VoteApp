@@ -11,7 +11,7 @@
       <div class='verificationCodeHolder' style='margin-bottom: 3rem;'>
         <label for='verificationCode'>Verification Code</label>
         <input type='text' id='verificationCode' value='#(verificationCode)' readonly></input>
-        <p class='helpLink' id='verificationCodeHelpButton'>What is this?</p>
+        <p class='help' id='whatIsVerificationCodeHelpButton'>What is this?</p>
         <button type='submit' id='copyVerificationCode'>Copy to Clipboard</button>
         <button type='submit' id='emailVerificationCode'>Send Copy in Email</button>
       </div>
