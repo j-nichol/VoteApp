@@ -14,7 +14,7 @@ $(document).ready(function(){
                                          window.history.back();
                                          });
                   
-                  $('#yellowHelp').on('swipedown',function (e,data){
+                  $('#orangeHelp').on('swipedown',function (e,data){
                             console.log(data.x);
                             console.log(data.y);
                             console.log(data.distance.x);
