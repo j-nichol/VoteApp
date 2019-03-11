@@ -313,6 +313,7 @@ button {
 @media (max-width: 800px) {
   body { padding-top: 20vw; }
   .pageTitle { font-size: 8vw; }
+  .helpTitle { font-size: 8vw; }
   .headerInner a { font-size: 4vw; }
   .headerInner a span { font-size: 6vw; position: relative; top: 0.3vw;}
 }
