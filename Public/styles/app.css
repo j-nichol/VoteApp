@@ -61,13 +61,14 @@ body * {
   text-align: center;
   margin-top: 0;
   margin-bottom: 0;
+  font-size: 4.2rem;
 }
 
 h1, h2, h3, p, label, a {
   width:  100%;
   color: var(--black);
 }
-a, a h1, a h2, a h3, a p, button {
+a, a h1, a h2, a h3, a p, a span, button {
   color: var(--blue);
 }
 
@@ -92,7 +93,7 @@ a { text-decoration: none; cursor: pointer; font-weight: bold;}
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 1.5rem 0;
+  padding: 1.5rem 0 0.5rem;
   z-index: 1;
 }
 
@@ -310,7 +311,7 @@ button {
 
 @media (max-width: 800px) {
   body { padding-top: 20vw; }
-  .pageTitle { font-size: 6vw; }
+  .pageTitle { font-size: 8vw; }
   .headerInner a { font-size: 4vw; }
   .headerInner a span { font-size: 6vw; position: relative; top: 0.3vw;}
 }

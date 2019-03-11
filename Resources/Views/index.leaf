@@ -11,6 +11,15 @@
     <a class='startButton' href='/login'>
       <h3>Begin</h3>
     </a>
+
+    <div class='helpWindow' id='yellowHelp'>
+      <h3>Yellow</h3>
+      <p>Yellow is the colour of;<br>
+      - The skin of a lemon<br>
+      - The flower of a dandelion<br>
+      - The peel of a banana</p>
+      <div class='yellowExample'></div>
+    </div>
   }
 }
 
