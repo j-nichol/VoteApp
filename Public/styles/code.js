@@ -14,12 +14,25 @@ $(document).ready(function(){
                                          window.history.back();
                                          });
                   
-                  $('#orangeHelp').on('swipedown',function (e,data){
-                                      console.log(e);
+                  var containerElement = document.getElementById('orangeHelp');
+                  var activeRegion = ZingTouch.Region(containerElement);
+                  
+                  activeRegion.bind(containerElement, 'swipe', function(event){
+                                    console.log(event);
+                                    if (event.direction > 225 && event.direction < 315) {
                                       $("#orangeHelp").slideUp("slow");
                                       $('html').css({ "position": "relative"})
                                       $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" });
-                                      });
+                                    }
+                                    });
+                  
+                  
+//                  $('#orangeHelp').on('swipedown',function (e,data){
+//                                      console.log(e);
+//                                      $("#orangeHelp").slideUp("slow");
+//                                      $('html').css({ "position": "relative"})
+//                                      $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)" });
+//                                      });
                   
                   $('#orangeHelpButton').click(function(){
                                                $("#orangeHelp").slideDown("slow");
