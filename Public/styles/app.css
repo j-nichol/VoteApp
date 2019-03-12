@@ -328,7 +328,7 @@ button {
   position: fixed;
   bottom: 0;
   z-index: 100;
-  height: 85vh;
+  height: 90vh;
   display: none;
   -webkit-backdrop-filter: blur(30px);
   -webkit-transform: translate3d(0,0,0);
@@ -365,7 +365,7 @@ button {
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
-  height: calc(85vh - 5rem);
+  height: calc(90vh - 5rem);
 }
 
 .helpContent {
@@ -376,6 +376,7 @@ button {
   align-content: flex-start;
   justify-content: center;
   padding: 1rem;
+  margin-bottom: 3rem;
   overflow: scroll;
 }
 

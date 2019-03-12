@@ -23,7 +23,7 @@
 
   <h3>Your <span class='help' id='verificationCodeHelpButton'>verification code</span> is very important. You should take a copy of it, and keep it secret.</h3>
 
-  <p>hecking your verification code now lets you make sure that your vote will be counted correctly.</p>
+  <p>Checking your verification code now lets you make sure that your vote will be counted correctly.</p>
   <p>You can <span class='help' id='checkVerificationCodeHelpButton'>check that your verification code is correct</span> by visiting <a href="http://www.jacknichol.com/verification?code=#(verificationURL)">www.jacknichol.com.</a></p>
   <p>You can select another candidate by going <a class='backButton'>back</a>.</p>
   <p class='warning'>If you go back, your verification code will change.</p>
