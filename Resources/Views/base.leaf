@@ -37,7 +37,7 @@
     
     <div class='nav'>
       <div class='navInner'>
-        <a href='/' class='active'}><img src='/icons/vote-active.png'><p>Vote</p></a>
+        <a href='/' class='active'}><img src='/icons/vote-active.png'><p>Home</p></a>
         #if(meta.userLoggedIn) {
           <form id='logoutForm' method='post' action='/logout'>
             <input type='hidden' name='name' value='value'></input>
