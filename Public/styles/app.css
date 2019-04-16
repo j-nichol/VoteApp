@@ -295,6 +295,7 @@ button {
   text-align: center;
   font-size: 1.9vw;
   font-weight: 100;
+  font-family: "Courier New";
 }
 #copyVerificationCode, #emailVerificationCode {
   margin: 0.5rem 0 0 0.5rem;
