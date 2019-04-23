@@ -11,13 +11,10 @@ let package = Package(
         // 🍁 Leaf
         .package(url: "https://github.com/vapor/leaf.git", from: "3.0.2"),
         // ⛔️ Authentication
-        .package(url: "https://github.com/vapor/auth.git", from: "2.0.3")//,
-        // 🔑 CryptoSwift
-        //.package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", from: "0.14.0")
+        .package(url: "https://github.com/vapor/auth.git", from: "2.0.3")
     ],
     targets: [
         .target(name: "App", dependencies: ["Vapor", "FluentPostgreSQL", "Leaf", "Authentication"]),
         .target(name: "Run", dependencies: ["App"]),
-        //.testTarget(name: "AppTests", dependencies: ["App"])
     ]
 )
