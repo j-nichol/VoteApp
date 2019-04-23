@@ -8,13 +8,6 @@ public func routes(_ router: Router) throws {
     return "200: OK"
   }
 
-  /*
-  let acronymsController = AcronymsController()
-  let usersController = UsersController()
-  try router.register(collection: acronymsController)
-  try router.register(collection: usersController)
-   */
-
   let adminsController = AdminsController()
   let ballotsController = BallotsController()
   let candidatesController = CandidatesController()

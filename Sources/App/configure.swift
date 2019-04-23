@@ -23,7 +23,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
   middlewares.use(SessionsMiddleware.self) // Allows the use of sessions
   services.register(middlewares)
 
-  /// Configure database
+  /// Configure database (Includes defaults for offline testing)
   var databases = DatabasesConfig()
   let databaseConfig: PostgreSQLDatabaseConfig
   if let url = Environment.get("DATABASE_URL") {

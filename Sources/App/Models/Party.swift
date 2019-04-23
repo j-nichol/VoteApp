@@ -16,6 +16,8 @@ extension Party: Parameter {}
 extension Party: Migration {}
 extension Party { var candidates: Children<Party, Candidate> {return children(\.partyID)}}
 
+
+///Preloaded data for testing purposes
 struct PartiesPreload: Migration {
   typealias Database = PostgreSQLDatabase
   static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {

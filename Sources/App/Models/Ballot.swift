@@ -3,7 +3,7 @@ import FluentPostgreSQL
 
 final class Ballot: Codable {
   var id: Int?
-  var ballotChecker: String //hash
+  var ballotChecker: String 
   var encryptedBallotData: Data
   var encryptedBallotTag: Data
   var ballotInitialisationVector: String
@@ -20,14 +20,3 @@ extension Ballot: PostgreSQLModel {}
 extension Ballot: Content {}
 extension Ballot: Parameter {}
 extension Ballot: Migration {}
-
-//extension Ballot { var elector: Parent<Ballot, Elector> { return parent(\.electorID)}}
-//extension Ballot: Migration {
-//    static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
-//        return Database.create(self, on: connection) {
-//            builder in
-//            try addProperties(to: builder)
-//            builder.reference(from: \.electorID, to: \Elector.id)
-//        }
-//    }
-//}

@@ -61,6 +61,7 @@ extension Admin: TokenAuthenticatable {
 extension Admin: PasswordAuthenticatable {}
 extension Admin: SessionAuthenticatable {}
 
+///Preloaded data for testing purposes
 struct AdminUser: Migration {
   typealias Database = PostgreSQLDatabase
   static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {

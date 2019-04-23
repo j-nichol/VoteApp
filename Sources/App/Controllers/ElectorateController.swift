@@ -22,11 +22,8 @@ struct ElectorateController: RouteCollection {
     tokenAuthGroup.put(Elector.parameter, use: updateHandler)
     //delete
     tokenAuthGroup.delete(Elector.parameter, use: deleteHandler)
-    //get ballots
-    //tokenAuthGroup.get(Elector.parameter, "ballots", use: getBallotsHandler)
     //get eligibilties
     tokenAuthGroup.get(Elector.parameter, "eligibilities", use: getEligibilitiesHandler)
-    
   }
   
   ///create
@@ -34,12 +31,10 @@ struct ElectorateController: RouteCollection {
     let elector = Elector(name: elector.name, username: elector.username, password: elector.password)
     return elector.save(on: req).convertToPublic()
   }
-  
   ///retrieve all
   func getAllHandler(_ req: Request) throws -> Future<[Elector.Public]> {
     return Elector.query(on: req).decode(data: Elector.Public.self).all()
   }
-  
   ///retrieve specific
   func searchHandler(_ req: Request) throws -> Future<[Elector.Public]> {
     guard let searchTerm = req.query[UUID.self, at: "id"] else { throw Abort(.badRequest) }
@@ -47,9 +42,7 @@ struct ElectorateController: RouteCollection {
       or.filter(\.id == searchTerm)
       }.all()
   }
-  
   ///update
-  //figure out how to use Type.update(on: req)
   func updateHandler(_ req: Request) throws -> Future<Elector> {
     return try flatMap(to: Elector.self, req.parameters.next(Elector.self), req.content.decode(Elector.self)){
       elector, updatedElector in
@@ -57,22 +50,13 @@ struct ElectorateController: RouteCollection {
       elector.username = newElector.username
       elector.password = newElector.password
       elector.name = newElector.name
-      return elector.update(on: req) //may need to revert to save(on:)
+      return elector.update(on: req)
     }
   }
-  
   ///delete
   func deleteHandler(_ req: Request) throws -> Future<HTTPStatus> {
     return try req.parameters.next(Elector.self).delete(on: req).transform(to: HTTPStatus.ok)
   }
-  
-//  ///get Ballots
-//  func getBallotsHandler(_ req: Request) throws -> Future<[Ballot]> {
-//    return try req.parameters.next(Elector.self).flatMap(to: [Ballot].self) {
-//      elector in try elector.ballots.query(on: req).all()
-//    }
-//  }
-  
   ///get eligibilties
   func getEligibilitiesHandler(_ req: Request) throws -> Future<[Eligibility]> {
     return try req.parameters.next(Elector.self).flatMap(to: [Eligibility].self) {

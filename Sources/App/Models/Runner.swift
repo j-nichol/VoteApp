@@ -28,6 +28,7 @@ extension Runner: Migration {
     }
 }
 
+///Preloaded data for testing purposes
 struct RunnersPreload: Migration {
   typealias Database = PostgreSQLDatabase
   static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
@@ -52,7 +53,6 @@ struct RunnersPreload: Migration {
     _ = Runner(candidateID: 14, electionID: 3).save(on: connection)
     _ = Runner(candidateID: 15, electionID: 4).save(on: connection)
     return Runner(candidateID: 16, electionID: 5).save(on: connection).transform(to: ())
-    
   }
   
   static func revert(on connection: PostgreSQLConnection) -> Future<Void> {

@@ -21,6 +21,7 @@ extension ElectionCategory: Parameter {}
 extension ElectionCategory: Migration {}
 extension ElectionCategory { var elections: Children<ElectionCategory, Election> {return children(\.electionCategoryID)}}
 
+///Preloaded data for testing purposes
 struct ElectionCategoriesPreload: Migration {
   typealias Database = PostgreSQLDatabase
   static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {

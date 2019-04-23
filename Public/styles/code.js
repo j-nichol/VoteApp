@@ -22,7 +22,6 @@ $(document).ready(function(){
                   var spoilBallot = document.getElementById('spoilBallotHelp');
                   var checkVerificationCode = document.getElementById('checkVerificationCodeHelp');
                   
-                  
                   if (orange) {
                     var orangeRegion = ZingTouch.Region(orange, false, false);
                     orangeRegion.bind(orange, 'swipe', function(event){ var direction = event.detail.data[0].currentDirection; if (direction > 225 && direction < 315) { $("#orangeHelp").slideUp("slow"); $('html').css({ "position": "relative"}); $(".helpWindow").css({ "-webkit-backdrop-filter": "blur(30px)"}); } }, true);

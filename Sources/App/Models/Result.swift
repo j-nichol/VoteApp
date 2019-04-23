@@ -14,6 +14,7 @@ final class Result: Codable {
     }
 }
 
+///Preloaded data for testing purposes
 extension Result: PostgreSQLModel {}
 extension Result: Content {}
 extension Result: Parameter {}

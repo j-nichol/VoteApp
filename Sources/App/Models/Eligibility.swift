@@ -12,8 +12,6 @@ final class Eligibility: Codable {
     self.electionID = electionID
     self.hasVoted = hasVoted
   }
-  
-  
 }
 
 extension Eligibility: PostgreSQLModel {}
@@ -32,6 +30,7 @@ extension Eligibility: Migration {
     }
 }
 
+///Preloaded data for testing purposes
 struct EligibilitiesPreload: Migration {
   typealias Database = PostgreSQLDatabase
   static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {

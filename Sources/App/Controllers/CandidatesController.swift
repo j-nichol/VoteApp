@@ -29,19 +29,16 @@ struct CandidatesController: RouteCollection {
     tokenAuthGroup.get(Candidate.parameter, "results", use: getResultsHandler)
     //get runners
     tokenAuthGroup.get(Candidate.parameter, "runners", use: getRunnersHandler)
-    
   }
   
   ///create
   func createHandler(_ req: Request, candidate:Candidate) throws -> Future<Candidate> {
     return candidate.save(on: req)
   }
-  
   ///retrieve all
   func getAllHandler(_ req: Request) throws -> Future<[Candidate]> {
     return Candidate.query(on: req).all()
   }
-  
   ///retrieve specific
   func searchHandler(_ req: Request) throws -> Future<[Candidate]> {
     guard let searchTerm = req.query[Int.self, at: "id"] else { throw Abort(.badRequest) }
@@ -49,18 +46,15 @@ struct CandidatesController: RouteCollection {
       or.filter(\.id == searchTerm)
       }.all()
   }
-  
   ///update
-  //figure out how to use Type.update(on: req)
   func updateHandler(_ req: Request) throws -> Future<Candidate> {
     return try flatMap(to: Candidate.self, req.parameters.next(Candidate.self), req.content.decode(Candidate.self)){
       candidate, updatedCandidate in
       candidate.name = updatedCandidate.name
       candidate.partyID = updatedCandidate.partyID
-      return candidate.update(on: req) //may need to revert to save(on:)
+      return candidate.update(on: req)
     }
   }
-  
   ///delete
   func deleteHandler(_ req: Request) throws -> Future<HTTPStatus> {
     return try req.parameters.next(Candidate.self).delete(on: req).transform(to: HTTPStatus.ok)
@@ -72,21 +66,18 @@ struct CandidatesController: RouteCollection {
       candidate in candidate.party.get(on: req)
     }
   }
-  
   ///get results
   func getResultsHandler(_ req: Request) throws -> Future<[Result]> {
     return try req.parameters.next(Candidate.self).flatMap(to: [Result].self) {
       candidate in try candidate.results.query(on: req).all()
     }
   }
-  
   ///get runners
   func getRunnersHandler(_ req: Request) throws -> Future<[Runner]> {
     return try req.parameters.next(Candidate.self).flatMap(to: [Runner].self) {
       candidate in try candidate.runners.query(on: req).all()
     }
   }
-  
   ///get allInElection
   func getAllInElectionHandler(_ req: Request) throws -> Future<[Candidate]> {
     return try req.parameters.next(Election.self).flatMap(to: [Candidate].self){

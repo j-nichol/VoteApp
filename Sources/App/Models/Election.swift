@@ -29,6 +29,7 @@ extension Election { var eligibilities: Children<Election, Eligibility> {return 
 extension Election { var results: Children<Election, Result> {return children(\.electionID)}}
 extension Election { var runners: Children<Election, Runner> {return children(\.electionID)}}
 
+///Preloaded data for testing purposes
 struct ElectionsPreload: Migration {
   typealias Database = PostgreSQLDatabase
   static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {

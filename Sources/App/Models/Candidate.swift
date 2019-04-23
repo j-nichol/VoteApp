@@ -28,10 +28,10 @@ extension Candidate: Migration {
 extension Candidate { var results: Children<Candidate, Result> {return children(\.candidateID)}}
 extension Candidate { var runners: Children<Candidate, Runner> {return children(\.candidateID)}}
 
+///Preloaded data for testing purposes
 struct CandidatesPreload: Migration {
   typealias Database = PostgreSQLDatabase
   static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
-    
     _ = Candidate(name: "Spoil Ballot", partyID: 1).save(on: connection)
     _ = Candidate(name: "Mathias Sweet", partyID: 2).save(on: connection)
     _ = Candidate(name: "Kellie Stephens", partyID: 2).save(on: connection)

@@ -29,7 +29,6 @@ extension Elector: PostgreSQLUUIDModel {}
 extension Elector: Content {}
 extension Elector.Public: Content {}
 extension Elector: Parameter {}
-//extension Elector { var ballots: Children<Elector, Ballot> {return children(\.electorID)}}
 extension Elector { var eligibilities: Children<Elector, Eligibility> {return children(\.electorID)}}
 
 extension Elector: Migration {
@@ -53,12 +52,10 @@ extension Elector: PasswordAuthenticatable {}
 extension Elector: SessionAuthenticatable {}
 
 
-//when securing elctor passwords, remember to change anything (else) which returns an elector to return a public one.
-
+///Preloaded data for testing purposes
 struct ElectoratePreload: Migration {
   typealias Database = PostgreSQLDatabase
   static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
-    
     
     _ = Elector(name: "Voter One",      username: "VoteOnex1234", password: "CatTomato45").save(on: connection)
     _ = Elector(name: "Voter Two",      username: "VoteTwox2345", password: "DogParsnip92").save(on: connection)
